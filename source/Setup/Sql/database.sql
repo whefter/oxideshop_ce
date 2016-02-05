@@ -157,6 +157,7 @@ DROP TABLE IF EXISTS `oxarticles`;
 
 CREATE TABLE `oxarticles` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Article id',
+  `OXMAPID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXPARENTID` char(32) character set latin1 collate latin1_general_ci NOT NULL  default '' COMMENT 'Parent article id',
   `OXACTIVE` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Active',
@@ -275,24 +276,25 @@ CREATE TABLE `oxarticles` (
   `OXSHOWCUSTOMAGREEMENT` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Show custom agreement check in checkout',
   PRIMARY KEY  (`OXID`),
   KEY `OXCOUNT` (`OXPARENTID`,`OXSHOPID`),
-  KEY `OXSORT` (`OXSORT`),
   KEY `OXSHOPID` (`OXSHOPID`),
-  KEY `OXISSEARCH` (`OXISSEARCH`),
   KEY `OXARTNUM` (`OXARTNUM`),
   KEY `OXSTOCK` (`OXSTOCK`),
-  KEY `OXSTOCKFLAG` (`OXSTOCKFLAG`),
   KEY `OXINSERT` (`OXINSERT`),
   KEY `OXVARNAME` (`OXVARNAME`),
-  KEY `OXACTIVE` (`OXACTIVE`),
-  KEY `OXACTIVEFROM` (`OXACTIVEFROM`),
-  KEY `OXACTIVETO` (`OXACTIVETO`),
   KEY `OXVENDORID` (`OXVENDORID`),
   KEY `OXMANUFACTURERID` (`OXMANUFACTURERID`),
+  KEY `OXACTIVE` (`OXACTIVE`),
+  KEY `OXSTOCKFLAG` (`OXSTOCKFLAG`),
+  KEY `OXISSEARCH` (`OXISSEARCH`),
+  KEY `OXSORT` (`OXSORT`),
   KEY `OXSOLDAMOUNT` ( `OXSOLDAMOUNT` ),
   KEY `parentsort` ( `OXPARENTID` , `OXSORT` ),
   KEY `OXUPDATEPRICETIME` ( `OXUPDATEPRICETIME` ),
   KEY `OXISDOWNLOADABLE` ( `OXISDOWNLOADABLE` ),
-  KEY `OXPRICE` ( `OXPRICE` )
+  KEY `OXACTIVEFROM` (`OXACTIVEFROM`),
+  KEY `OXACTIVETO` (`OXACTIVETO`),
+  KEY `OXPRICE` ( `OXPRICE` ),
+  KEY `OXMAPID` (`OXMAPID`)
 )ENGINE=InnoDB COMMENT 'Articles information';
 
 #
@@ -328,6 +330,7 @@ DROP TABLE IF EXISTS `oxattribute`;
 
 CREATE TABLE `oxattribute` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Attribute id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXTITLE` char(128) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXTITLE_1` char(128) NOT NULL default '',
@@ -336,7 +339,9 @@ CREATE TABLE `oxattribute` (
   `OXPOS` int(11) NOT NULL default '9999' COMMENT 'Sorting',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   `OXDISPLAYINBASKET` tinyint(1) NOT NULL default '0' COMMENT 'Display attribute`s value for articles in checkout',
-  PRIMARY KEY  (`OXID`)
+  PRIMARY KEY  (`OXID`),
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Article attributes';
 
 #
@@ -363,6 +368,7 @@ DROP TABLE IF EXISTS `oxcategories`;
 
 CREATE TABLE `oxcategories` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Category id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXPARENTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default 'oxrootid' COMMENT 'Parent category id',
   `OXLEFT` int(11) NOT NULL default '0' COMMENT 'Used for building category tree',
   `OXRIGHT` int(11) NOT NULL default '0' COMMENT 'Used for building category tree',
@@ -410,7 +416,8 @@ CREATE TABLE `oxcategories` (
    KEY `OXHIDDEN` (`OXHIDDEN`),
    KEY `OXSHOPID` (`OXSHOPID`),
    KEY `OXSORT` (`OXSORT`),
-   KEY `OXVAT` (`OXVAT`)
+   KEY `OXVAT` (`OXVAT`),
+   KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Article categories';
 
 #
@@ -1071,6 +1078,7 @@ DROP TABLE IF EXISTS `oxdelivery`;
 
 CREATE TABLE `oxdelivery` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Delivery shipping cost rule id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active',
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
@@ -1089,7 +1097,8 @@ CREATE TABLE `oxdelivery` (
   `OXFINALIZE` tinyint(1) NOT NULL default '0' COMMENT 'Do not run further rules if this rule is valid and is being run',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  KEY `OXSHOPID` (`OXSHOPID`)
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 )  ENGINE=MyISAM COMMENT 'Delivery shipping cost rules';
 
 #
@@ -1100,6 +1109,7 @@ DROP TABLE IF EXISTS `oxdeliveryset`;
 
 CREATE TABLE `oxdeliveryset` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Delivery method id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active',
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
@@ -1111,14 +1121,15 @@ CREATE TABLE `oxdeliveryset` (
   `OXPOS` int(11) NOT NULL default '0' COMMENT 'Sorting',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Creation time',
   PRIMARY KEY  (`OXID`),
-  KEY `OXSHOPID` (`OXSHOPID`)
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Delivery (shipping) methods';
 
 #
 # Data for table `oxdeliveryset`
 #
-INSERT INTO `oxdeliveryset` (`OXID`, `OXSHOPID`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXPOS`) VALUES
-('oxidstandard', 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Standard', 'Standard', '', '', 10);
+INSERT INTO `oxdeliveryset` (`OXID`, `OXMAPID`, `OXSHOPID`, `OXACTIVE`, `OXACTIVEFROM`, `OXACTIVETO`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXPOS`) VALUES
+('oxidstandard', 901, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'Standard', 'Standard', '', '', 10);
 
 #
 # Table structure for table `oxdiscount`
@@ -1128,6 +1139,7 @@ DROP TABLE IF EXISTS `oxdiscount`;
 
 CREATE TABLE `oxdiscount` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Discount id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active',
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
@@ -1150,7 +1162,8 @@ CREATE TABLE `oxdiscount` (
   KEY `OXSHOPID` (`OXSHOPID`),
   KEY `OXACTIVE` (`OXACTIVE`),
   KEY `OXACTIVEFROM` (`OXACTIVEFROM`),
-  KEY `OXACTIVETO` (`OXACTIVETO`)
+  KEY `OXACTIVETO` (`OXACTIVETO`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Article discounts';
 
 #
@@ -1259,6 +1272,7 @@ DROP TABLE IF EXISTS `oxlinks`;
 
 CREATE TABLE `oxlinks` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Link id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Active',
   `OXURL` varchar(255) NOT NULL default '' COMMENT 'Link url',
@@ -1271,7 +1285,8 @@ CREATE TABLE `oxlinks` (
   PRIMARY KEY  (`OXID`),
   KEY `OXSHOPID` (`OXSHOPID`),
   KEY `OXINSERT` (`OXINSERT`),
-  KEY `OXACTIVE` (`OXACTIVE`)
+  KEY `OXACTIVE` (`OXACTIVE`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Links';
 
 #
@@ -1282,6 +1297,7 @@ DROP TABLE IF EXISTS `oxmanufacturers`;
 
 CREATE TABLE `oxmanufacturers` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Manufacturer id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Is active',
   `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
@@ -1295,7 +1311,9 @@ CREATE TABLE `oxmanufacturers` (
   `OXSHORTDESC_3` char(255) NOT NULL default '',
   `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`)
+  PRIMARY KEY  (`OXID`),
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Shop manufacturers';
 
 #
@@ -1328,6 +1346,7 @@ DROP TABLE IF EXISTS `oxnews`;
 
 CREATE TABLE `oxnews` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'News id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Is active',
   `OXACTIVEFROM` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Active from specified date',
@@ -1349,7 +1368,8 @@ CREATE TABLE `oxnews` (
   KEY `OXSHOPID` (`OXSHOPID`),
   KEY `OXACTIVE` (`OXACTIVE`),
   KEY `OXACTIVEFROM` (`OXACTIVEFROM`),
-  KEY `OXACTIVETO` (`OXACTIVETO`)
+  KEY `OXACTIVETO` (`OXACTIVETO`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Shop news';
 
 #
@@ -1397,7 +1417,7 @@ CREATE TABLE `oxnewssubscribed` (
 # Data for table `oxnewssubscribed`
 #
 INSERT INTO `oxnewssubscribed` (`OXID`, `OXSHOPID`, `OXUSERID`, `OXSAL`, `OXFNAME`, `OXLNAME`, `OXEMAIL`, `OXDBOPTIN`, `OXEMAILFAILED`, `OXSUBSCRIBED`, `OXUNSUBSCRIBED`) VALUES
-('0b742e66fd94c88b8.61001136', 1, 'oxdefaultadmin', 'MR', 'John', 'Doe', 'admin', 1, 0, '2005-07-26 19:16:09', '0000-00-00 00:00:00');
+('0b742e66fd94c88b8.61001136', 1, 'oxdefaultadmin', 'MR', 'Shop', 'Administrator', 'admin', 1, 0, '2005-07-26 19:16:09', '0000-00-00 00:00:00');
 
 #
 # Table structure for table `oxobject2action`
@@ -1462,15 +1482,18 @@ DROP TABLE IF EXISTS `oxobject2category`;
 
 CREATE TABLE `oxobject2category` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Record id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article id (oxarticles)',
   `OXCATNID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Category id (oxcategory)',
   `OXPOS` int(11) NOT NULL default '0' COMMENT 'Sorting',
   `OXTIME` INT( 11 ) DEFAULT 0 NOT NULL COMMENT 'Creation time',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  UNIQUE KEY `OXMAINIDX` (`OXCATNID`,`OXOBJECTID`),
+  UNIQUE KEY `OXMAINIDXU` (`OXCATNID`,`OXOBJECTID`,`OXSHOPID`),
+  KEY `OXMAINIDX` (`OXCATNID`,`OXOBJECTID`),
   KEY ( `OXOBJECTID` ),
   KEY (`OXPOS`),
+  KEY `OXSHOPID` (`OXSHOPID`),
   KEY `OXTIME` (`OXTIME`)
 ) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between articles and categories';
 
@@ -1706,6 +1729,7 @@ DROP TABLE IF EXISTS `oxvoucherseries` ;
 
 CREATE  TABLE IF NOT EXISTS `oxvoucherseries` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Series id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXSERIENR` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Series name',
   `OXSERIEDESCRIPTION` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Description',
@@ -1721,7 +1745,8 @@ CREATE  TABLE IF NOT EXISTS `oxvoucherseries` (
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   INDEX OXSERIENR (`OXSERIENR` ASC) ,
-  INDEX OXSHOPID (`OXSHOPID` ASC)
+  INDEX OXSHOPID (`OXSHOPID` ASC),
+  INDEX OXMAPID (`OXMAPID` ASC)
 ) ENGINE = InnoDB COMMENT 'Coupon series';
 
 #
@@ -2041,6 +2066,7 @@ DROP TABLE IF EXISTS `oxselectlist`;
 
 CREATE TABLE `oxselectlist` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Selection list id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXTITLE` varchar(254) NOT NULL default '' COMMENT 'Title (multilanguage)',
   `OXIDENT` varchar(255) NOT NULL default '' COMMENT 'Working Title',
@@ -2052,7 +2078,9 @@ CREATE TABLE `oxselectlist` (
   `OXTITLE_3` varchar(255) NOT NULL default '',
   `OXVALDESC_3` text NOT NULL,
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`)
+  PRIMARY KEY  (`OXID`),
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Selection lists';
 
 #
@@ -2224,6 +2252,7 @@ DROP TABLE IF EXISTS `oxwrapping`;
 
 CREATE TABLE `oxwrapping` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Wrapping id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active (multilanguage)',
   `OXACTIVE_1` tinyint(1) NOT NULL default '1',
@@ -2237,7 +2266,9 @@ CREATE TABLE `oxwrapping` (
   `OXPIC` varchar(128) NOT NULL default '' COMMENT 'Image filename',
   `OXPRICE` double NOT NULL default '0' COMMENT 'Price',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`)
+  PRIMARY KEY  (`OXID`),
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Wrappings';
 
 #
@@ -2248,6 +2279,7 @@ DROP TABLE IF EXISTS `oxvendor`;
 
 CREATE TABLE `oxvendor` (
   `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Vendor id',
+  `OXMAPID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Integer mapping identifier',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
   `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
@@ -2262,7 +2294,9 @@ CREATE TABLE `oxvendor` (
   `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  KEY `OXACTIVE` (`OXACTIVE`)
+  KEY `OXACTIVE` (`OXACTIVE`),
+  KEY `OXSHOPID` (`OXSHOPID`),
+  KEY `OXMAPID` (`OXMAPID`)
 ) ENGINE=MyISAM COMMENT 'Distributors list';
 
 
