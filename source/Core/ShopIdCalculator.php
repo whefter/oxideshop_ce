@@ -55,7 +55,7 @@ class ShopIdCalculator
      */
     public function getShopId()
     {
-        return 'oxbaseshop';
+        return 1;
     }
 
     /**

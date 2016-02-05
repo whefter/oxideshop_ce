@@ -1953,7 +1953,7 @@ class oxConfig extends oxSuperCfg
      */
     public function getBaseShopId()
     {
-        return 'oxbaseshop';
+        return 1;
     }
 
     /**

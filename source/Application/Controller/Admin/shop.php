@@ -30,7 +30,7 @@ class Shop extends oxAdminView
 {
     const CURRENT_TEMPLATE = 'shop.tpl';
 
-    const SHOP_ID = 'oxbaseshop';
+    const SHOP_ID = 1;
 
     /**
      * Executes parent method parent::render() and returns name of template
