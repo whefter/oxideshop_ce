@@ -118,7 +118,7 @@ CREATE TABLE `oxaddress` (
   `OXADDINFO` varchar(255) NOT NULL default '' COMMENT 'Additional info',
   `OXCITY` varchar(255) NOT NULL default '' COMMENT 'City',
   `OXCOUNTRY` varchar(255) NOT NULL default '' COMMENT 'Country name',
-  `OXCOUNTRYID` VARCHAR( 32 ) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Country id (oxcountry)',
+  `OXCOUNTRYID` char( 32 ) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Country id (oxcountry)',
   `OXSTATEID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'State id (oxstate)',
   `OXZIP` varchar(50) NOT NULL default '' COMMENT 'Zip code',
   `OXFON` varchar(128) NOT NULL default '' COMMENT 'Phone number',
@@ -138,7 +138,15 @@ DROP TABLE IF EXISTS `oxadminlog`;
 CREATE TABLE `oxadminlog` (
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
-  `OXSQL` text NOT NULL COMMENT 'Logged sql'
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXSESSID` char(40) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Session id',
+  `OXCLASS` varchar(50) NOT NULL COMMENT 'Logged class name',
+  `OXFNC` varchar(30)NOT NULL COMMENT 'Logged function name',
+  `OXITMID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Item id',
+  `OXPARAM` text NOT NULL COMMENT 'Logged parameters',
+  `OXSQL` text NOT NULL COMMENT 'Logged sql',
+  KEY `OXITMID` (`OXITMID`),
+  KEY `OXUSERID` (`OXUSERID`)
 ) ENGINE=MyISAM COMMENT 'Logs admin actions';
 
 #
@@ -249,6 +257,10 @@ CREATE TABLE `oxarticles` (
   `OXVENDORID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Vendor id (oxvendor)',
   `OXMANUFACTURERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Manufacturer id (oxmanufacturers)',
   `OXSKIPDISCOUNTS` tinyint(1) NOT NULL default '0' COMMENT 'Skips all negative Discounts (Discounts, Vouchers, Delivery ...)',
+  `OXORDERINFO` varchar(255) NOT NULL COMMENT 'Additional info in order confirmation mail',
+  `OXPIXIEXPORT` tinyint(1) NOT NULL default '0' COMMENT 'Field for 3rd party modules export',
+  `OXPIXIEXPORTED` timestamp NOT NULL default '0000-00-00' COMMENT 'Field for 3rd party modules export',
+  `OXVPE` int(11) NOT NULL default '1' COMMENT 'Packing unit',
   `OXRATING` double NOT NULL default '0' COMMENT 'Article rating',
   `OXRATINGCNT` int(11) NOT NULL default '0' COMMENT 'Rating votes count',
   `OXMINDELTIME` int(11) NOT NULL default '0' COMMENT 'Minimal delivery time (unit is set in oxdeltimeunit)',
@@ -577,14 +589,8 @@ INSERT INTO `oxconfig` (`OXID`, `OXSHOPID`, `OXMODULE`, `OXVARNAME`, `OXVARTYPE`
 
 -- data for azure theme
 INSERT INTO `oxconfig` (`OXID`, `OXSHOPID`, `OXMODULE`, `OXVARNAME`, `OXVARTYPE`, `OXVARVALUE`) VALUES
-('1ec4235c2aee774aa45d772875437919', 1, 'theme:azure', 'sIconsize', 'str', 0x8064a213b1),
-('1563fba1bee774aec57c192086494217', 1, 'theme:azure', 'sThumbnailsize', 'str', 0x079a3a49ca3630),
-('12642dfaa1dee77487d0644506753921', 1, 'theme:azure', 'aDetailImageSizes', 'aarr', 0x4dba326a73d2cdcb471b9533d7800b4b898873f7ae9dc29ed9e0e4f6bc678f00ea1438810efd6c1fe338a39dc20247d3a63beec4852106b7a1dd7cb1451f56975c3fd6159579cd2cab97104f17ae6c45a38a41e9a5bc59ceee828bfd6883e282aef2e55d00fb7ee9abb79b63c74cb7ba3fa76665f6a9294d8bf365bf7d3d0d56faf2355df145b02498b144bc6b0ab9fc9f74d2e1dd0ac7a4989184f58b7e2c58400bb4b92c9468f3d8ca7170cde789d6c1282016056e51005091e19803a859992a5549080378f64fff88ce4c1cbdf4afd32943b63877831b221ca302652eabe106a93f9f4d1ed363f2f33c1e29716b95b8541d2f79ec8a7a1d821a46270a1bb5f32622a06655b85a31d7ee2f52dbf963fd4426a6047b0e2bc4896143076e8dbc7dd8a7448ba2a5233ec8d166b611c288134420559cc4a6f4eec2835336d4f71df0ac899e314365a321d1d774bdb9),
-('12642dfaa1dee77488b1b22948593071', 1, 'theme:azure', 'sZoomImageSize', 'str', 0x170a3340d372be),
 ('1ec42a395d0595ee7741091898848798', 1, 'theme:azure', 'sCatIconsize', 'str', 0x070de94ac9b636),
-('1563fba1bee774aec599d56894094456', 1, 'theme:azure', 'sCatThumbnailsize', 'str', 0x77e7ed4ecd3137),
-('1ec42a395d0595ee7741091898848987', 1, 'theme:azure', 'sCatPromotionsize', 'str', 0xb06fb441c2bd94),
-('1ec42a395d0595ee7741091898848789', 1, 'theme:azure', 'sManufacturerIconsize', 'str', 0x07c4b144c7b838),
+('12642dfaa1dee77487d0644506753921', 1, 'theme:azure', 'aDetailImageSizes', 'aarr', 0x4dba326a73d2cdcb471b9533d7800b4b898873f7ae9dc29ed9e0e4f6bc678f00ea1438810efd6c1fe338a39dc20247d3a63beec4852106b7a1dd7cb1451f56975c3fd6159579cd2cab97104f17ae6c45a38a41e9a5bc59ceee828bfd6883e282aef2e55d00fb7ee9abb79b63c74cb7ba3fa76665f6a9294d8bf365bf7d3d0d56faf2355df145b02498b144bc6b0ab9fc9f74d2e1dd0ac7a4989184f58b7e2c58400bb4b92c9468f3d8ca7170cde789d6c1282016056e51005091e19803a859992a5549080378f64fff88ce4c1cbdf4afd32943b63877831b221ca302652eabe106a93f9f4d1ed363f2f33c1e29716b95b8541d2f79ec8a7a1d821a46270a1bb5f32622a06655b85a31d7ee2f52dbf963fd4426a6047b0e2bc4896143076e8dbc7dd8a7448ba2a5233ec8d166b611c288134420559cc4a6f4eec2835336d4f71df0ac899e314365a321d1d774bdb9),
 ('18a9473894d473f6ed28f04e80d929fc', 1, 'theme:azure', 'bl_showCompareList', 'bool', 0x07),
 ('18acb2f595da54b5f865e54aa5cdb967', 1, 'theme:azure', 'bl_showListmania', 'bool', 0x07),
 ('18a12329124850cd8f63cda6e8e7b4e1', 1, 'theme:azure', 'bl_showWishlist', 'bool', 0x07),
@@ -595,6 +601,12 @@ INSERT INTO `oxconfig` (`OXID`, `OXSHOPID`, `OXMODULE`, `OXVARNAME`, `OXVARTYPE`
 ('1ec42a395d0595ee7741091898848989', 1, 'theme:azure', 'sDefaultListDisplayType', 'select', 0x83cd10b7f09064ed),
 ('1ec42a395d0595ee7741091898848992', 1, 'theme:azure', 'sStartPageListDisplayType', 'select', 0x83cd10b7f09064ed),
 ('1ec42a395d0595ee7741091898848990', 1, 'theme:azure', 'blShowListDisplayType', 'bool', 0x07),
+('12642dfaa1dee77488b1b22948593071', 1, 'theme:azure', 'sZoomImageSize', 'str', 0x170a3340d372be),
+('1563fba1bee774aec599d56894094456', 1, 'theme:azure', 'sCatThumbnailsize', 'str', 0x77e7ed4ecd3137),
+('1563fba1bee774aec57c192086494217', 1, 'theme:azure', 'sThumbnailsize', 'str', 0x079a3a49ca3630),
+('1ec4235c2aee774aa45d772875437919', 1, 'theme:azure', 'sIconsize', 'str', 0x8064a213b1),
+('1ec42a395d0595ee7741091898848987', 1, 'theme:azure', 'sCatPromotionsize', 'str', 0xb06fb441c2bd94),
+('1ec42a395d0595ee7741091898848789', 1, 'theme:azure', 'sManufacturerIconsize', 'str', 0x07c4b144c7b838),
 ('1ec42a395d0595ee7741091898848474', 1, 'theme:azure', 'iNewBasketItemMessage', 'select', 0x07),
 ('1545423fe8ce213a0435345552230295', 1, 'theme:azure', 'aNrofCatArticles', 'arr', 0x4dbace2972e14bf2cbd3a9a4113b83ad1c8f7b704f710ba39fd1ecd29b438b41809712e316c6f4fdc92741f7876cc6fca127d78994e604dcc99519),
 ('1ec42a395d0595ee7741091898848991', 1, 'theme:azure', 'aNrofCatArticlesInGrid', 'arr', 0x4dbace2972e14bf2cbd3a9a4113b83c51e8d79724d7309a19dd3ee6153448c46879015e411c1f3fa250245f38368c2f8a523d58c91546b92cdf6);
@@ -1177,8 +1189,7 @@ CREATE TABLE `oxgbentries` (
   `OXACTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Is active',
   `OXVIEWED` tinyint(1) NOT NULL default '0' COMMENT 'Whether the entry was checked by admin',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY (`OXUSERID`)
+  PRIMARY KEY  (`OXID`)
 ) ENGINE=MyISAM COMMENT='Guestbook`s entries';
 
 #
@@ -1378,7 +1389,7 @@ CREATE TABLE `oxnewssubscribed` (
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   PRIMARY KEY (`OXID`),
-  UNIQUE KEY `OXEMAIL` (`OXEMAIL`),
+  KEY `OXEMAIL` (`OXEMAIL`),
   KEY `OXUSERID` (`OXUSERID`)
 ) ENGINE=MyISAM COMMENT 'User subscriptions';
 
@@ -1439,8 +1450,8 @@ CREATE TABLE `oxobject2attribute` (
   `OXVALUE_3` char(255) NOT NULL default '',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  KEY `OXOBJECTID` (`OXOBJECTID`),
-  KEY `OXATTRID` (`OXATTRID`)
+  KEY `mainidx` (`OXATTRID`,`OXOBJECTID`),
+  KEY `OXOBJECTID` (`OXOBJECTID`)
 ) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between articles and attributes';
 
 #
@@ -1493,7 +1504,7 @@ CREATE TABLE `oxobject2discount` (
   `OXTYPE` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Record type',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  KEY `oxobjectid` (`OXOBJECTID`),
+  KEY `mainidx` (`OXOBJECTID`,`OXDISCOUNTID`,`OXTYPE`),
   KEY `oxdiscidx` (`OXDISCOUNTID`,`OXTYPE`)
 ) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between discounts and objects (table determined by oxtype)';
 
@@ -1514,8 +1525,14 @@ CREATE TABLE `oxobject2group` (
   KEY `OXGROUPSID` (`OXGROUPSID`)
 ) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between users and groups';
 
+#
+# Data for table `oxgroups`
+#
+
 INSERT INTO `oxobject2group` (`OXID`, `OXSHOPID`, `OXOBJECTID`, `OXGROUPSID`) VALUES
 ('e913fdd8443ed43e1.51222316', 1, 'oxdefaultadmin', 'oxidadmin');
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `oxobject2list`
@@ -1536,6 +1553,7 @@ CREATE TABLE `oxobject2list` (
 
 #
 # Table structure for table `oxobject2payment`
+# Created on 2004-10-09
 #
 
 DROP TABLE IF EXISTS `oxobject2payment`;
@@ -1585,6 +1603,126 @@ CREATE TABLE `oxobject2seodata` (
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY ( `OXOBJECTID` , `OXSHOPID` , `OXLANG` )
 ) ENGINE = MYISAM  COMMENT 'Seo entries';
+
+#
+# Table structure for table `oxorderfiles`
+#
+
+DROP TABLE IF EXISTS `oxorderfiles`;
+
+CREATE TABLE IF NOT EXISTS `oxorderfiles` (
+  `OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Order file id',
+  `OXORDERID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Order id (oxorder)',
+  `OXFILENAME` varchar(128) NOT NULL COMMENT 'Filename',
+  `OXFILEID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'File id (oxfiles)',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXORDERARTICLEID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Ordered article id (oxorderarticles)',
+  `OXFIRSTDOWNLOAD` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'First time downloaded time',
+  `OXLASTDOWNLOAD` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Last time downloaded time',
+  `OXDOWNLOADCOUNT` int(10) unsigned NOT NULL COMMENT 'Downloads count',
+  `OXMAXDOWNLOADCOUNT` int(10) unsigned NOT NULL COMMENT 'Maximum count of downloads',
+  `OXDOWNLOADEXPIRATIONTIME` int(10) unsigned NOT NULL COMMENT 'Download expiration time in hours',
+  `OXLINKEXPIRATIONTIME` int(10) unsigned NOT NULL COMMENT 'Link expiration time in hours',
+  `OXRESETCOUNT` int(10) unsigned NOT NULL COMMENT 'Count of resets',
+  `OXVALIDUNTIL` datetime NOT NULL COMMENT 'Download is valid until time specified',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY (`OXID`),
+  KEY `OXORDERID` (`OXORDERID`),
+  KEY `OXFILEID` (`OXFILEID`),
+  KEY `OXORDERARTICLEID` (`OXORDERARTICLEID`)
+) ENGINE=InnoDB COMMENT 'Files, given to users to download after order';
+#
+# Table structure for table `oxuserbaskets`
+#
+
+DROP TABLE IF EXISTS `oxuserbaskets`;
+
+CREATE TABLE `oxuserbaskets` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Basket id',
+  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
+  `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Basket title',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  `OXPUBLIC` tinyint(1) DEFAULT '1' NOT NULL COMMENT 'Is public',
+  `OXUPDATE` INT NOT NULL default 0 COMMENT 'Update timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `OXUPDATE` (`OXUPDATE`),
+  KEY `OXTITLE` (`OXTITLE`),
+  KEY `OXUSERID` (`OXUSERID`)
+) ENGINE=InnoDB COMMENT 'Active User baskets';
+
+#
+# Table structure for table `oxuserbasketitems`
+# Created on 2004-04-06
+#
+
+DROP TABLE IF EXISTS `oxuserbasketitems`;
+
+CREATE TABLE `oxuserbasketitems` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Item id',
+  `OXBASKETID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Basket id (oxuserbaskets)',
+  `OXARTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article id (oxarticles)',
+  `OXAMOUNT` char(32) NOT NULL default '' COMMENT 'Amount',
+  `OXSELLIST` varchar(255) NOT NULL default '' COMMENT 'Selection list',
+  `OXPERSPARAM` text NOT NULL COMMENT 'Serialized persistent parameters',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `OXBASKETID` (`OXBASKETID`),
+  KEY `OXARTID` (`OXARTID`)
+) ENGINE=InnoDB COMMENT 'User basket items';
+
+
+# --------------------------------------------------------
+
+
+
+#
+# Table structure for table `oxvouchers`
+#
+
+DROP TABLE IF EXISTS `oxvouchers` ;
+
+CREATE  TABLE IF NOT EXISTS `oxvouchers` (
+  `OXDATEUSED` DATE NULL DEFAULT NULL COMMENT 'Date, when coupon was used (set on order complete)',
+  `OXORDERID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Order id (oxorder)',
+  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'User id (oxuser)',
+  `OXRESERVED` INT(11) NOT NULL DEFAULT 0 COMMENT 'Time, when coupon is added to basket',
+  `OXVOUCHERNR` varchar(255) NOT NULL DEFAULT '' COMMENT 'Coupon number',
+  `OXVOUCHERSERIEID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Coupon Series id (oxvoucherseries)',
+  `OXDISCOUNT` FLOAT(9,2) NULL DEFAULT NULL COMMENT 'Discounted amount (if discount was used)',
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Coupon id',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  INDEX OXVOUCHERSERIEID (`OXVOUCHERSERIEID` ASC) ,
+  INDEX OXORDERID (`OXORDERID` ASC) ,
+  INDEX OXUSERID (`OXUSERID` ASC) ,
+  INDEX OXVOUCHERNR (`OXVOUCHERNR` ASC)
+) ENGINE = InnoDB COMMENT 'Generated coupons';
+
+#
+# Table structure for table `oxvoucherseries`
+#
+
+DROP TABLE IF EXISTS `oxvoucherseries` ;
+
+CREATE  TABLE IF NOT EXISTS `oxvoucherseries` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Series id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXSERIENR` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Series name',
+  `OXSERIEDESCRIPTION` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Description',
+  `OXDISCOUNT` FLOAT(9,2) NOT NULL DEFAULT '0' COMMENT 'Discount amount',
+  `OXDISCOUNTTYPE` ENUM('percent','absolute') NOT NULL DEFAULT 'absolute' COMMENT 'Discount type (percent, absolute)',
+  `OXBEGINDATE` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Valid from',
+  `OXENDDATE` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Valid to',
+  `OXALLOWSAMESERIES` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of this series can be used with single order',
+  `OXALLOWOTHERSERIES` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of different series can be used with single order',
+  `OXALLOWUSEANOTHER` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of this series can be used in multiple orders',
+  `OXMINIMUMVALUE` FLOAT(9,2) NOT NULL DEFAULT '0.00' COMMENT 'Minimum Order Sum ',
+  `OXCALCULATEONCE` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Calculate only once (valid only for product or category vouchers)',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  INDEX OXSERIENR (`OXSERIENR` ASC) ,
+  INDEX OXSHOPID (`OXSHOPID` ASC)
+) ENGINE = InnoDB COMMENT 'Coupon series';
 
 #
 # Table structure for table `oxorder`
@@ -1732,34 +1870,6 @@ CREATE TABLE `oxorderarticles` (
 ) ENGINE=InnoDB COMMENT 'Ordered articles information';
 
 #
-# Table structure for table `oxorderfiles`
-#
-
-DROP TABLE IF EXISTS `oxorderfiles`;
-
-CREATE TABLE IF NOT EXISTS `oxorderfiles` (
-  `OXID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Order file id',
-  `OXORDERID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Order id (oxorder)',
-  `OXFILENAME` varchar(128) NOT NULL COMMENT 'Filename',
-  `OXFILEID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'File id (oxfiles)',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXORDERARTICLEID` char(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Ordered article id (oxorderarticles)',
-  `OXFIRSTDOWNLOAD` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'First time downloaded time',
-  `OXLASTDOWNLOAD` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Last time downloaded time',
-  `OXDOWNLOADCOUNT` int(10) unsigned NOT NULL COMMENT 'Downloads count',
-  `OXMAXDOWNLOADCOUNT` int(10) unsigned NOT NULL COMMENT 'Maximum count of downloads',
-  `OXDOWNLOADEXPIRATIONTIME` int(10) unsigned NOT NULL COMMENT 'Download expiration time in hours',
-  `OXLINKEXPIRATIONTIME` int(10) unsigned NOT NULL COMMENT 'Link expiration time in hours',
-  `OXRESETCOUNT` int(10) unsigned NOT NULL COMMENT 'Count of resets',
-  `OXVALIDUNTIL` datetime NOT NULL COMMENT 'Download is valid until time specified',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY (`OXID`),
-  KEY `OXORDERID` (`OXORDERID`),
-  KEY `OXFILEID` (`OXFILEID`),
-  KEY `OXORDERARTICLEID` (`OXORDERARTICLEID`)
-) ENGINE=InnoDB COMMENT 'Files, given to users to download after order';
-
-#
 # Table structure for table `oxpayments`
 #
 
@@ -1821,8 +1931,8 @@ CREATE TABLE `oxprice2article` (
   `OXAMOUNTTO` double NOT NULL default '0' COMMENT 'Quantity: To',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  KEY `OXSHOPID` (`OXSHOPID`),
- KEY `OXARTID` (`OXARTID`)
+   KEY (OXSHOPID),
+   KEY (OXARTID)
 ) ENGINE=MyISAM COMMENT 'Article scale prices';
 
 #
@@ -1846,23 +1956,6 @@ CREATE TABLE `oxpricealarm` (
   PRIMARY KEY (`OXID`)
 ) ENGINE=MyISAM COMMENT 'Price fall alarm requests';
 
-#
-# Table structure for table `oxratings`
-#
-
-DROP TABLE IF EXISTS `oxratings`;
-
-CREATE TABLE `oxratings` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Rating id',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
-  `OXTYPE` enum('oxarticle','oxrecommlist') NOT NULL COMMENT 'Rating type (oxarticle, oxrecommlist)',
-  `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article or Listmania id (oxarticles or oxrecommlists)',
-  `OXRATING` int(1) NOT NULL default '0' COMMENT 'Rating',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `oxobjectsearch` (`OXTYPE`,`OXOBJECTID`)
-) ENGINE=MyISAM COMMENT 'Articles and Listmania ratings';
 #
 # Table structure for table `oxrecommlists`
 #
@@ -1900,6 +1993,24 @@ CREATE TABLE `oxremark` (
   KEY `OXPARENTID` (`OXPARENTID`),
   KEY `OXTYPE` (`OXTYPE`)
 ) ENGINE=MyISAM COMMENT 'User History';
+
+#
+# Table structure for table `oxratings`
+#
+
+DROP TABLE IF EXISTS `oxratings`;
+
+CREATE TABLE `oxratings` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Rating id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
+  `OXTYPE` enum('oxarticle','oxrecommlist') NOT NULL COMMENT 'Rating type (oxarticle, oxrecommlist)',
+  `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article or Listmania id (oxarticles or oxrecommlists)',
+  `OXRATING` int(1) NOT NULL default '0' COMMENT 'Rating',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `oxobjectsearch` (`OXTYPE`,`OXOBJECTID`)
+) ENGINE=MyISAM COMMENT 'Articles and Listmania ratings';
 
 #
 # Table structure for table `oxreviews`
@@ -1945,6 +2056,217 @@ CREATE TABLE `oxselectlist` (
 ) ENGINE=MyISAM COMMENT 'Selection lists';
 
 #
+# Table structure for table `oxshops`
+#
+
+DROP TABLE IF EXISTS `oxshops`;
+
+CREATE TABLE `oxshops` (
+  `OXID` int(11) NOT NULL default 1 COMMENT 'Shop id',
+  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
+  `OXPRODUCTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Productive Mode (if 0, debug info displayed)',
+  `OXDEFCURRENCY` char(32) NOT NULL default '' COMMENT 'Default currency',
+  `OXDEFLANGUAGE` int(11) NOT NULL default '0' COMMENT 'Default language id',
+  `OXNAME` varchar(255) NOT NULL default '' COMMENT 'Shop name',
+  `OXTITLEPREFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title prefix (multilanguage)',
+  `OXTITLEPREFIX_1` varchar(255) NOT NULL default '',
+  `OXTITLEPREFIX_2` varchar(255) NOT NULL default '',
+  `OXTITLEPREFIX_3` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title suffix (multilanguage)',
+  `OXTITLESUFFIX_1` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX_2` varchar(255) NOT NULL default '',
+  `OXTITLESUFFIX_3` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE` varchar(255) NOT NULL default '' COMMENT 'Start page title (multilanguage)',
+  `OXSTARTTITLE_1` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE_2` varchar(255) NOT NULL default '',
+  `OXSTARTTITLE_3` varchar(255) NOT NULL default '',
+  `OXINFOEMAIL` varchar(255) NOT NULL default '' COMMENT 'Informational email address',
+  `OXORDEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Order email address',
+  `OXOWNEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Owner email address',
+  `OXORDERSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Order email subject (multilanguage)',
+  `OXREGISTERSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Registration email subject (multilanguage)',
+  `OXFORGOTPWDSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Forgot password email subject (multilanguage)',
+  `OXSENDEDNOWSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Order sent email subject (multilanguage)',
+  `OXORDERSUBJECT_1` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_1` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_1` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_1` varchar(255) NOT NULL default '',
+  `OXORDERSUBJECT_2` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_2` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_2` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_2` varchar(255) NOT NULL default '',
+  `OXORDERSUBJECT_3` varchar(255) NOT NULL default '',
+  `OXREGISTERSUBJECT_3` varchar(255) NOT NULL default '',
+  `OXFORGOTPWDSUBJECT_3` varchar(255) NOT NULL default '',
+  `OXSENDEDNOWSUBJECT_3` varchar(255) NOT NULL default '',
+  `OXSMTP` varchar(255) NOT NULL default '' COMMENT 'SMTP server',
+  `OXSMTPUSER` varchar(128) NOT NULL default '' COMMENT 'SMTP user',
+  `OXSMTPPWD` varchar(128) NOT NULL default '' COMMENT 'SMTP password',
+  `OXCOMPANY` varchar(128) NOT NULL default '' COMMENT 'Your company',
+  `OXSTREET` varchar(255) NOT NULL default '' COMMENT 'Street',
+  `OXZIP` varchar(255) NOT NULL default '' COMMENT 'ZIP code',
+  `OXCITY` varchar(255) NOT NULL default '' COMMENT 'City',
+  `OXCOUNTRY` varchar(255) NOT NULL default '' COMMENT 'Country',
+  `OXBANKNAME` varchar(255) NOT NULL default '' COMMENT 'Bank name',
+  `OXBANKNUMBER` varchar(255) NOT NULL default '' COMMENT 'Account Number',
+  `OXBANKCODE` varchar(255) NOT NULL default '' COMMENT 'Routing Number',
+  `OXVATNUMBER` varchar(255) NOT NULL default '' COMMENT 'Sales Tax ID',
+  `OXTAXNUMBER` varchar(255) NOT NULL default '' COMMENT 'Tax ID',
+  `OXBICCODE` varchar(255) NOT NULL default '' COMMENT 'Bank BIC',
+  `OXIBANNUMBER` varchar(255) NOT NULL default '' COMMENT 'Bank IBAN',
+  `OXFNAME` varchar(255) NOT NULL default '' COMMENT 'First name',
+  `OXLNAME` varchar(255) NOT NULL default '' COMMENT 'Last name',
+  `OXTELEFON` varchar(255) NOT NULL default '' COMMENT 'Phone number',
+  `OXTELEFAX` varchar(255) NOT NULL default '' COMMENT 'Fax number',
+  `OXURL` varchar(255) NOT NULL default '' COMMENT 'Shop url',
+  `OXDEFCAT` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Default category id',
+  `OXHRBNR` varchar(64) NOT NULL default '' COMMENT 'CBR',
+  `OXCOURT` varchar(128) NOT NULL default '' COMMENT 'District Court',
+  `OXADBUTLERID` varchar(64) NOT NULL default '' COMMENT 'Adbutler code (belboon.de) - deprecated',
+  `OXAFFILINETID` varchar(64) NOT NULL default '' COMMENT 'Affilinet code (webmasterplan.com) - deprecated',
+  `OXSUPERCLICKSID` varchar(64) NOT NULL default '' COMMENT 'Superclix code (superclix.de) - deprecated',
+  `OXAFFILIWELTID` varchar(64) NOT NULL default '' COMMENT 'Affiliwelt code (affiliwelt.net) - deprecated',
+  `OXAFFILI24ID` varchar(64) NOT NULL default '' COMMENT 'Affili24 code (affili24.com) - deprecated',
+  `OXEDITION` CHAR( 2 ) NOT NULL COMMENT 'Shop Edition (CE,PE,EE)',
+  `OXVERSION` CHAR( 16 ) NOT NULL COMMENT 'Shop Version',
+  `OXSEOACTIVE` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Seo active (multilanguage)',
+  `OXSEOACTIVE_1` tinyint(1) NOT NULL DEFAULT '1',
+  `OXSEOACTIVE_2` tinyint(1) NOT NULL DEFAULT '1',
+  `OXSEOACTIVE_3` tinyint(1) NOT NULL DEFAULT '1',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `OXACTIVE` (`OXACTIVE`)
+) ENGINE=MyISAM COMMENT 'Shop config';
+
+#
+# Data for table `oxshops`
+#
+INSERT INTO `oxshops` (`OXID`, `OXACTIVE`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_1`, `OXTITLEPREFIX_2`, `OXTITLEPREFIX_3`, `OXTITLESUFFIX`, `OXTITLESUFFIX_1`, `OXTITLESUFFIX_2`, `OXTITLESUFFIX_3`, `OXSTARTTITLE`, `OXSTARTTITLE_1`, `OXSTARTTITLE_2`, `OXSTARTTITLE_3`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_1`, `OXREGISTERSUBJECT_1`, `OXFORGOTPWDSUBJECT_1`, `OXSENDEDNOWSUBJECT_1`, `OXORDERSUBJECT_2`, `OXREGISTERSUBJECT_2`, `OXFORGOTPWDSUBJECT_2`, `OXSENDEDNOWSUBJECT_2`, `OXORDERSUBJECT_3`, `OXREGISTERSUBJECT_3`, `OXFORGOTPWDSUBJECT_3`, `OXSENDEDNOWSUBJECT_3`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_1`, `OXSEOACTIVE_2`, `OXSEOACTIVE_3`) VALUES
+(1, 1, 0, '', 0, 'OXID eShop 4', 'OXID eShop 4', 'OXID eShop 4', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'CE', '4.9.0', 1, 1, 0, 0);
+
+#
+# Table structure for table `oxuser`
+#
+
+DROP TABLE IF EXISTS `oxuser`;
+
+CREATE TABLE `oxuser` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'User id',
+  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Is active',
+  `OXRIGHTS` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User rights: user, malladmin',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXUSERNAME` varchar(255) NOT NULL default '' COMMENT 'Username',
+  `OXPASSWORD` varchar(128) NOT NULL default '' COMMENT 'Hashed password',
+  `OXPASSSALT` char(128) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Password salt',
+  `OXCUSTNR` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Customer number',
+  `OXUSTID` varchar(255) NOT NULL default '' COMMENT 'VAT ID No.',
+  `OXCOMPANY` varchar(255) NOT NULL default '' COMMENT 'Company',
+  `OXFNAME` varchar(255) NOT NULL default '' COMMENT 'First name',
+  `OXLNAME` varchar(255) NOT NULL default '' COMMENT 'Last name',
+  `OXSTREET` varchar(255) NOT NULL default '' COMMENT 'Street',
+  `OXSTREETNR` varchar(16) NOT NULL default '' COMMENT 'House number',
+  `OXADDINFO` varchar(255) NOT NULL default '' COMMENT 'Additional info',
+  `OXCITY` varchar(255) NOT NULL default '' COMMENT 'City',
+  `OXCOUNTRYID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Country id (oxcountry)',
+  `OXSTATEID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'State id (oxstates)',
+  `OXZIP` varchar(16) NOT NULL default '' COMMENT 'ZIP code',
+  `OXFON` varchar(128) NOT NULL default '' COMMENT 'Phone number',
+  `OXFAX` varchar(128) NOT NULL default '' COMMENT 'Fax number',
+  `OXSAL` varchar(128) NOT NULL default '' COMMENT 'User title (Mr/Mrs)',
+  `OXBONI` int(11) NOT NULL default '0' COMMENT 'Credit points',
+  `OXCREATE` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Creation time',
+  `OXREGISTER` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Registration time',
+  `OXPRIVFON` varchar(64) NOT NULL default '' COMMENT 'Personal phone number',
+  `OXMOBFON` varchar(64) NOT NULL default '' COMMENT 'Mobile phone number',
+  `OXBIRTHDATE` date NOT NULL default '0000-00-00' COMMENT 'Birthday date',
+  `OXURL` varchar(255) NOT NULL default '' COMMENT 'Url',
+  `OXUPDATEKEY` char( 32 ) NOT NULL default '' COMMENT 'Update key',
+  `OXUPDATEEXP` int(11) NOT NULL default '0' COMMENT 'Update key expiration time',
+  `OXPOINTS` double NOT NULL default '0' COMMENT 'User points (for registration, invitation, etc)',
+  `OXFBID` bigint unsigned NOT NULL default '0' COMMENT 'Facebook id (used for openid login)',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  UNIQUE `OXUSERNAME` (`OXUSERNAME`, `OXSHOPID`),
+  KEY `OXPASSWORD` (`OXPASSWORD`),
+  KEY `OXCUSTNR` (`OXCUSTNR`),
+  KEY `OXACTIVE` (`OXACTIVE`),
+  KEY `OXLNAME` (`OXLNAME`),
+  KEY `OXUPDATEEXP` (`OXUPDATEEXP`)
+) ENGINE=MyISAM COMMENT 'Shop administrators and users';
+
+#
+# Data for table `oxuser`
+#
+INSERT INTO `oxuser` (`OXID`, `OXACTIVE`, `OXRIGHTS`, `OXSHOPID`, `OXUSERNAME`, `OXPASSWORD`, `OXPASSSALT`, `OXCUSTNR`, `OXUSTID`, `OXCOMPANY`, `OXFNAME`, `OXLNAME`, `OXSTREET`, `OXSTREETNR`, `OXADDINFO`, `OXCITY`, `OXCOUNTRYID`, `OXSTATEID`, `OXZIP`, `OXFON`, `OXFAX`, `OXSAL`, `OXBONI`, `OXCREATE`, `OXREGISTER`, `OXPRIVFON`, `OXMOBFON`, `OXBIRTHDATE`, `OXURL`, `OXUPDATEKEY`, `OXUPDATEEXP`, `OXPOINTS`, `OXFBID`) VALUES
+('oxdefaultadmin', 1, 'malladmin', 1, 'admin', 'ac81eb18344087cdaf5e83f31b3e10a82dec17db499daf0aa11937731e9abd3ff4ec29808a9827946505fd1665b3ed1ed6be9d1c04c44dcbfa920c84fe2e3ba1', '61646D696E', 1, '', 'Your Company Name', 'John', 'Doe', 'Maple Street', '2425', '', 'Any City', 'a7c40f631fc920687.20179984', '', '9041', '217-8918712', '217-8918713', 'MR', 1000, '2003-01-01 00:00:00', '2003-01-01 00:00:00', '', '', '0000-00-00', '', '', 0, 0, 0);
+
+#
+# Table structure for table `oxuserpayments`
+#
+
+DROP TABLE IF EXISTS `oxuserpayments`;
+
+CREATE TABLE `oxuserpayments` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Payment id',
+  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxusers)',
+  `OXPAYMENTSID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Payment id (oxpayments)',
+  `OXVALUE` blob NOT NULL COMMENT 'DYN payment values array as string',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `OXUSERID` (`OXUSERID`)
+) ENGINE=InnoDB COMMENT 'User payments';
+
+#
+# Table structure for table `oxwrapping`
+#
+
+DROP TABLE IF EXISTS `oxwrapping`;
+
+CREATE TABLE `oxwrapping` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Wrapping id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active (multilanguage)',
+  `OXACTIVE_1` tinyint(1) NOT NULL default '1',
+  `OXACTIVE_2` tinyint(1) NOT NULL default '1',
+  `OXACTIVE_3` tinyint(1) NOT NULL default '1',
+  `OXTYPE` varchar(4) NOT NULL default 'WRAP' COMMENT 'Wrapping type: WRAP,CARD',
+  `OXNAME` varchar(128) NOT NULL default '' COMMENT 'Name (multilanguage)',
+  `OXNAME_1` varchar(128) NOT NULL default '',
+  `OXNAME_2` varchar(128) NOT NULL default '',
+  `OXNAME_3` varchar(128) NOT NULL default '',
+  `OXPIC` varchar(128) NOT NULL default '' COMMENT 'Image filename',
+  `OXPRICE` double NOT NULL default '0' COMMENT 'Price',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`)
+) ENGINE=MyISAM COMMENT 'Wrappings';
+
+#
+# Table structure for table `oxvendor`
+#
+
+DROP TABLE IF EXISTS `oxvendor`;
+
+CREATE TABLE `oxvendor` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Vendor id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
+  `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
+  `OXTITLE` char(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
+  `OXSHORTDESC` char(255) NOT NULL default '' COMMENT 'Short description (multilanguage)',
+  `OXTITLE_1` char(255) NOT NULL default '',
+  `OXSHORTDESC_1` char(255) NOT NULL default '',
+  `OXTITLE_2` char(255) NOT NULL default '',
+  `OXSHORTDESC_2` char(255) NOT NULL default '',
+  `OXTITLE_3` char(255) NOT NULL default '',
+  `OXSHORTDESC_3` char(255) NOT NULL default '',
+  `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY `OXACTIVE` (`OXACTIVE`)
+) ENGINE=MyISAM COMMENT 'Distributors list';
+
+
+#
 # Table structure for table `oxseo`
 # Created 2008.04.16
 #
@@ -1954,7 +2276,7 @@ DROP TABLE IF EXISTS `oxseo`;
 CREATE TABLE `oxseo` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Object id',
   `OXIDENT`    char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Hashed seo url (md5)',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (multilanguage)',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXLANG`     int(2) NOT NULL default 0 COMMENT 'Language id',
   `OXSTDURL`   varchar(2048) NOT NULL COMMENT 'Primary url, not seo encoded',
   `OXSEOURL`   varchar(2048) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL COMMENT 'Old seo url',
@@ -2044,7 +2366,7 @@ DROP TABLE IF EXISTS `oxseohistory`;
 CREATE TABLE `oxseohistory` (
   `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Object id',
   `OXIDENT` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Hashed url (md5)',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id oxshops',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
   `OXLANG` int(2) NOT NULL default '0' COMMENT 'Language id',
   `OXHITS` bigint(20) NOT NULL default '0' COMMENT 'Hits',
   `OXINSERT` timestamp NULL default NULL COMMENT 'Creation time',
@@ -2069,95 +2391,6 @@ CREATE TABLE IF NOT EXISTS `oxseologs` (
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXIDENT`,`OXSHOPID`,`OXLANG`)
 ) ENGINE=InnoDB COMMENT 'Seo logging. Logs bad requests';
-
-#
-# Table structure for table `oxshops`
-#
-
-DROP TABLE IF EXISTS `oxshops`;
-
-CREATE TABLE `oxshops` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Shop id',
-  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
-  `OXPRODUCTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Productive Mode (if 0, debug info displayed)',
-  `OXDEFCURRENCY` char(32) NOT NULL default '' COMMENT 'Default currency',
-  `OXDEFLANGUAGE` int(11) NOT NULL default '0' COMMENT 'Default language id',
-  `OXNAME` varchar(255) NOT NULL default '' COMMENT 'Shop name',
-  `OXTITLEPREFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title prefix (multilanguage)',
-  `OXTITLEPREFIX_1` varchar(255) NOT NULL default '',
-  `OXTITLEPREFIX_2` varchar(255) NOT NULL default '',
-  `OXTITLEPREFIX_3` varchar(255) NOT NULL default '',
-  `OXTITLESUFFIX` varchar(255) NOT NULL default '' COMMENT 'Seo title suffix (multilanguage)',
-  `OXTITLESUFFIX_1` varchar(255) NOT NULL default '',
-  `OXTITLESUFFIX_2` varchar(255) NOT NULL default '',
-  `OXTITLESUFFIX_3` varchar(255) NOT NULL default '',
-  `OXSTARTTITLE` varchar(255) NOT NULL default '' COMMENT 'Start page title (multilanguage)',
-  `OXSTARTTITLE_1` varchar(255) NOT NULL default '',
-  `OXSTARTTITLE_2` varchar(255) NOT NULL default '',
-  `OXSTARTTITLE_3` varchar(255) NOT NULL default '',
-  `OXINFOEMAIL` varchar(255) NOT NULL default '' COMMENT 'Informational email address',
-  `OXORDEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Order email address',
-  `OXOWNEREMAIL` varchar(255) NOT NULL default '' COMMENT 'Owner email address',
-  `OXORDERSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Order email subject (multilanguage)',
-  `OXREGISTERSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Registration email subject (multilanguage)',
-  `OXFORGOTPWDSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Forgot password email subject (multilanguage)',
-  `OXSENDEDNOWSUBJECT` varchar(255) NOT NULL default '' COMMENT 'Order sent email subject (multilanguage)',
-  `OXORDERSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_1` varchar(255) NOT NULL default '',
-  `OXORDERSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_2` varchar(255) NOT NULL default '',
-  `OXORDERSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXREGISTERSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXFORGOTPWDSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXSENDEDNOWSUBJECT_3` varchar(255) NOT NULL default '',
-  `OXSMTP` varchar(255) NOT NULL default '' COMMENT 'SMTP server',
-  `OXSMTPUSER` varchar(128) NOT NULL default '' COMMENT 'SMTP user',
-  `OXSMTPPWD` varchar(128) NOT NULL default '' COMMENT 'SMTP password',
-  `OXCOMPANY` varchar(128) NOT NULL default '' COMMENT 'Your company',
-  `OXSTREET` varchar(255) NOT NULL default '' COMMENT 'Street',
-  `OXZIP` varchar(255) NOT NULL default '' COMMENT 'ZIP code',
-  `OXCITY` varchar(255) NOT NULL default '' COMMENT 'City',
-  `OXCOUNTRY` varchar(255) NOT NULL default '' COMMENT 'Country',
-  `OXBANKNAME` varchar(255) NOT NULL default '' COMMENT 'Bank name',
-  `OXBANKNUMBER` varchar(255) NOT NULL default '' COMMENT 'Account Number',
-  `OXBANKCODE` varchar(255) NOT NULL default '' COMMENT 'Routing Number',
-  `OXVATNUMBER` varchar(255) NOT NULL default '' COMMENT 'Sales Tax ID',
-  `OXTAXNUMBER` varchar(255) NOT NULL default '' COMMENT 'Tax ID',
-  `OXBICCODE` varchar(255) NOT NULL default '' COMMENT 'Bank BIC',
-  `OXIBANNUMBER` varchar(255) NOT NULL default '' COMMENT 'Bank IBAN',
-  `OXFNAME` varchar(255) NOT NULL default '' COMMENT 'First name',
-  `OXLNAME` varchar(255) NOT NULL default '' COMMENT 'Last name',
-  `OXTELEFON` varchar(255) NOT NULL default '' COMMENT 'Phone number',
-  `OXTELEFAX` varchar(255) NOT NULL default '' COMMENT 'Fax number',
-  `OXURL` varchar(255) NOT NULL default '' COMMENT 'Shop url',
-  `OXDEFCAT` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Default category id',
-  `OXHRBNR` varchar(64) NOT NULL default '' COMMENT 'CBR',
-  `OXCOURT` varchar(128) NOT NULL default '' COMMENT 'District Court',
-  `OXADBUTLERID` varchar(64) NOT NULL default '' COMMENT 'Adbutler code (belboon.de) - deprecated',
-  `OXAFFILINETID` varchar(64) NOT NULL default '' COMMENT 'Affilinet code (webmasterplan.com) - deprecated',
-  `OXSUPERCLICKSID` varchar(64) NOT NULL default '' COMMENT 'Superclix code (superclix.de) - deprecated',
-  `OXAFFILIWELTID` varchar(64) NOT NULL default '' COMMENT 'Affiliwelt code (affiliwelt.net) - deprecated',
-  `OXAFFILI24ID` varchar(64) NOT NULL default '' COMMENT 'Affili24 code (affili24.com) - deprecated',
-  `OXEDITION` CHAR( 2 ) NOT NULL COMMENT 'Shop Edition (CE,PE,EE)',
-  `OXVERSION` CHAR( 16 ) NOT NULL COMMENT 'Shop Version',
-  `OXSEOACTIVE` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Seo active (multilanguage)',
-  `OXSEOACTIVE_1` tinyint(1) NOT NULL DEFAULT '1',
-  `OXSEOACTIVE_2` tinyint(1) NOT NULL DEFAULT '1',
-  `OXSEOACTIVE_3` tinyint(1) NOT NULL DEFAULT '1',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `OXACTIVE` (`OXACTIVE`)
-) ENGINE=MyISAM COMMENT 'Shop config';
-
-#
-# Data for table `oxshops`
-#
-INSERT INTO `oxshops` (`OXID`, `OXACTIVE`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_1`, `OXTITLEPREFIX_2`, `OXTITLEPREFIX_3`, `OXTITLESUFFIX`, `OXTITLESUFFIX_1`, `OXTITLESUFFIX_2`, `OXTITLESUFFIX_3`, `OXSTARTTITLE`, `OXSTARTTITLE_1`, `OXSTARTTITLE_2`, `OXSTARTTITLE_3`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_1`, `OXREGISTERSUBJECT_1`, `OXFORGOTPWDSUBJECT_1`, `OXSENDEDNOWSUBJECT_1`, `OXORDERSUBJECT_2`, `OXREGISTERSUBJECT_2`, `OXFORGOTPWDSUBJECT_2`, `OXSENDEDNOWSUBJECT_2`, `OXORDERSUBJECT_3`, `OXREGISTERSUBJECT_3`, `OXFORGOTPWDSUBJECT_3`, `OXSENDEDNOWSUBJECT_3`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_1`, `OXSEOACTIVE_2`, `OXSEOACTIVE_3`) VALUES
-(1, 1, 0, '', 0, 'OXID eShop 4', 'OXID eShop 4', 'OXID eShop 4', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'CE', '4.9.0', 1, 1, 0, 0);
 
 #
 # Table structure for table `oxstates`
@@ -2284,214 +2517,6 @@ CREATE TABLE `oxtplblocks` (
 
 INSERT INTO `oxtplblocks` (`OXID`, `OXACTIVE`, `OXSHOPID`, `OXTEMPLATE`, `OXBLOCKNAME`, `OXPOS`, `OXFILE`, `OXMODULE`) VALUES
 ('aba2417d4a2846a07c1575a20479c927', 1, 1, 'order_overview.tpl', 'admin_order_overview_export', 1, 'views/admin/blocks/order_overview.tpl', 'invoicepdf');
-
-#
-# Table structure for table `oxuser`
-#
-
-DROP TABLE IF EXISTS `oxuser`;
-
-CREATE TABLE `oxuser` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'User id',
-  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Is active',
-  `OXRIGHTS` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User rights: user, malladmin',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXUSERNAME` varchar(255) NOT NULL default '' COMMENT 'Username',
-  `OXPASSWORD` varchar(128) NOT NULL default '' COMMENT 'Hashed password',
-  `OXPASSSALT` char(128) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Password salt',
-  `OXCUSTNR` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Customer number',
-  `OXUSTID` varchar(255) NOT NULL default '' COMMENT 'VAT ID No.',
-  `OXCOMPANY` varchar(255) NOT NULL default '' COMMENT 'Company',
-  `OXFNAME` varchar(255) NOT NULL default '' COMMENT 'First name',
-  `OXLNAME` varchar(255) NOT NULL default '' COMMENT 'Last name',
-  `OXSTREET` varchar(255) NOT NULL default '' COMMENT 'Street',
-  `OXSTREETNR` varchar(16) NOT NULL default '' COMMENT 'House number',
-  `OXADDINFO` varchar(255) NOT NULL default '' COMMENT 'Additional info',
-  `OXCITY` varchar(255) NOT NULL default '' COMMENT 'City',
-  `OXCOUNTRYID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Country id (oxcountry)',
-  `OXSTATEID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'State id (oxstates)',
-  `OXZIP` varchar(16) NOT NULL default '' COMMENT 'ZIP code',
-  `OXFON` varchar(128) NOT NULL default '' COMMENT 'Phone number',
-  `OXFAX` varchar(128) NOT NULL default '' COMMENT 'Fax number',
-  `OXSAL` varchar(128) NOT NULL default '' COMMENT 'User title (Mr/Mrs)',
-  `OXBONI` int(11) NOT NULL default '0' COMMENT 'Credit points',
-  `OXCREATE` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Creation time',
-  `OXREGISTER` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'Registration time',
-  `OXPRIVFON` varchar(64) NOT NULL default '' COMMENT 'Personal phone number',
-  `OXMOBFON` varchar(64) NOT NULL default '' COMMENT 'Mobile phone number',
-  `OXBIRTHDATE` date NOT NULL default '0000-00-00' COMMENT 'Birthday date',
-  `OXURL` varchar(255) NOT NULL default '' COMMENT 'Url',
-  `OXUPDATEKEY` char( 32 ) NOT NULL default '' COMMENT 'Update key',
-  `OXUPDATEEXP` int(11) NOT NULL default '0' COMMENT 'Update key expiration time',
-  `OXPOINTS` double NOT NULL default '0' COMMENT 'User points (for registration, invitation, etc)',
-  `OXFBID` bigint unsigned NOT NULL default '0' COMMENT 'Facebook id (used for openid login)',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  UNIQUE `OXUSERNAME` (`OXUSERNAME`, `OXSHOPID`),
-  KEY `OXPASSWORD` (`OXPASSWORD`),
-  KEY `OXCUSTNR` (`OXCUSTNR`),
-  KEY `OXACTIVE` (`OXACTIVE`),
-  KEY `OXLNAME` (`OXLNAME`),
-  KEY `OXUPDATEEXP` (`OXUPDATEEXP`)
-) ENGINE=MyISAM COMMENT 'Shop administrators and users';
-
-#
-# Data for table `oxuser`
-#
-INSERT INTO `oxuser` (`OXID`, `OXACTIVE`, `OXRIGHTS`, `OXSHOPID`, `OXUSERNAME`, `OXPASSWORD`, `OXPASSSALT`, `OXCUSTNR`, `OXUSTID`, `OXCOMPANY`, `OXFNAME`, `OXLNAME`, `OXSTREET`, `OXSTREETNR`, `OXADDINFO`, `OXCITY`, `OXCOUNTRYID`, `OXSTATEID`, `OXZIP`, `OXFON`, `OXFAX`, `OXSAL`, `OXBONI`, `OXCREATE`, `OXREGISTER`, `OXPRIVFON`, `OXMOBFON`, `OXBIRTHDATE`, `OXURL`, `OXUPDATEKEY`, `OXUPDATEEXP`, `OXPOINTS`, `OXFBID`) VALUES
-('oxdefaultadmin', 1, 'malladmin', 1, 'admin', 'ac81eb18344087cdaf5e83f31b3e10a82dec17db499daf0aa11937731e9abd3ff4ec29808a9827946505fd1665b3ed1ed6be9d1c04c44dcbfa920c84fe2e3ba1', '61646D696E', 1, '', 'Your Company Name', 'John', 'Doe', 'Maple Street', '2425', '', 'Any City', 'a7c40f631fc920687.20179984', '', '9041', '217-8918712', '217-8918713', 'MR', 1000, '2003-01-01 00:00:00', '2003-01-01 00:00:00', '', '', '0000-00-00', '', '', 0, 0, 0);
-#
-# Table structure for table `oxuserbaskets`
-#
-
-DROP TABLE IF EXISTS `oxuserbaskets`;
-
-CREATE TABLE `oxuserbaskets` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Basket id',
-  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxuser)',
-  `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Basket title',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  `OXPUBLIC` tinyint(1) DEFAULT '1' NOT NULL COMMENT 'Is public',
-  `OXUPDATE` INT NOT NULL default 0 COMMENT 'Update timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `OXUPDATE` (`OXUPDATE`),
-  KEY `OXTITLE` (`OXTITLE`),
-  KEY `OXUSERID` (`OXUSERID`)
-) ENGINE=InnoDB COMMENT 'Active User baskets';
-
-#
-# Table structure for table `oxuserbasketitems`
-#
-
-DROP TABLE IF EXISTS `oxuserbasketitems`;
-
-CREATE TABLE `oxuserbasketitems` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Item id',
-  `OXBASKETID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Basket id (oxuserbaskets)',
-  `OXARTID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Article id (oxarticles)',
-  `OXAMOUNT` char(32) NOT NULL default '' COMMENT 'Amount',
-  `OXSELLIST` varchar(255) NOT NULL default '' COMMENT 'Selection list',
-  `OXPERSPARAM` text NOT NULL COMMENT 'Serialized persistent parameters',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `OXBASKETID` (`OXBASKETID`),
-  KEY `OXARTID` (`OXARTID`)
-) ENGINE=InnoDB COMMENT 'User basket items';
-
-#
-# Table structure for table `oxuserpayments`
-#
-
-DROP TABLE IF EXISTS `oxuserpayments`;
-
-CREATE TABLE `oxuserpayments` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Payment id',
-  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'User id (oxusers)',
-  `OXPAYMENTSID` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Payment id (oxpayments)',
-  `OXVALUE` blob NOT NULL COMMENT 'DYN payment values array as string',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `OXUSERID` (`OXUSERID`)
-) ENGINE=InnoDB COMMENT 'User payments';
-
-#
-# Table structure for table `oxvendor`
-#
-
-DROP TABLE IF EXISTS `oxvendor`;
-
-CREATE TABLE `oxvendor` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Vendor id',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
-  `OXICON` char(128) NOT NULL default '' COMMENT 'Icon filename',
-  `OXTITLE` char(255) NOT NULL default '' COMMENT 'Title (multilanguage)',
-  `OXSHORTDESC` char(255) NOT NULL default '' COMMENT 'Short description (multilanguage)',
-  `OXTITLE_1` char(255) NOT NULL default '',
-  `OXSHORTDESC_1` char(255) NOT NULL default '',
-  `OXTITLE_2` char(255) NOT NULL default '',
-  `OXSHORTDESC_2` char(255) NOT NULL default '',
-  `OXTITLE_3` char(255) NOT NULL default '',
-  `OXSHORTDESC_3` char(255) NOT NULL default '',
-  `OXSHOWSUFFIX` tinyint(1) NOT NULL default '1' COMMENT 'Show SEO Suffix in Category',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  KEY `OXACTIVE` (`OXACTIVE`)
-) ENGINE=MyISAM COMMENT 'Distributors list';
-
-#
-# Table structure for table `oxvouchers`
-#
-
-DROP TABLE IF EXISTS `oxvouchers` ;
-
-CREATE  TABLE IF NOT EXISTS `oxvouchers` (
-  `OXDATEUSED` DATE NULL DEFAULT NULL COMMENT 'Date, when coupon was used (set on order complete)',
-  `OXORDERID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Order id (oxorder)',
-  `OXUSERID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'User id (oxuser)',
-  `OXRESERVED` INT(11) NOT NULL DEFAULT 0 COMMENT 'Time, when coupon is added to basket',
-  `OXVOUCHERNR` varchar(255) NOT NULL DEFAULT '' COMMENT 'Coupon number',
-  `OXVOUCHERSERIEID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Coupon Series id (oxvoucherseries)',
-  `OXDISCOUNT` FLOAT(9,2) NULL DEFAULT NULL COMMENT 'Discounted amount (if discount was used)',
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Coupon id',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  INDEX OXVOUCHERSERIEID (`OXVOUCHERSERIEID` ASC) ,
-  INDEX OXORDERID (`OXORDERID` ASC) ,
-  INDEX OXUSERID (`OXUSERID` ASC) ,
-  INDEX OXVOUCHERNR (`OXVOUCHERNR` ASC)
-) ENGINE = InnoDB COMMENT 'Generated coupons';
-
-#
-# Table structure for table `oxvoucherseries`
-#
-
-DROP TABLE IF EXISTS `oxvoucherseries` ;
-
-CREATE  TABLE IF NOT EXISTS `oxvoucherseries` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL DEFAULT '' COMMENT 'Series id',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXSERIENR` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Series name',
-  `OXSERIEDESCRIPTION` VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Description',
-  `OXDISCOUNT` FLOAT(9,2) NOT NULL DEFAULT '0' COMMENT 'Discount amount',
-  `OXDISCOUNTTYPE` ENUM('percent','absolute') NOT NULL DEFAULT 'absolute' COMMENT 'Discount type (percent, absolute)',
-  `OXBEGINDATE` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Valid from',
-  `OXENDDATE` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Valid to',
-  `OXALLOWSAMESERIES` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of this series can be used with single order',
-  `OXALLOWOTHERSERIES` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of different series can be used with single order',
-  `OXALLOWUSEANOTHER` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Coupons of this series can be used in multiple orders',
-  `OXMINIMUMVALUE` FLOAT(9,2) NOT NULL DEFAULT '0.00' COMMENT 'Minimum Order Sum ',
-  `OXCALCULATEONCE` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Calculate only once (valid only for product or category vouchers)',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`),
-  INDEX OXSERIENR (`OXSERIENR` ASC) ,
-  INDEX OXSHOPID (`OXSHOPID` ASC)
-) ENGINE = InnoDB COMMENT 'Coupon series';
-
-#
-# Table structure for table `oxwrapping`
-#
-
-DROP TABLE IF EXISTS `oxwrapping`;
-
-CREATE TABLE `oxwrapping` (
-  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Wrapping id',
-  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
-  `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active (multilanguage)',
-  `OXACTIVE_1` tinyint(1) NOT NULL default '1',
-  `OXACTIVE_2` tinyint(1) NOT NULL default '1',
-  `OXACTIVE_3` tinyint(1) NOT NULL default '1',
-  `OXTYPE` varchar(4) NOT NULL default 'WRAP' COMMENT 'Wrapping type: WRAP,CARD',
-  `OXNAME` varchar(128) NOT NULL default '' COMMENT 'Name (multilanguage)',
-  `OXNAME_1` varchar(128) NOT NULL default '',
-  `OXNAME_2` varchar(128) NOT NULL default '',
-  `OXNAME_3` varchar(128) NOT NULL default '',
-  `OXPIC` varchar(128) NOT NULL default '' COMMENT 'Image filename',
-  `OXPRICE` double NOT NULL default '0' COMMENT 'Price',
-  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
-  PRIMARY KEY  (`OXID`)
-) ENGINE=MyISAM COMMENT 'Wrappings';
-
 
 
 
