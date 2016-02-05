@@ -1218,6 +1218,7 @@ CREATE TABLE `oxgroups` (
   `OXTITLE_1` varchar(128) NOT NULL default '',
   `OXTITLE_2` varchar(128) NOT NULL default '',
   `OXTITLE_3` varchar(128) NOT NULL default '',
+  `OXRRID` bigint(21) UNSIGNED NOT NULL COMMENT 'Group numeric index',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
   KEY `OXACTIVE` (`OXACTIVE`)
@@ -1226,23 +1227,25 @@ CREATE TABLE `oxgroups` (
 #
 # Data for table `oxgroups`
 #
-INSERT INTO `oxgroups` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`) VALUES
-('oxidblacklist', 1, 'Blacklist', 'Blacklist', '', ''),
-('oxidsmallcust', 1, 'Geringer Umsatz', 'Less Turnover', '', ''),
-('oxidmiddlecust', 1, 'Mittlerer Umsatz', 'Medium Turnover', '', ''),
-('oxidgoodcust', 1, 'Grosser Umsatz', 'Huge Turnover', '', ''),
-('oxidforeigncustomer', 1, 'Auslandskunde', 'Foreign Customer', '', ''),
-('oxidnewcustomer', 1, 'Inlandskunde', 'Domestic Customer', '', ''),
-('oxidpowershopper', 1, 'Powershopper', 'Powershopper', '', ''),
-('oxiddealer', 1, 'Händler', 'Retailer', '', ''),
-('oxidnewsletter', 1, 'Newsletter-Abonnenten', 'Newsletter Recipients', '', ''),
-('oxidadmin', 1, 'Shop-Admin', 'Store Administrator', '', ''),
-('oxidpriceb', 1, 'Preis B', 'Price B', '', ''),
-('oxidpricea', 1, 'Preis A', 'Price A', '', ''),
-('oxidpricec', 1, 'Preis C', 'Price C', '', ''),
-('oxidblocked', 1, 'BLOCKED', 'BLOCKED', '', ''),
-('oxidcustomer', 1, 'Kunde', 'Customer', '', ''),
-('oxidnotyetordered', 1, 'Noch nicht gekauft', 'Not Yet Purchased', '', '');
+INSERT INTO `oxgroups` (`OXID`, `OXACTIVE`, `OXTITLE`, `OXTITLE_1`, `OXTITLE_2`, `OXTITLE_3`, `OXRRID`) VALUES
+('oxidblacklist', 1, 'Blacklist', 'Blacklist', '', '', 0),
+('oxidsmallcust', 1, 'Geringer Umsatz', 'Less Turnover', '', '', 1),
+('oxidmiddlecust', 1, 'Mittlerer Umsatz', 'Medium Turnover', '', '', 2),
+('oxidgoodcust', 1, 'Grosser Umsatz', 'Huge Turnover', '', '', 3),
+('oxidforeigncustomer', 1, 'Auslandskunde', 'Foreign Customer', '', '', 4),
+('oxidnewcustomer', 1, 'Inlandskunde', 'Domestic Customer', '', '', 5),
+('oxidpowershopper', 1, 'Powershopper', 'Powershopper', '', '', 6),
+('oxiddealer', 1, 'Händler', 'Retailer', '', '', 7),
+('oxidnewsletter', 1, 'Newsletter-Abonnenten', 'Newsletter Recipients', '', '', 8),
+('oxidadmin', 1, 'Shop-Admin', 'Store Administrator', '', '', 9),
+('oxidpriceb', 1, 'Preis B', 'Price B', '', '', 10),
+('oxidpricea', 1, 'Preis A', 'Price A', '', '', 11),
+('oxidpricec', 1, 'Preis C', 'Price C', '', '', 12),
+('oxidblocked', 1, 'BLOCKED', 'BLOCKED', '', '', 13),
+('oxidcustomer', 1, 'Kunde', 'Customer', '', '', 14),
+('oxidnotyetordered', 1, 'Noch nicht gekauft', 'Not Yet Purchased', '', '', 15);
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `oxinvitations`
@@ -1769,6 +1772,7 @@ CREATE TABLE `oxorder` (
   `OXBILLSTREETNR` varchar(16) NOT NULL default '' COMMENT 'Billing info: House number',
   `OXBILLADDINFO` varchar(255) NOT NULL default '' COMMENT 'Billing info: Additional info',
   `OXBILLUSTID` varchar(255) NOT NULL default '' COMMENT 'Billing info: VAT ID No.',
+  `OXBILLUSTIDSTATUS` tinyint(1) NOT NULL default '0' COMMENT 'User VAT id status: 1 - valid, 0 - invalid',
   `OXBILLCITY` varchar(255) NOT NULL default '' COMMENT 'Billing info: City',
   `OXBILLCOUNTRYID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Billing info: Country id (oxcountry)',
   `OXBILLSTATEID` varchar(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Billing info: US State id (oxstates)',
@@ -1829,6 +1833,7 @@ CREATE TABLE `oxorder` (
   `OXLANG` int(2) NOT NULL default '0' COMMENT 'Language id',
   `OXINVOICENR` int(11) NOT NULL default '0' COMMENT 'Invoice number',
   `OXDELTYPE` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Delivery id (oxdeliveryset)',
+  `OXPIXIEXPORT` tinyint(1) DEFAULT '0' NOT NULL COMMENT 'Field for 3rd party modules export',
   `OXTSPROTECTID` char(64) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Trusted shop protection id',
   `OXTSPROTECTCOSTS` double NOT NULL default '0' COMMENT 'Trusted shop protection cost',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
@@ -2091,7 +2096,11 @@ DROP TABLE IF EXISTS `oxshops`;
 
 CREATE TABLE `oxshops` (
   `OXID` int(11) NOT NULL default 1 COMMENT 'Shop id',
+  `OXPARENTID` int(11) NOT NULL default 0 COMMENT 'Parent id',
   `OXACTIVE` tinyint(1) NOT NULL default '1' COMMENT 'Active',
+  `OXISINHERITED` INT NOT NULL DEFAULT 0 COMMENT 'Shop inherits all inheritable items (products, discounts etc) from it''s parent shop',
+  `OXISMULTISHOP` INT NOT NULL DEFAULT 0 COMMENT 'Shop is multishop (loads all products from all shops)',
+  `OXISSUPERSHOP` INT NOT NULL DEFAULT 0 COMMENT 'Shop is supershop (you can assign products to any shop)',
   `OXPRODUCTIVE` tinyint(1) NOT NULL default '0' COMMENT 'Productive Mode (if 0, debug info displayed)',
   `OXDEFCURRENCY` char(32) NOT NULL default '' COMMENT 'Default currency',
   `OXDEFLANGUAGE` int(11) NOT NULL default '0' COMMENT 'Default language id',
@@ -2130,6 +2139,7 @@ CREATE TABLE `oxshops` (
   `OXSMTP` varchar(255) NOT NULL default '' COMMENT 'SMTP server',
   `OXSMTPUSER` varchar(128) NOT NULL default '' COMMENT 'SMTP user',
   `OXSMTPPWD` varchar(128) NOT NULL default '' COMMENT 'SMTP password',
+  `OXSERIAL` varchar(255) NOT NULL default '' COMMENT 'Shop license number',
   `OXCOMPANY` varchar(128) NOT NULL default '' COMMENT 'Your company',
   `OXSTREET` varchar(255) NOT NULL default '' COMMENT 'Street',
   `OXZIP` varchar(255) NOT NULL default '' COMMENT 'ZIP code',
@@ -2169,8 +2179,10 @@ CREATE TABLE `oxshops` (
 #
 # Data for table `oxshops`
 #
-INSERT INTO `oxshops` (`OXID`, `OXACTIVE`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_1`, `OXTITLEPREFIX_2`, `OXTITLEPREFIX_3`, `OXTITLESUFFIX`, `OXTITLESUFFIX_1`, `OXTITLESUFFIX_2`, `OXTITLESUFFIX_3`, `OXSTARTTITLE`, `OXSTARTTITLE_1`, `OXSTARTTITLE_2`, `OXSTARTTITLE_3`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_1`, `OXREGISTERSUBJECT_1`, `OXFORGOTPWDSUBJECT_1`, `OXSENDEDNOWSUBJECT_1`, `OXORDERSUBJECT_2`, `OXREGISTERSUBJECT_2`, `OXFORGOTPWDSUBJECT_2`, `OXSENDEDNOWSUBJECT_2`, `OXORDERSUBJECT_3`, `OXREGISTERSUBJECT_3`, `OXFORGOTPWDSUBJECT_3`, `OXSENDEDNOWSUBJECT_3`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_1`, `OXSEOACTIVE_2`, `OXSEOACTIVE_3`) VALUES
-(1, 1, 0, '', 0, 'OXID eShop 4', 'OXID eShop 4', 'OXID eShop 4', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'CE', '4.9.0', 1, 1, 0, 0);
+INSERT INTO `oxshops` (`OXID`, `OXPARENTID`, `OXACTIVE`, `OXISINHERITED`, `OXISMULTISHOP`, `OXISSUPERSHOP`, `OXPRODUCTIVE`, `OXDEFCURRENCY`, `OXDEFLANGUAGE`, `OXNAME`, `OXTITLEPREFIX`, `OXTITLEPREFIX_1`, `OXTITLEPREFIX_2`, `OXTITLEPREFIX_3`, `OXTITLESUFFIX`, `OXTITLESUFFIX_1`, `OXTITLESUFFIX_2`, `OXTITLESUFFIX_3`, `OXSTARTTITLE`, `OXSTARTTITLE_1`, `OXSTARTTITLE_2`, `OXSTARTTITLE_3`, `OXINFOEMAIL`, `OXORDEREMAIL`, `OXOWNEREMAIL`, `OXORDERSUBJECT`, `OXREGISTERSUBJECT`, `OXFORGOTPWDSUBJECT`, `OXSENDEDNOWSUBJECT`, `OXORDERSUBJECT_1`, `OXREGISTERSUBJECT_1`, `OXFORGOTPWDSUBJECT_1`, `OXSENDEDNOWSUBJECT_1`, `OXORDERSUBJECT_2`, `OXREGISTERSUBJECT_2`, `OXFORGOTPWDSUBJECT_2`, `OXSENDEDNOWSUBJECT_2`, `OXORDERSUBJECT_3`, `OXREGISTERSUBJECT_3`, `OXFORGOTPWDSUBJECT_3`, `OXSENDEDNOWSUBJECT_3`, `OXSMTP`, `OXSMTPUSER`, `OXSMTPPWD`, `OXSERIAL`, `OXCOMPANY`, `OXSTREET`, `OXZIP`, `OXCITY`, `OXCOUNTRY`, `OXBANKNAME`, `OXBANKNUMBER`, `OXBANKCODE`, `OXVATNUMBER`, `OXTAXNUMBER`, `OXBICCODE`, `OXIBANNUMBER`, `OXFNAME`, `OXLNAME`, `OXTELEFON`, `OXTELEFAX`, `OXURL`, `OXDEFCAT`, `OXHRBNR`, `OXCOURT`, `OXADBUTLERID`, `OXAFFILINETID`, `OXSUPERCLICKSID`, `OXAFFILIWELTID`, `OXAFFILI24ID`, `OXEDITION`, `OXVERSION`, `OXSEOACTIVE`, `OXSEOACTIVE_1`, `OXSEOACTIVE_2`, `OXSEOACTIVE_3`) VALUES
+(1, 0, 1, 0, 0, 1, 0, '', 0, 'OXID eShop 6', 'OXID eShop 6', 'OXID eShop 6', '', '', 'online kaufen', 'purchase online', '', '', 'Der Onlineshop', 'Online Shop', '', '', 'info@myoxideshop.com', 'reply@myoxideshop.com', 'order@myoxideshop.com', 'Ihre Bestellung bei OXID eSales', 'Vielen Dank für Ihre Registrierung im OXID eShop', 'Ihr Passwort im OXID eShop', 'Ihre OXID eSales Bestellung wurde versandt', 'Your order at OXID eShop', 'Thank you for your registration at OXID eShop', 'Your OXID eShop password', 'Your OXID eSales Order has been shipped', '', '', '', '', '', '', '', '', '', '', '', '', 'Your Company Name', '2425 Maple Street', '9041', 'Any City, CA', 'United States', 'Bank of America', '1234567890', '900 1234567', '', '', '', '', 'John', 'Doe', '217-8918712', '217-8918713', 'www.myoxideshop.com', '', '', '', '', '', '', '', '', 'EE', '6.0.0', 1, 1, 0, 0);
+
+# --------------------------------------------------------
 
 #
 # Table structure for table `oxuser`
@@ -2188,6 +2200,7 @@ CREATE TABLE `oxuser` (
   `OXPASSSALT` char(128) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Password salt',
   `OXCUSTNR` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Customer number',
   `OXUSTID` varchar(255) NOT NULL default '' COMMENT 'VAT ID No.',
+  `OXUSTIDSTATUS` tinyint(1) NOT NULL default '0' COMMENT 'User VAT id status: 1 - valid, 0 - invalid',
   `OXCOMPANY` varchar(255) NOT NULL default '' COMMENT 'Company',
   `OXFNAME` varchar(255) NOT NULL default '' COMMENT 'First name',
   `OXLNAME` varchar(255) NOT NULL default '' COMMENT 'Last name',
@@ -2208,6 +2221,8 @@ CREATE TABLE `oxuser` (
   `OXMOBFON` varchar(64) NOT NULL default '' COMMENT 'Mobile phone number',
   `OXBIRTHDATE` date NOT NULL default '0000-00-00' COMMENT 'Birthday date',
   `OXURL` varchar(255) NOT NULL default '' COMMENT 'Url',
+  `OXLDAPKEY` varchar(128) NOT NULL default '' COMMENT 'LDAP user key',
+  `OXWRONGLOGINS` int(11) NOT NULL default '0' COMMENT 'Wrong logins count',
   `OXUPDATEKEY` char( 32 ) NOT NULL default '' COMMENT 'Update key',
   `OXUPDATEEXP` int(11) NOT NULL default '0' COMMENT 'Update key expiration time',
   `OXPOINTS` double NOT NULL default '0' COMMENT 'User points (for registration, invitation, etc)',
