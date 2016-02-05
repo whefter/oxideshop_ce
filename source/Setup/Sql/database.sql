@@ -2552,7 +2552,300 @@ CREATE TABLE `oxtplblocks` (
 INSERT INTO `oxtplblocks` (`OXID`, `OXACTIVE`, `OXSHOPID`, `OXTEMPLATE`, `OXBLOCKNAME`, `OXPOS`, `OXFILE`, `OXMODULE`) VALUES
 ('aba2417d4a2846a07c1575a20479c927', 1, 1, 'order_overview.tpl', 'admin_order_overview_export', 1, 'views/admin/blocks/order_overview.tpl', 'invoicepdf');
 
+# --------------- ENTERPRISE TABLES ------------------------
 
+#
+# Table structure for table `oxcache`
+#
+
+DROP TABLE IF EXISTS `oxcache`;
+
+CREATE TABLE `oxcache` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Cache id',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXEXPIRE` int(11) unsigned NOT NULL default '0' COMMENT 'Expiration time',
+  `OXRESETON` char(255) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Reset id (e.g. View Reset Id)',
+  `OXSIZE` int(11) unsigned NOT NULL default '0' COMMENT 'The length of content to be added',
+  `OXHITS` int(11) unsigned NOT NULL default '0' COMMENT 'Increases when a certain id is retrieved from cache',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY(`OXEXPIRE`)
+) ENGINE=MyISAM COMMENT 'Shop cache';
+
+#
+# Table structure for table `oxfield2role`
+# Created on 2006-03-07
+#
+
+DROP TABLE IF EXISTS `oxfield2role`;
+
+CREATE TABLE `oxfield2role` (
+  `OXFIELDID` char(255) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Field id',
+  `OXTYPE` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Field type',
+  `OXROLEID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Roles id (oxroles)',
+  `OXIDX` int(1) NOT NULL COMMENT 'Role permission: 0 - Deny, 1 - Read, 2 - Full',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXFIELDID`,`OXTYPE`,`OXROLEID`),
+  KEY `OXIDX` (`OXIDX`),
+  KEY(`OXROLEID`),
+  KEY(`OXTYPE`)
+) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between fields and roles';
+
+#
+# Table structure for table `oxfield2shop`
+#
+
+DROP TABLE IF EXISTS `oxfield2shop`;
+
+CREATE TABLE `oxfield2shop` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Record id',
+  `OXARTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Article id (oxarticles)',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXPRICE` DOUBLE NOT NULL COMMENT 'Price',
+  `OXPRICEA` DOUBLE NOT NULL COMMENT 'Price A',
+  `OXPRICEB` DOUBLE NOT NULL COMMENT 'Price B',
+  `OXPRICEC` DOUBLE NOT NULL COMMENT 'Price C',
+  `OXUPDATEPRICE` DOUBLE NOT NULL default '0' COMMENT 'If not 0, oxprice will be updated to this value on oxupdatepricetime date',
+  `OXUPDATEPRICEA` DOUBLE NOT NULL default '0' COMMENT 'If not 0, oxpricea will be updated to this value on oxupdatepricetime date',
+  `OXUPDATEPRICEB` DOUBLE NOT NULL default '0' COMMENT 'If not 0, oxpriceb will be updated to this value on oxupdatepricetime date',
+  `OXUPDATEPRICEC` DOUBLE NOT NULL default '0' COMMENT 'If not 0, oxpricec will be updated to this value on oxupdatepricetime date',
+  `OXUPDATEPRICETIME` TIMESTAMP NOT NULL default '0000-00-00 00:00:00' COMMENT 'Date, when oxprice[a,b,c] should be updated to oxupdateprice[a,b,c] values',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY ( `OXID` ) ,
+  INDEX ( `OXARTID` , `OXSHOPID` ),
+  KEY `OXUPDATEPRICETIME` ( `OXUPDATEPRICETIME` ),
+  KEY `OXPRICE` ( `OXPRICE` )
+) ENGINE=MYISAM COMMENT 'Shows many-to-many relationship between fields and shops (multishops fields)';
+
+#
+# Table structure for table `oxobject2role`
+# Created on 2006-03-07
+#
+
+DROP TABLE IF EXISTS `oxobject2role`;
+
+CREATE TABLE `oxobject2role` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Record id',
+  `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Object id (e.g. oxgroups, oxuser)',
+  `OXROLEID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Role id (oxroles)',
+  `OXTYPE` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Type (t.g. oxgroups, oxuser)',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY (`OXROLEID`),
+  KEY (`OXOBJECTID`)
+) ENGINE=MyISAM COMMENT 'Shows many-to-many relationship between roles and objects (table determined by oxtype)';
+
+#
+# Table structure for table `oxobjectrights`
+#
+
+DROP TABLE IF EXISTS `oxobjectrights`;
+
+CREATE TABLE `oxobjectrights` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Record id',
+  `OXOBJECTID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Object id ()',
+  `OXGROUPIDX` bigint(20) unsigned NOT NULL COMMENT 'Group index',
+  `OXOFFSET` int(10) unsigned NOT NULL COMMENT  'Group numeric index',
+  `OXACTION` int(10) unsigned NOT NULL COMMENT 'Action',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXOBJECTID`,`OXOFFSET`,`OXACTION`),
+  KEY(`OXOBJECTID`),
+  KEY(`OXOFFSET`),
+  KEY(`OXACTION`)
+) ENGINE=MyISAM COMMENT 'Object rights';
+
+#
+# Table structure for table `oxroles`
+# Created on 2006-03-07
+#
+
+DROP TABLE IF EXISTS `oxroles`;
+
+CREATE TABLE `oxroles` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Role id',
+  `OXTITLE` char(255) NOT NULL COMMENT 'Role title',
+  `OXSHOPID` int(11) NOT NULL default '1' COMMENT 'Shop id (oxshops)',
+  `OXACTIVE` int(1) NOT NULL default '0' COMMENT 'Active',
+  `OXAREA` int(1) NOT NULL COMMENT 'Which area this role belongs: 0 - Admin, 1 - Shop',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`),
+  KEY (`OXACTIVE`),
+  KEY(`OXSHOPID`),
+  KEY (`OXAREA`)
+) ENGINE=MyISAM COMMENT 'Shop and Admin Roles';
+
+#
+# Table structure for table `oxrolefields`
+# Created on 2006-03-07
+#
+
+DROP TABLE IF EXISTS `oxrolefields`;
+
+CREATE TABLE `oxrolefields` (
+  `OXID` char(32) character set latin1 collate latin1_general_ci NOT NULL COMMENT 'Field id',
+  `OXNAME` char(255) NOT NULL COMMENT 'Role name',
+  `OXPARAM` varchar(255) NOT NULL COMMENT 'Parameters',
+  `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  PRIMARY KEY  (`OXID`)
+) ENGINE=MyISAM;
+
+#
+# Data for table `oxrolefields`
+#
+INSERT INTO `oxrolefields` (`OXID`, `OXNAME`, `OXPARAM`) VALUES
+  ('42b44bc9934bdb406.85935627', 'TOBASKET', 'tobasket;basket'),
+  ('42b44bc9941a46fd3.13180499', 'SHOWLONGDESCRIPTION', ''),
+  ('42b44bc99488c66b1.94059993', 'SHOWARTICLEPRICE', ''),
+  ('42b44bc9950334951.12393781', 'SHOWSHORTDESCRIPTION', '');
+
+DROP TABLE IF EXISTS `oxarticles2shop`;
+CREATE TABLE IF NOT EXISTS `oxarticles2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` bigint(20) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxdiscount2shop`;
+CREATE TABLE IF NOT EXISTS `oxdiscount2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxcategories2shop`;
+CREATE TABLE IF NOT EXISTS `oxcategories2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxattribute2shop`;
+CREATE TABLE IF NOT EXISTS `oxattribute2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxlinks2shop`;
+CREATE TABLE IF NOT EXISTS `oxlinks2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxvoucherseries2shop`;
+CREATE TABLE IF NOT EXISTS `oxvoucherseries2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxmanufacturers2shop`;
+CREATE TABLE IF NOT EXISTS `oxmanufacturers2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxnews2shop`;
+CREATE TABLE IF NOT EXISTS `oxnews2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxselectlist2shop`;
+CREATE TABLE IF NOT EXISTS `oxselectlist2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxwrapping2shop`;
+CREATE TABLE IF NOT EXISTS `oxwrapping2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxdeliveryset2shop`;
+CREATE TABLE IF NOT EXISTS `oxdeliveryset2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxdelivery2shop`;
+CREATE TABLE IF NOT EXISTS `oxdelivery2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+DROP TABLE IF EXISTS `oxvendor2shop`;
+CREATE TABLE IF NOT EXISTS `oxvendor2shop` (
+  `OXSHOPID` int(11) NOT NULL COMMENT 'Mapped shop id',
+  `OXMAPOBJECTID` int(11) NOT NULL COMMENT 'Mapped object id',
+  `OXTIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Timestamp',
+  UNIQUE KEY `OXMAPIDX` (`OXSHOPID`,`OXMAPOBJECTID`),
+  KEY `OXMAPOBJECTID` (`OXMAPOBJECTID`),
+  KEY `OXSHOPID`   (`OXSHOPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 collate latin1_general_ci COMMENT='Mapping table for element subshop assignments';
+
+
+INSERT INTO `oxdeliveryset2shop` (`OXSHOPID`, `OXMAPOBJECTID`) VALUES (1, 901);
+
+#
+# Create views
+#
 
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles AS SELECT oxarticles.* FROM oxarticles;
 CREATE OR REPLACE SQL SECURITY INVOKER VIEW oxv_oxarticles_de AS SELECT OXID,OXSHOPID,OXPARENTID,OXACTIVE,OXHIDDEN,OXACTIVEFROM,OXACTIVETO,OXARTNUM,OXEAN,OXDISTEAN,OXMPN,OXTITLE,OXSHORTDESC,OXPRICE,OXBLFIXEDPRICE,OXPRICEA,OXPRICEB,OXPRICEC,OXBPRICE,OXTPRICE,OXUNITNAME,OXUNITQUANTITY,OXEXTURL,OXURLDESC,OXURLIMG,OXVAT,OXTHUMB,OXICON,OXPIC1,OXPIC2,OXPIC3,OXPIC4,OXPIC5,OXPIC6,OXPIC7,OXPIC8,OXPIC9,OXPIC10,OXPIC11,OXPIC12,OXWEIGHT,OXSTOCK,OXSTOCKFLAG,OXSTOCKTEXT,OXNOSTOCKTEXT,OXDELIVERY,OXINSERT,OXTIMESTAMP,OXLENGTH,OXWIDTH,OXHEIGHT,OXFILE,OXSEARCHKEYS,OXTEMPLATE,OXQUESTIONEMAIL,OXISSEARCH,OXISCONFIGURABLE,OXVARNAME,OXVARSTOCK,OXVARCOUNT,OXVARSELECT,OXVARMINPRICE,OXVARMAXPRICE,OXBUNDLEID,OXFOLDER,OXSUBCLASS,OXSORT,OXSOLDAMOUNT,OXNONMATERIAL,OXFREESHIPPING,OXREMINDACTIVE,OXREMINDAMOUNT,OXAMITEMID,OXAMTASKID,OXVENDORID,OXMANUFACTURERID,OXSKIPDISCOUNTS,OXRATING,OXRATINGCNT,OXMINDELTIME,OXMAXDELTIME,OXDELTIMEUNIT,OXUPDATEPRICE, OXUPDATEPRICEA, OXUPDATEPRICEB, OXUPDATEPRICEC, OXUPDATEPRICETIME, OXISDOWNLOADABLE, OXSHOWCUSTOMAGREEMENT FROM oxarticles;
