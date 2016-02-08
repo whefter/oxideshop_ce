@@ -1916,6 +1916,7 @@ CREATE TABLE `oxorderarticles` (
   `OXSUBCLASS` char(32) NOT NULL default '' COMMENT 'Subclass',
   `OXSTORNO` tinyint(1) NOT NULL default '0' COMMENT 'Order cancelled',
   `OXORDERSHOPID` int( 11 ) NOT NULL default 1 COMMENT 'Shop id (oxshops), in which order was done',
+  `OXERPSTATUS` text NOT NULL COMMENT 'serialized ERP statuses array',
   `OXISBUNDLE` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Bundled article',
   PRIMARY KEY  (`OXID`),
   KEY `OXORDERID` (`OXORDERID`),
