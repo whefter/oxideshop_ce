@@ -4,7 +4,7 @@ ALTER TABLE `oxattribute` MODIFY `OXTITLE_2` varchar(128) NOT NULL default '';
 ALTER TABLE `oxattribute` MODIFY `OXTITLE_3` varchar(128) NOT NULL default '';
 
 ALTER TABLE `oxcountry` MODIFY `OXTITLE` varchar(128) NOT NULL default '' COMMENT 'Title (multilanguage)';
-ALTER TABLE `oxcountry` MODIFY `OXSHORTDESC` varchar(128) NOT NULL default '' COMMENT 'Short description (multilanguage)';
+ALTER TABLE `oxcountry` MODIFY `OXSHORTDESC` varchar(255) NOT NULL default '' COMMENT 'Short description (multilanguage)';
 ALTER TABLE `oxcountry` MODIFY `OXLONGDESC` varchar(255) NOT NULL default '' COMMENT 'Long description (multilanguage)';
 ALTER TABLE `oxcountry` MODIFY `OXTITLE_1` varchar(128) NOT NULL default '';
 ALTER TABLE `oxcountry` MODIFY `OXTITLE_2` varchar(128) NOT NULL default '';
@@ -16,11 +16,19 @@ ALTER TABLE `oxcountry` MODIFY `OXLONGDESC_1` varchar(255) NOT NULL;
 ALTER TABLE `oxcountry` MODIFY `OXLONGDESC_2` varchar(255) NOT NULL;
 ALTER TABLE `oxcountry` MODIFY `OXLONGDESC_3` varchar(255) NOT NULL;
 
+ALTER TABLE `oxdiscount` MODIFY `OXTITLE` varchar(128) NOT NULL default '' COMMENT 'Title (multilanguage)';
+ALTER TABLE `oxdiscount` MODIFY `OXTITLE_1` varchar( 128 ) NOT NULL;
+ALTER TABLE `oxdiscount` MODIFY `OXTITLE_2` varchar( 128 ) NOT NULL;
+ALTER TABLE `oxdiscount` MODIFY `OXTITLE_3` varchar( 128 ) NOT NULL;
+
 ALTER TABLE `oxgroups` MODIFY `OXTITLE` varchar(128) NOT NULL default '' COMMENT 'Title (multilanguage)';
 ALTER TABLE `oxgroups` MODIFY `OXTITLE_1` varchar(128) NOT NULL default '';
 ALTER TABLE `oxgroups` MODIFY `OXTITLE_2` varchar(128) NOT NULL default '';
 ALTER TABLE `oxgroups` MODIFY `OXTITLE_3` varchar(128) NOT NULL default '';
 
+ALTER TABLE `oxvouchers` MODIFY `OXVOUCHERNR` varchar(255) NOT NULL DEFAULT '' COMMENT 'Coupon number';
+
+ALTER TABLE `oxobject2attribute` MODIFY `OXVALUE` varchar(255) NOT NULL default '' COMMENT 'Attribute value (multilanguage)';
 ALTER TABLE `oxobject2attribute` MODIFY `OXVALUE_1` varchar(255) NOT NULL default '';
 ALTER TABLE `oxobject2attribute` MODIFY `OXVALUE_2` varchar(255) NOT NULL default '';
 ALTER TABLE `oxobject2attribute` MODIFY `OXVALUE_3` varchar(255) NOT NULL default '';
@@ -31,6 +39,9 @@ ALTER TABLE `oxorder` MODIFY `OXFOLDER` varchar(32) NOT NULL default '' COMMENT 
 ALTER TABLE `oxorderarticles` MODIFY `OXFOLDER` varchar(32) NOT NULL default '' COMMENT 'Folder: ORDERFOLDER_FINISHED, ORDERFOLDER_NEW, ORDERFOLDER_PROBLEMS';
 ALTER TABLE `oxorderarticles` MODIFY `OXSUBCLASS` varchar(32) NOT NULL default '' COMMENT 'Subclass';
 
+ALTER TABLE `oxroles` MODIFY `OXTITLE` varchar(255) NOT NULL COMMENT 'Role title';
+
+ALTER TABLE `oxrolefields` MODIFY `OXNAME` varchar(255) NOT NULL COMMENT 'Role name';
 
 ALTER TABLE `oxshops` MODIFY `OXDEFCURRENCY` varchar(32) NOT NULL default '' COMMENT 'Default currency';
 
@@ -40,6 +51,11 @@ ALTER TABLE `oxactions` MODIFY `OXTITLE` varchar(128) NOT NULL default '' COMMEN
 ALTER TABLE `oxactions` MODIFY `OXTITLE_1` varchar(128) NOT NULL default '';
 ALTER TABLE `oxactions` MODIFY `OXTITLE_2` varchar(128) NOT NULL default '';
 ALTER TABLE `oxactions` MODIFY `OXTITLE_3` varchar(128) NOT NULL default '';
+
+ALTER TABLE `oxdeliveryset` MODIFY `OXTITLE` varchar(255) NOT NULL default '' COMMENT 'Title (multilanguage)';
+ALTER TABLE `oxdeliveryset` MODIFY `OXTITLE_1` varchar(255) NOT NULL default '';
+ALTER TABLE `oxdeliveryset` MODIFY `OXTITLE_2` varchar(255) NOT NULL default '';
+ALTER TABLE `oxdeliveryset` MODIFY `OXTITLE_3` varchar(255) NOT NULL default '';
 
 ALTER TABLE `oxnewssubscribed` MODIFY `OXSAL` varchar(64) NOT NULL default '' COMMENT 'User title prefix (Mr/Mrs)';
 
