@@ -42,13 +42,8 @@ class AcceptanceTestCase extends \OxidEsales\TestingLibrary\AcceptanceTestCase
             $testSqlPathProvider = new TestSqlPathProvider(new EditionSelector(), $this->getTestConfig()->getShopPath());
             $sTestSuitePath = realpath($testSqlPathProvider->getDataPathBySuitePath($sTestSuitePath));
 
-            $sFileName = $sTestSuitePath . '/demodata_' . SHOP_EDITION . '.sql';
-            if (file_exists($sFileName)) {
-                $this->importSql($sFileName);
-            }
-
-            if (isSUBSHOP && file_exists($sTestSuitePath . '/demodata_EE_mall.sql')) {
-                $this->importSql($sTestSuitePath . '/demodata_EE_mall.sql');
+            if (isSUBSHOP && file_exists($sTestSuitePath . '/demodata_mall.sql')) {
+                $this->importSql($sTestSuitePath . '/demodata_mall.sql');
             }
         }
     }
