@@ -353,6 +353,38 @@ class oxShop extends oxI18n
 
         $sQuery = "{$queryStart} `{$sViewTable}` AS SELECT {$sFields} FROM {$table}{$sJoin}";
         $this->addQuery($sQuery);
+
+        if (in_array($table, $this->getMultiShopTables()) && $shopId = $this->getId()) {
+
+            $fields = is_null($languageAbbr) ? $this->_getViewSelectMultilang($table) : $this->_getViewSelect($table, $languageId);
+            $join = is_null($languageAbbr) ? $this->_getViewJoinAll($table) : $this->_getViewJoinLang($table, $languageId);
+
+            $mappedTable = 't2s';
+            $joinSnippet = " INNER JOIN {$table}2shop as {$mappedTable} ON {$mappedTable}.oxmapobjectid={$table}.oxmapid ";
+            if ('oxobject2category' == $table) {
+                $joinSnippet = "";
+            }
+            $join = $joinSnippet . $join;
+
+            $languagePart = is_null($languageAbbr) ? '' : "_{$languageAbbr}";
+            $viewTable = "oxv_{$table}_{$shopId}{$languagePart}";
+            $sWhere = $this->_getViewWhere($table);
+
+            $query = "{$queryStart} `{$viewTable}` AS SELECT {$fields} FROM {$table}{$join}{$sWhere}";
+            $this->addQuery($query);
+        }
+    }
+
+    /**
+     * Generates and returns view WHERE query part.
+     *
+     * @param string $table Table name.
+     *
+     * @return string Generated where query.
+     */
+    protected function _getViewWhere($table = null)
+    {
+        return '';
     }
 
     /**

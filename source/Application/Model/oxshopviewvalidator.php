@@ -237,6 +237,7 @@ class oxShopViewValidator
     protected function getShopTables()
     {
         $shopTables = $this->getMultilangTables();
+        $shopTables = array_unique(array_merge($this->getMultiShopTables(), $shopTables));
 
         return $shopTables;
     }
@@ -251,6 +252,16 @@ class oxShopViewValidator
         if (in_array($tableName, $this->getMultiLangTables())) {
             foreach ($this->getAllShopLanguages() as $sLang) {
                 $this->_aValidShopViews[] = 'oxv_' . $tableName . '_' . $sLang;
+            }
+        }
+
+        if (in_array($tableName, $this->getMultiShopTables())) {
+            $this->_aValidShopViews[] = 'oxv_' . $tableName . '_' . $this->getShopId();
+        }
+
+        if (in_array($tableName, $this->getMultiShopTables()) && in_array($tableName, $this->getMultiLangTables())) {
+            foreach ($this->getLanguages() as $oneLanguage) {
+                $this->_aValidShopViews[] = 'oxv_' . $tableName . '_' . $this->getShopId() . '_' . $oneLanguage;
             }
         }
     }
