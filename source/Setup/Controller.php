@@ -344,8 +344,7 @@ class Controller extends Core
             }
         }
 
-        $editionPathSelector = $this->getEditionPathProvider();
-        $sqlDir = $editionPathSelector->getDatabaseSqlDirectory();
+        $sqlDir = 'Sql';
 
         //setting database collation
         $iUtfMode = isset($aDB['iUtfMode']) ? ((int) $aDB['iUtfMode']) : 0;
@@ -363,6 +362,12 @@ class Controller extends Core
             // install demo data
             try {
                 $oDb->queryFile("$sqlDir/demodata.sql");
+                $editionSelector = new EditionSelector();
+                if ($editionSelector->getEdition() == EditionSelector::ENTERPRISE) {
+                    $editionPathSelector = $this->getEditionPathProvider();
+                    $sqlDir = $editionPathSelector->getDatabaseSqlDirectory();
+                    $oDb->queryFile("$sqlDir/demodata.sql");
+                }
             } catch (Exception $oExcp) {
                 // there where problems with queries
                 $oView->setMessage($oLang->getText('ERROR_BAD_DEMODATA') . "<br><br>" . $oExcp->getMessage());
