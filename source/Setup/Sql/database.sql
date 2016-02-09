@@ -716,7 +716,7 @@ CREATE TABLE `oxcontents` (
   `OXTERMVERSION` char(32) character set latin1 collate latin1_general_ci NOT NULL default '' COMMENT 'Term and Conditions version (used only when OXLOADID = oxagb)',
   `OXTIMESTAMP` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Timestamp',
   PRIMARY KEY  (`OXID`),
-  UNIQUE KEY `OXLOADID` (`OXLOADID`),
+  UNIQUE KEY `OXLOADID` (`OXLOADID`, `OXSHOPID`),
   INDEX `cat_search` ( `OXTYPE` , `OXSHOPID` , `OXSNIPPET` , `OXCATID` )
 ) ENGINE=MyISAM COMMENT 'Content pages (Snippets, Menu, Categories, Manual)';
 
