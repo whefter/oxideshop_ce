@@ -497,7 +497,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
         $oConfig = oxNew('oxConfig');
         $oConfig->init();
 
-        $this->assertEquals('oxbaseshop', $oConfig->getBaseShopId());
+        $this->assertEquals(1, $oConfig->getBaseShopId());
     }
 
     /**
@@ -1761,7 +1761,7 @@ class Unit_Core_oxconfigTest extends OxidTestCase
 
         $oConfig = oxNew('oxConfig');
         $oConfig->init();
-        $this->assertEquals('oxbaseshop', $oConfig->getShopId());
+        $this->assertEquals(1, $oConfig->getShopId());
     }
 
     public function testGetUploadedFile()

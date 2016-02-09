@@ -65,9 +65,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     protected function _getO2CTable()
     {
-        $sO2CTable = 'oxv_oxobject2category_1';
-
-        return $sO2CTable;
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
     }
 
     /**
@@ -276,14 +274,15 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         if ($this->getTestConfig()->getShopEdition() == 'EE') {
             $this->markTestSkipped('This test is for Community or Professional edition only.');
         }
-
         $oTest = $this->getProxyClass('oxArticleList');
         $oTest->loadActionArticles('oxstart');
+
         $this->assertEquals(2, count($oTest));
-        $this->assertTrue($oTest['2077'] instanceof oxArticle);
-        $this->assertTrue($oTest['943ed656e21971fb2f1827facbba9bec'] instanceof oxArticle);
-        $this->assertEquals(19, $oTest['2077']->getPrice()->getBruttoPrice());
-        $this->assertEquals("Kuyichi Jeans Mick", $oTest['943ed656e21971fb2f1827facbba9bec']->oxarticles__oxtitle->value);
+        $this->assertTrue($oTest['943ed656e21971fb2f1827facbba9bec'] instanceof \oxArticle);
+        $this->assertTrue($oTest['1651'] instanceof \oxArticle);
+
+        $this->assertEquals(109, $oTest['943ed656e21971fb2f1827facbba9bec']->getPrice()->getBruttoPrice());
+        $this->assertEquals("Bierbrauset PROSIT", $oTest['1651']->oxarticles__oxtitle->value);
     }
 
     /**
@@ -381,10 +380,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $oTest->loadArticleCrossSell(1849);
         $this->assertEquals(count($oTest), 4);
 
-        $aExpect = array(1126, 2036, 'd8842e3cbf9290351.59301740', 2080);
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $aExpect = array(1126, 2036, 1876, 2080);
-        }
+        $aExpect = array(1126, 2036, 1876, 2080);
 
         foreach ($oTest as $oArticle) {
             $this->assertTrue(in_array($oArticle->oxarticles__oxid->value, $aExpect));
@@ -565,7 +561,6 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLoadCategoryIds()
     {
-
         $sArticleTable = $this->_getArticleTable();
 
         //$oTest = $this->getProxyClass('oxArticleList');
@@ -584,25 +579,18 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      *
      * @return null
      */
-    public function testLoadCategoryArticlesPE()
+    public function testLoadCategoryArticles()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
-
-        $sCatId = '8a142c3e49b5a80c1.23676990';
-        $iExptCount = 13;
+        $sCatId = '30e44ab83b6e585c9.63147165';
+        $iExptCount = 4;
 
         $oTest = $this->getProxyClass('oxArticleList');
         $sCount = $oTest->loadCategoryArticles($sCatId, null);
 
         $this->assertEquals($iExptCount, count($oTest));
         $this->assertEquals($iExptCount, $sCount);
-        $this->assertEquals("Flaschenverschluss EGO", $oTest[1131]->oxarticles__oxtitle->value);
-        $this->assertEquals("Barzange PROFI", $oTest[2080]->oxarticles__oxtitle->value);
-        $this->assertEquals(89.9, $oTest[1849]->getPrice()->getBruttoPrice());
-        $this->assertEquals(12, $oTest[1351]->getPrice()->getBruttoPrice());
-        $this->assertEquals(23, $oTest[1131]->getPrice()->getBruttoPrice());
+        $this->assertEquals("Wanduhr SPIDER", $oTest[1354]->oxarticles__oxtitle->value);
+        $this->assertEquals(29.9, $oTest[2000]->getPrice()->getBruttoPrice());
     }
 
     /**
@@ -614,13 +602,9 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLoadCategoryArticlesWithFilters()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
-
-        $sCatId = '8a142c3e60a535f16.78077188';
+        $sCatId = '30e44ab85808a1f05.26160932';
         $sAttrId = '8a142c3ee0edb75d4.80743302';
-        $iExptCount = 5;
+        $iExptCount = 4;
         $aSessionFilter = array($sCatId => array('0' => array($sAttrId => 'Zeiger')));
 
         $oTest = $this->getProxyClass('oxArticleList');
@@ -629,7 +613,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $this->assertEquals($iExptCount, count($oTest));
         $this->assertEquals($iExptCount, $sCount);
         $this->assertEquals("Wanduhr SPIDER", $oTest[1354]->oxarticles__oxtitle->value);
-        $this->assertEquals(29, $oTest[2000]->getPrice()->getBruttoPrice());
+        $this->assertEquals(29.9, $oTest[2000]->getPrice()->getBruttoPrice());
     }
 
     /**
@@ -1880,10 +1864,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $sView = getViewName('oxarticles', 1);
         $oTest->selectString("select * from $sView where oxid = '2080'");
 
-        $expectedArticleTitle = 'Champagne Pliers &amp; Bottle Opener';
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $expectedArticleTitle .= ' PROFI';
-        }
+        $expectedArticleTitle = 'Champagne Pliers &amp; Bottle Opener PROFI';
 
         $this->assertEquals($expectedArticleTitle, $oTest[2080]->oxarticles__oxtitle->value);
     }
@@ -2013,12 +1994,8 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $oTest = oxNew('oxArticleList');
         $oTest->loadTagArticles($sTag, 0);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $iCount = 4;
-            $this->assertTrue(isset($oTest[1672]));
-        } else {
-            $iCount = 3;
-        }
+        $iCount = 4;
+        $this->assertTrue(isset($oTest[1672]));
 
         $this->assertEquals($iCount, count($oTest));
         $this->assertTrue(isset($oTest[2000]));
@@ -2065,13 +2042,8 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $oTest->setCustomSorting('oxtitle desc');
         $oTest->loadTagArticles($sTag, 0);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $aExpArrayKeys = array(1354, 2000, 1672, 1771);
-            $iCount = 4;
-        } else {
-            $aExpArrayKeys = array(1354, 2000, 1771);
-            $iCount = 3;
-        }
+        $aExpArrayKeys = array(1354, 2000, 1672, 1771);
+        $iCount = 4;
 
         $this->assertEquals($iCount, count($oTest));
         $this->assertEquals($aExpArrayKeys, $oTest->ArrayKeys());
@@ -2087,20 +2059,13 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $sTag = "wanduhr";
         $oTest = oxNew('oxArticleList');
 
-        // echo "mano: ". $oTest->getBaseObject()->getViewName().'.oxtitle desc';
-
         $oTest->setCustomSorting($oTest->getBaseObject()->getViewName() . '.oxtitle desc');
 
 
         $oTest->loadTagArticles($sTag, 0);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $aExpArrayKeys = array(1354, 2000, 1672, 1771);
-            $iCount = 4;
-        } else {
-            $aExpArrayKeys = array(1354, 2000, 1771);
-            $iCount = 3;
-        }
+        $aExpArrayKeys = array(1354, 2000, 1672, 1771);
+        $iCount = 4;
 
         $this->assertEquals($iCount, count($oTest));
         $this->assertEquals($aExpArrayKeys, $oTest->ArrayKeys());
@@ -2141,11 +2106,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     {
         $sTag = "wanduhr";
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $aExpIds = array(1354, 2000, 1672, 1771);
-        } else {
-            $aExpIds = array(1354, 2000, 1771);
-        }
+        $aExpIds = array(1354, 2000, 1672, 1771);
 
         $oArtList = oxNew('oxArticleList');
         $oArtList->setCustomSorting('oxtitle desc');

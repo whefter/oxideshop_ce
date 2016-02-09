@@ -42,13 +42,8 @@ class Unit_Models_oxarticletaglistTest extends OxidTestCase
         $oArticleTagList->load('1126');
         $aTags = $oArticleTagList->getArray();
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->assertEquals(6, count($aTags));
-            $this->assertTrue(array_key_exists("wild", $aTags));
-        } else {
-            $this->assertEquals(9, count($aTags));
-            $this->assertTrue(array_key_exists("fee", $aTags));
-        }
+        $this->assertEquals(6, count($aTags));
+        $this->assertTrue(array_key_exists("wild", $aTags));
     }
 
     /**
@@ -126,15 +121,9 @@ class Unit_Models_oxarticletaglistTest extends OxidTestCase
         $oTagList = $oArticleTagList->get();
         $aTags = $oTagList->get();
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->assertEquals(8, count($aTags));
-            $this->assertTrue(array_key_exists("testtag1", $aTags));
-            $this->assertTrue(array_key_exists("a", $aTags));
-        } else {
-            $this->assertEquals(11, count($aTags));
-            $this->assertTrue(array_key_exists("testtag1", $aTags));
-            $this->assertTrue(array_key_exists("a", $aTags));
-        }
+        $this->assertEquals(8, count($aTags));
+        $this->assertTrue(array_key_exists("testtag1", $aTags));
+        $this->assertTrue(array_key_exists("a", $aTags));
 
         $oArticleTagList->set($sOriginalTags);
         $this->assertTrue($oArticleTagList->save());
@@ -215,13 +204,8 @@ class Unit_Models_oxarticletaglistTest extends OxidTestCase
         $oTagSet = $oArticleTagList->get();
         $aTags = $oTagSet->get();
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->assertEquals(6, count($aTags));
-            $this->assertTrue(array_key_exists('wild', $aTags));
-        } else {
-            $this->assertEquals(9, count($aTags));
-            $this->assertTrue(array_key_exists('fee', $aTags));
-        }
+        $this->assertEquals(6, count($aTags));
+        $this->assertTrue(array_key_exists('wild', $aTags));
 
         $this->getConfig()->setConfigParam('blUseTimeCheck', $blParam);
         $oArticle->oxarticles__oxactive->value = 1;

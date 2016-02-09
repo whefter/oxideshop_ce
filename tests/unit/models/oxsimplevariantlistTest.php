@@ -49,15 +49,9 @@ class Unit_Models_oxsimplevariantlistTest extends OxidTestCase
     //bug #441 test case for lists
     public function testParentPriceIsLoadedForVariant()
     {
-        if ($this->getTestConfig()->getShopEdition() === 'EE') {
-            $sArtId = '1661';
-            $sVariantId = '1661-01';
-            $sArtPrice = 13.9;
-        } else {
-            $sArtId = '2077';
-            $sVariantId = '8a142c4100e0b2f57.59530204';
-            $sArtPrice = 19;
-        }
+        $sArtId = '1661';
+        $sVariantId = '1661-01';
+        $sArtPrice = 13.9;
 
         $oParent = $this->getProxyClass("oxArticle");
         $oParent->setInList();

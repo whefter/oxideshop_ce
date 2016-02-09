@@ -402,33 +402,18 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
 
         $sShopUrl = $oConfig->getShopUrl(0);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sArticleId = "1849";
-            $sArticleSeoUrl = $sShopUrl . "Party/Bar-Equipment/Bar-Butler-6-BOTTLES.html";
-            $sArticleVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Hersteller-1/Bar-Butler-6-BOTTLES.html";
-            $sArticleManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Hersteller-1/Bar-Butler-6-BOTTLES.html";
-            $sArticlePriceCatSeoUrl = $sShopUrl . "Test-Price-Category-DE/Bar-Butler-6-BOTTLES.html";
-            $sArticleTagSeoUrl = $sShopUrl . "tag/cmmaterial/Bar-Butler-6-BOTTLES.html";
-            $sCategoryId = "30e44ab82c03c3848.49471214";
-            $sCategorySeoUrl = $sShopUrl . "Fuer-Sie/";
-            $sManufacturerId = "88a996f859f94176da943f38ee067984";
-            $sManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Hersteller-1/";
-            $sVendorId = "d2e44d9b31fcce448.08890330";
-            $sVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Hersteller-1/";
-        } else {
-            $sArticleId = "1964";
-            $sArticleSeoUrl = $sShopUrl . "Geschenke/Original-BUSH-Beach-Radio.html";
-            $sArticleVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Bush/Original-BUSH-Beach-Radio.html";
-            $sArticleManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Bush/Original-BUSH-Beach-Radio.html";
-            $sArticlePriceCatSeoUrl = $sShopUrl . "Test-Price-Category-DE/Original-BUSH-Beach-Radio.html";
-            $sArticleTagSeoUrl = $sShopUrl . "tag/seiner/Original-BUSH-Beach-Radio.html";
-            $sCategoryId = "8a142c3e4143562a5.46426637";
-            $sCategorySeoUrl = $sShopUrl . "Geschenke/";
-            $sManufacturerId = "fe07958b49de225bd1dbc7594fb9a6b0";
-            $sManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Haller-Stahlwaren/";
-            $sVendorId = "68342e2955d7401e6.18967838";
-            $sVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Haller-Stahlwaren/";
-        }
+        $sArticleId = "1849";
+        $sArticleSeoUrl = $sShopUrl . "Party/Bar-Equipment/Bar-Butler-6-BOTTLES.html";
+        $sArticleVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Hersteller-1/Bar-Butler-6-BOTTLES.html";
+        $sArticleManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Hersteller-1/Bar-Butler-6-BOTTLES.html";
+        $sArticlePriceCatSeoUrl = $sShopUrl . "Test-Price-Category-DE/Bar-Butler-6-BOTTLES.html";
+        $sArticleTagSeoUrl = $sShopUrl . "tag/cmmaterial/Bar-Butler-6-BOTTLES.html";
+        $sCategoryId = "30e44ab82c03c3848.49471214";
+        $sCategorySeoUrl = $sShopUrl . "Fuer-Sie/";
+        $sManufacturerId = "88a996f859f94176da943f38ee067984";
+        $sManufacturerSeoUrl = $sShopUrl . "Nach-Hersteller/Hersteller-1/";
+        $sVendorId = "d2e44d9b31fcce448.08890330";
+        $sVendorSeoUrl = $sShopUrl . "Nach-Lieferant/Hersteller-1/";
 
         $sContentId = "f41427a099a603773.44301043";
         $sContentSeoUrl = $sShopUrl . "Datenschutz/";
@@ -508,35 +493,19 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oPriceCategory->save();
 
         $sShopUrl = $oConfig->getShopUrl(0);
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sArticleId = "6b63f459c781fa42edeb889242304014";
-            $sArticleSeoUrl = $sShopUrl . "en/Eco-Fashion/Woman/Shirts/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
-            $sArticleVendorSeoUrl = $sShopUrl . "en/By-Distributor/true-fashion-com/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
-            $sArticleManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Stewart-Brown/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
-            $sArticlePriceCatSeoUrl = $sShopUrl . "en/Test-Price-Category-DE/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
-            $sArticleTagSeoUrl = $sShopUrl . "en/tag/shirt/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
-            $sTag = "shirt";
-            $sCategoryId = "30e44ab82c03c3848.49471214";
-            $sCategorySeoUrl = $sShopUrl . "en/For-Her/";
-            $sManufacturerId = "88a996f859f94176da943f38ee067984";
-            $sManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Manufacturer-1/";
-            $sVendorId = "d2e44d9b31fcce448.08890330";
-            $sVendorSeoUrl = $sShopUrl . "en/By-Distributor/Manufacturer-1/";
-        } else {
-            $sArticleId = "1964";
-            $sArticleSeoUrl = $sShopUrl . "en/Gifts/Original-BUSH-Beach-Radio.html";
-            $sArticleVendorSeoUrl = $sShopUrl . "en/By-Distributor/Bush/Original-BUSH-Beach-Radio.html";
-            $sArticleManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Bush/Original-BUSH-Beach-Radio.html";
-            $sArticlePriceCatSeoUrl = $sShopUrl . "en/Test-Price-Category-DE/Original-BUSH-Beach-Radio.html";
-            $sArticleTagSeoUrl = $sShopUrl . "en/tag/original/Original-BUSH-Beach-Radio.html";
-            $sTag = "original";
-            $sCategoryId = "8a142c3e4143562a5.46426637";
-            $sCategorySeoUrl = $sShopUrl . "en/Gifts/";
-            $sManufacturerId = "fe07958b49de225bd1dbc7594fb9a6b0";
-            $sManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Haller-Stahlwaren/";
-            $sVendorId = "68342e2955d7401e6.18967838";
-            $sVendorSeoUrl = $sShopUrl . "en/By-Distributor/Haller-Stahlwaren/";
-        }
+        $sArticleId = "6b63f459c781fa42edeb889242304014";
+        $sArticleSeoUrl = $sShopUrl . "en/Eco-Fashion/Woman/Shirts/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
+        $sArticleVendorSeoUrl = $sShopUrl . "en/By-Distributor/true-fashion-com/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
+        $sArticleManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Stewart-Brown/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
+        $sArticlePriceCatSeoUrl = $sShopUrl . "en/Test-Price-Category-DE/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
+        $sArticleTagSeoUrl = $sShopUrl . "en/tag/shirt/Stewart-Brown-Organic-Pima-Edged-Lengthen.html";
+        $sTag = "shirt";
+        $sCategoryId = "30e44ab82c03c3848.49471214";
+        $sCategorySeoUrl = $sShopUrl . "en/For-Her/";
+        $sManufacturerId = "88a996f859f94176da943f38ee067984";
+        $sManufacturerSeoUrl = $sShopUrl . "en/By-Manufacturer/Manufacturer-1/";
+        $sVendorId = "d2e44d9b31fcce448.08890330";
+        $sVendorSeoUrl = $sShopUrl . "en/By-Distributor/Manufacturer-1/";
 
         $sContentId = "f41427a099a603773.44301043";
         $sContentSeoUrl = $sShopUrl . "en/Privacy-Policy/";

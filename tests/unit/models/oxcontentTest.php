@@ -168,8 +168,8 @@ class Unit_Models_oxcontentTest extends OxidTestCase
         $oContent->save();
         $this->assertEquals($sUrl, $oContent->getStdLink());
 
-        $categoryId = ($this->getTestConfig()->getShopEdition() === 'EE')? '30e44ab83159266c7.83602558' : '8a142c3e44ea4e714.31136811';
-        $categoryCnid = ($this->getTestConfig()->getShopEdition() === 'EE')? '30e44ab82c03c3848.49471214' : '8a142c3e4143562a5.46426637';
+        $categoryId = '30e44ab83159266c7.83602558';
+        $categoryCnid = '30e44ab82c03c3848.49471214';
 
         $oContent->oxcontents__oxcatid = new oxField($categoryId);
         $oContent->save();
@@ -219,13 +219,8 @@ class Unit_Models_oxcontentTest extends OxidTestCase
         $oContent->oxcontents__oxcatid = new oxField('oxrootid');
         $this->assertEquals($sUrl, $oContent->getStdLink(0));
 
-        if ($this->getTestConfig()->getShopEdition() === 'EE') {
-            $oContent->oxcontents__oxcatid = new oxField('30e44ab83159266c7.83602558');
-            $this->assertEquals($sUrl . '&amp;cnid=30e44ab82c03c3848.49471214&amp;lang=1', $oContent->getStdLink(1));
-        } else {
-            $oContent->oxcontents__oxcatid = new oxField('8a142c3e44ea4e714.31136811');
-            $this->assertEquals($sUrl . '&amp;cnid=8a142c3e4143562a5.46426637&amp;lang=1', $oContent->getStdLink(1));
-        }
+        $oContent->oxcontents__oxcatid = new oxField('30e44ab83159266c7.83602558');
+        $this->assertEquals($sUrl . '&amp;cnid=30e44ab82c03c3848.49471214&amp;lang=1', $oContent->getStdLink(1));
     }
 
     public function testGetLinkWithDifLangParam()

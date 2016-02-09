@@ -2022,7 +2022,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
         $oOrderArticle = $oArticles->current();
 
         //check if article info was copied to oxorderarticle
-        $expected = ($this->getConfig()->getEdition() === 'EE') ? '50' : '14';
+        $expected = '50';
         $this->assertEquals($expected, $oOrderArticle->oxorderarticles__oxstock->value);
     }
 
@@ -2397,7 +2397,7 @@ class Unit_Models_oxorderTest extends OxidTestCase
     // FS#1661
     public function testUpdateWishlistRemoveFromWishListVariant()
     {
-        $sArtId = ($this->getConfig()->getEdition() === 'EE') ? '2363' : '2077';
+        $sArtId = '2363';
 
         $oBasketItem = $this->getProxyClass("oxBasketItem");
         $oBasketItem->setNonPublicVar('_sProductId', "$sArtId-01");

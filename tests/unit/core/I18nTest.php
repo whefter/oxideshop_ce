@@ -75,8 +75,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
 
     protected function getSqlShopId()
     {
-        $shopId = $this->getConfig()->getEdition() === 'EE' ? '1' : '';
-        return $shopId;
+        return '1';
     }
 
     public function testUpdateAndSeoIsOn()
@@ -379,7 +378,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(0);
 
         $shopId = $this->getSqlShopId();
-        $sExpRes = "oxid = '',oxshopid = '" . $shopId . "',oxtitle = '',oxpos = '9999',oxdisplayinbasket = '0'";
+        $sExpRes = "oxid = '',oxmapid = '',oxshopid = '" . $shopId . "',oxtitle = '',oxpos = '9999',oxdisplayinbasket = '0'";
 
         $this->assertEquals($sExpRes, $oObj->UNITgetUpdateFields());
 
@@ -392,8 +391,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(0);
         $sTable = $oObj->getViewName();
 
-        $additional = $this->getConfig()->getEdition() === 'EE' ? "`$sTable`.`oxmapid`, " : "";
-        $sExpRes = "`$sTable`.`oxid`, $additional`$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
+        $sExpRes = "`$sTable`.`oxid`, `$sTable`.`oxmapid`, `$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
 
         $this->assertEquals($sExpRes, $oObj->getSelectFields());
     }
@@ -405,7 +403,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(1);
 
         $shopId = $this->getSqlShopId();
-        $sExpRes = "oxid = '',oxshopid = '$shopId',oxtitle_1 = '',oxpos = '9999',oxdisplayinbasket = '0'";
+        $sExpRes = "oxid = '',oxmapid = '',oxshopid = '$shopId',oxtitle_1 = '',oxpos = '9999',oxdisplayinbasket = '0'";
 
         $this->assertEquals($sExpRes, $oObj->UNITgetUpdateFields());
     }
@@ -417,8 +415,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(1);
         $sTable = $oObj->getViewName();
 
-        $additional = $this->getConfig()->getEdition() === 'EE' ? "`$sTable`.`oxmapid`, " : "";
-        $sExpRes = "`$sTable`.`oxid`, $additional`$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
+        $sExpRes = "`$sTable`.`oxid`, `$sTable`.`oxmapid`, `$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
 
         $this->assertEquals($sExpRes, $oObj->getSelectFields());
     }
@@ -431,7 +428,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(1);
 
         $shopId = $this->getSqlShopId();
-        $sExpRes = "oxid = '',oxshopid = '$shopId',oxtitle = '',oxtitle_1 = '',oxtitle_2 = '',oxtitle_3 = '',oxpos = '9999',oxdisplayinbasket = '0'";
+        $sExpRes = "oxid = '',oxmapid = '0',oxshopid = '$shopId',oxtitle = '',oxtitle_1 = '',oxtitle_2 = '',oxtitle_3 = '',oxpos = '9999',oxdisplayinbasket = '0'";
 
         $this->assertEquals($sExpRes, $oObj->UNITgetUpdateFields());
     }
@@ -444,8 +441,7 @@ class Unit_Core_oxi18ntest extends OxidTestCase
         $oObj->setLanguage(1);
         $sTable = $oObj->getViewName();
 
-        $additional = $this->getConfig()->getEdition() === 'EE' ? "`$sTable`.`oxmapid`, " : "";
-        $sExpRes = "`$sTable`.`oxid`, $additional`$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxtitle_1`, `$sTable`.`oxtitle_2`, `$sTable`.`oxtitle_3`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
+        $sExpRes = "`$sTable`.`oxid`, `$sTable`.`oxmapid`, `$sTable`.`oxshopid`, `$sTable`.`oxtitle`, `$sTable`.`oxtitle_1`, `$sTable`.`oxtitle_2`, `$sTable`.`oxtitle_3`, `$sTable`.`oxpos`, `$sTable`.`oxtimestamp`, `$sTable`.`oxdisplayinbasket`";
 
         $this->assertEquals($sExpRes, $oObj->getSelectFields());
     }

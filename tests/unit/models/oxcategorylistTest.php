@@ -268,13 +268,13 @@ class Unit_Models_oxCategoryListTest extends OxidTestCase
         $this->_oList->setVar('blForceFull', false);
         $this->_oList->setVar('iForceLevel', 0);
 
-        $oCat = oxNew('oxcategory');
+        $oCat = oxNew('oxCategory');
         $oCat->load($this->_sActCat);
         $sCurSnippet = $this->_oList->UNITgetDepthSqlSnippet($oCat);
 
         $sViewName = getViewName('oxcategories');
 
-        $snippetOxid = $this->getTestConfig()->getShopEdition() === 'EE' ? '3ee44bf933cf342e2.99739972' : '8a142c3e44ea4e714.31136811';
+        $snippetOxid = '3ee44bf933cf342e2.99739972';
         $sExpSnippet = " ( 0 or ($sViewName.oxparentid = '" . $snippetOxid . "') ) ";
 
         $this->assertEquals($sExpSnippet, $sCurSnippet);
@@ -668,7 +668,7 @@ class Unit_Models_oxCategoryListTest extends OxidTestCase
         $this->_oList->setVar('blForceFull', false);
         $this->_oList->setVar('iForceLevel', 0);
 
-        $moduleName = ($this->getTestConfig()->getShopEdition() === 'EE') ? 'modContentListEE_oxcategorylist' : 'modContentListCE_oxcategorylist';
+        $moduleName = 'modContentListEE_oxcategorylist';
         oxAddClassModule($moduleName, 'oxcontentlist');
 
         $this->_oList->load();
@@ -976,25 +976,18 @@ class Unit_Models_oxCategoryListTest extends OxidTestCase
             }
         }
 
+        $aUpdateInfo = array(
+            '<b>Processing : Eco-Fashion</b>(943a9ba3050e78b443c16e043ae60ef3)<br>',
+            '<b>Processing : Für Sie</b>(30e44ab82c03c3848.49471214)<br>',
+            '<b>Processing : Für Ihn</b>(30e44ab834ea42417.86131097)<br>',
+            '<b>Processing : Wohnen</b>(30e44ab83b6e585c9.63147165)<br>',
+            '<b>Processing : Party</b>(30e44ab83fdee7564.23264141)<br>',
+            '<b>Processing : Outdoor</b>(30e44ab83d52c6d74.06410508)<br>',
+            '<b>Processing : Spiele</b>(30e44ab8539ce4931.41747937)<br>',
+            '<b>Processing : 1-8|1-8</b>(_test1)<br>',
+        );
         if ($this->getTestConfig()->getShopEdition() === 'EE') {
-            $aUpdateInfo = array(
-                '*** <b>SHOP : 1</b><br><br>',
-
-                '<b>Processing : Eco-Fashion</b>(943a9ba3050e78b443c16e043ae60ef3)<br>',
-                '<b>Processing : Für Sie</b>(30e44ab82c03c3848.49471214)<br>',
-                '<b>Processing : Für Ihn</b>(30e44ab834ea42417.86131097)<br>',
-                '<b>Processing : Wohnen</b>(30e44ab83b6e585c9.63147165)<br>',
-                '<b>Processing : Party</b>(30e44ab83fdee7564.23264141)<br>',
-                '<b>Processing : Outdoor</b>(30e44ab83d52c6d74.06410508)<br>',
-                '<b>Processing : Spiele</b>(30e44ab8539ce4931.41747937)<br>',
-                '<b>Processing : 1-8|1-8</b>(_test1)<br>',
-            );
-        } else {
-            $aUpdateInfo = array(
-                '<b>Processing : Eco-Fashion</b>(943a9ba3050e78b443c16e043ae60ef3)<br>',
-                '<b>Processing : Geschenke</b>(8a142c3e4143562a5.46426637)<br>',
-                '<b>Processing : 1-8|1-8</b>(_test1)<br>',
-            );
+            array_unshift($aUpdateInfo, '*** <b>SHOP : 1</b><br><br>');
         }
 
         $this->assertTrue($iTrue === 1 || $iTrue === 2);

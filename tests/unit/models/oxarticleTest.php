@@ -705,13 +705,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         $this->getConfig()->setConfigParam("blVariantParentBuyable", true);
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sArtId = '1661';
-            $sFPrice = '13,90';
-        } else {
-            $sArtId = '2077';
-            $sFPrice = '19,00';
-        }
+        $sArtId = '1661';
+        $sFPrice = '13,90';
 
         $oArticle = oxNew('oxArticle');
         $oArticle->load($sArtId);
@@ -729,13 +724,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         $this->getConfig()->setConfigParam("blVariantParentBuyable", true);
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sArtId = '1661';
-            $sFNPrice = '11,68';
-        } else {
-            $sArtId = '2077';
-            $sFNPrice = '15,97';
-        }
+        $sArtId = '1661';
+        $sFNPrice = '11,68';
 
         $oArticle = oxNew('oxArticle');
         $oArticle->load($sArtId);
@@ -2012,13 +2002,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle->setVar('blCalcPrice', true);
         $oAmPriceList = $oArticle->loadAmountPriceInfo();
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $amount = 3;
-        } else {
-            $amount = 4;
-        }
-
-        $this->assertEquals($amount, count($oAmPriceList));
+        $this->assertEquals(3, count($oAmPriceList));
         $this->assertEquals(27.5, $oArticle->getPrice(6)->getBruttoPrice());
 
     }
@@ -2248,13 +2232,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         $oSubj = $this->getProxyClass('oxarticle');
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sArtId = "2229";
-        } else {
-            $sArtId = "2077";
-        }
-
-        $oSubj->load($sArtId);
+        $oSubj->load("2229");
         $oVariants = $oSubj->getVariants();
 
         $this->assertTrue(count($oVariants) > 0);
@@ -2670,10 +2648,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testGetManufacturerReadOnly()
     {
-        $sManId = 'fe07958b49de225bd1dbc7594fb9a6b0';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sManId = '88a996f859f94176da943f38ee067984';
-        }
+        $sManId = '88a996f859f94176da943f38ee067984';
 
         $this->getConfig()->setConfigParam('bl_perfLoadManufacturerTree', false);
         $oArticle = $this->getMock('oxarticle', array('getManufacturerId'));
@@ -2923,12 +2898,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testIsAssignedToCategoryIsAssigned()
     {
-        $sCat = "8a142c3e4143562a5.46426637";
-        $sSql = "insert into oxobject2category (oxid, oxobjectid, oxcatnid) values ('test', '_testArt', '$sCat' )";
-        if ($this->getConfig()->getEdition() === 'EE') :
-            $sCat = "30e44ab82c03c3848.49471214";
-            $sSql = "insert into oxobject2category (oxid, oxobjectid, oxcatnid) values ('test', '_testArt', '$sCat')";
-        endif;
+        $sCat = "30e44ab82c03c3848.49471214";
+        $sSql = "insert into oxobject2category (oxid, oxobjectid, oxcatnid) values ('test', '_testArt', '$sCat')";
         $this->addToDatabase($sSql, 'oxobject2category');
         $this->assertTrue($this->_createArticle('_testArt')->isAssignedToCategory($sCat));
     }
@@ -3512,8 +3483,9 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         oxDb::getDB()->execute("update oxartextends set oxlongdesc = 'test' where oxid = '_testArt'");
         oxDb::getDB()->execute("insert into oxactions2article (oxartid, oxactionid) values ('_testArt', 'test' )");
         oxDb::getDB()->execute("insert into oxobject2list (oxobjectid, oxlistid) values ('_testArt', 'test' )");
-        oxDb::getDB()->execute("insert into oxfield2shop (oxartid, oxprice) values ('_testArt', 25 )");
-
+        if ($this->getConfig()->getEdition() === 'EE') {
+            oxDb::getDB()->execute("insert into oxfield2shop (oxartid, oxprice) values ('_testArt', 25 )");
+        }
         $oArticle->UNITdeleteRecords('_testArt');
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2article where oxarticlenid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2attribute where oxobjectid = '_testArt'"));
@@ -3527,7 +3499,9 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxartextends where oxid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxactions2article where oxartid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2list where oxobjectid = '_testArt'"));
-        $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxfield2shop where oxartid = '_testArt'"));
+        if ($this->getConfig()->getEdition() === 'EE') {
+            $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxfield2shop where oxartid = '_testArt'"));
+        }
     }
 
     /**
@@ -4855,13 +4829,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
 
         $oArticle = oxNew('oxArticle');
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(0, '1889');
-            $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
-        } else {
-            $oArticle->loadInLang(0, '1126');
-            $sExp = "Geschenke/Bar-Equipment/Bar-Set-ABSINTH.html";
-        }
+        $oArticle->loadInLang(0, '1889');
+        $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
 
         $this->assertEquals($this->getConfig()->getShopUrl() . $sExp, $oArticle->getLink());
     }
@@ -5296,13 +5265,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
 
         $oArticle = oxNew('oxArticle');
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(1, '1889');
-            $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
-        } else {
-            $oArticle->loadInLang(1, '1126');
-            $sExp = "Geschenke/Bar-Equipment/Bar-Set-ABSINTH.html";
-        }
+        $oArticle->loadInLang(1, '1889');
+        $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
 
         $this->assertEquals($this->getConfig()->getShopUrl() . $sExp, $oArticle->getLink(0));
 
@@ -6143,15 +6107,9 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testAssignParentFieldValuesSetTitle()
     {
-        $sVarId = '8a142c4100e0b2f57.59530204';
-        $sParentId = '2077';
-        $sTitle = 'Tischlampe SPHERE';
-
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sVarId = '2275-01';
-            $sParentId = '2275';
-            $sTitle = 'BBQ Grill TONNE';
-        }
+        $sVarId = '2275-01';
+        $sParentId = '2275';
+        $sTitle = 'BBQ Grill TONNE';
         $oArticle2 = oxNew('oxArticleHelper');
         $oArticle2->load($sVarId);
         $oArticle2->UNITassignParentFieldValues();

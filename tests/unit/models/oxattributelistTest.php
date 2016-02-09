@@ -220,22 +220,14 @@ class Unit_Models_oxattributelistTest extends OxidTestCase
 
     public function testGetCategoryAttributes()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
+        $sCategoryId = '30e44ab85808a1f05.26160932';
+        $sAttributeId = '8a142c3f14ef22a14.79693851';
 
-        $sCategoryId = '8a142c3e60a535f16.78077188';
-        $sAttributeId = '8a142c3e9cd961518.80299776';
-
-        $myDB = oxDb::getDb();
-        $myDB->Execute('insert into oxcategory2attribute (oxid, oxobjectid, oxattrid, oxsort) values ("test3","' . $sCategoryId . '","' . $sAttributeId . '", "333")');
-
-        $oAttrList = oxNew("oxattributelist");
+        $oAttrList = oxNew("oxAttributelist");
         $oAttrList->getCategoryAttributes($sCategoryId, 1);
         $oAttribute = $oAttrList->offsetGet($sAttributeId);
 
         $this->assertEquals(1, $oAttrList->count());
-        $this->assertEquals(6, count($oAttribute->getValues()));
+        $this->assertEquals(4, count($oAttribute->getValues()));
     }
-
 }
