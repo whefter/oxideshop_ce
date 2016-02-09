@@ -47,12 +47,12 @@ class Unit_Admin_ArticleAccessoriesAjaxTest extends OxidTestCase
 
     public function getArticleViewTable()
     {
-        return 'oxv_oxarticles_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxarticles_1_de' : 'oxv_oxarticles_de';
     }
 
     public function getObject2CategoryViewTable()
     {
-        return 'oxv_oxobject2category_1';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
     }
 
     /**

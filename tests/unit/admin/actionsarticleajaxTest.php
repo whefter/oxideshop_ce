@@ -143,11 +143,11 @@ class Unit_Admin_ActionsArticleAjaxTest extends OxidTestCase
 
     private function getArticleViewTable()
     {
-        return 'oxv_oxarticles_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxarticles_1_de' : 'oxv_oxarticles_de';
     }
 
     private function getObject2CategoryViewTable()
     {
-        return 'oxv_oxobject2category_1';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
     }
 }

@@ -90,6 +90,6 @@ class Unit_Admin_ActionsOrderAjaxTest extends OxidTestCase
 
     public function getSelectListViewTable()
     {
-        return 'oxv_oxselectlist_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxselectlist_1_de' : 'oxv_oxselectlist_de';
     }
 }

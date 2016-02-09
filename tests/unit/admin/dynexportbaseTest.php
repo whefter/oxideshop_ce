@@ -722,14 +722,9 @@ class Unit_Admin_DynExportBaseTest extends OxidTestCase
     {
         $blContinue = true;
         $this->setRequestParameter("sExportMinPrice", "1");
-        $sProdId = '8a142c4113f3b7aa3.13470399';
-        $sParentId = '2077';
-        $sTitle = 'violett';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sProdId = '1661-02';
-            $sParentId = '1661';
-            $sTitle = 'Bayer';
-        }
+        $sProdId = '1661-02';
+        $sParentId = '1661';
+        $sTitle = 'Bayer';
         $oParent = oxNew('oxArticle');
         $oParent->load($sParentId);
 

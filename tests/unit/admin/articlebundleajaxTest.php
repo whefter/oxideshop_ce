@@ -32,7 +32,7 @@ class Unit_Admin_ArticleBundleAjaxTest extends OxidTestCase
     {
         parent::setUp();
 
-        $setupArticleSql = "insert into oxarticles set oxid='_testArticleBundle', oxshopid='" . $this->getShopId() . "', oxtitle='_testArticleBundle', oxbundleid='_testBundleId'";
+        $setupArticleSql = "insert into oxarticles set oxid='_testArticleBundle', oxshopid='1', oxtitle='_testArticleBundle', oxbundleid='_testBundleId'";
 
         oxDb::getDb()->execute($setupArticleSql);
     }
@@ -49,17 +49,12 @@ class Unit_Admin_ArticleBundleAjaxTest extends OxidTestCase
 
     public function getArticleViewTable()
     {
-        return 'oxv_oxarticles_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxarticles_1_de' : 'oxv_oxarticles_de';
     }
 
     public function getObject2CategoryViewTable()
     {
-        return 'oxv_oxobject2category_1';
-    }
-
-    public function getShopId()
-    {
-        return '1';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
     }
 
     /**

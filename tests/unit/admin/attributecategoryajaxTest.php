@@ -49,7 +49,7 @@ class Unit_Admin_AttributeCategoryAjaxTest extends OxidTestCase
 
     public function getCategoryViewTable()
     {
-        return 'oxv_oxcategories_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxcategories_1_de' : 'oxv_oxcategories_de';
     }
 
     public function getgetShopIdTest()

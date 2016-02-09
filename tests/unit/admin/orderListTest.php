@@ -92,7 +92,9 @@ class Unit_Admin_OrderListTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxlang", "isAdmin", "{return 1;}");
         $sExpQ = " and ( oxorder.oxfolder = 'ORDERFOLDER_NEW' )";
-        $sExpQ .= " and oxorder.oxshopid = '1'";
+        if ($this->getConfig()->getEdition() === 'EE') {
+            $sExpQ .= " and oxorder.oxshopid = '1'";
+        }
         $oOrderList = oxNew('order_list');
         $sQ = $oOrderList->UNITprepareWhereQuery(array(), "");
         $this->assertEquals($sExpQ, $sQ);

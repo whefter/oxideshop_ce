@@ -276,7 +276,7 @@ class Unit_Admin_ManufacturerMainAjaxTest extends OxidTestCase
      */
     protected function getArticleViewTable()
     {
-        return 'oxv_oxarticles_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxarticles_1_de' : 'oxv_oxarticles_de';
     }
 
     /**
@@ -286,7 +286,7 @@ class Unit_Admin_ManufacturerMainAjaxTest extends OxidTestCase
      */
     protected function getObject2CategoryViewTable()
     {
-        return 'oxv_oxobject2category_1';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
     }
 
     /**

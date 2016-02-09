@@ -61,7 +61,7 @@ class Unit_Admin_VendorMainAjaxTest extends OxidTestCase
 
     public function getShopId()
     {
-        return $this->getConfig()->getEdition() === 'EE' ? 1 : 'oxbaseshop';
+        return 1;
     }
 
     /**

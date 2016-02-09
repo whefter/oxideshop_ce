@@ -38,10 +38,7 @@ class Unit_Admin_NewsletterSelectionTest extends OxidTestCase
         parent::setUp();
         $oDB = oxDb::getDb();
 
-        $shopId = 'oxbaseshop';
-        if ($this->getConfig()->getEdition() == 'EE') {
-            $shopId = 1;
-        }
+        $shopId = 1;
 
         $sInsert = "INSERT INTO `oxnewsletter` VALUES ( 'newstest', '{$shopId}', 'Test', 'TestHTML', 'TestPlain', 'TestSubject', NOW() )";
         $oDB->Execute($sInsert);

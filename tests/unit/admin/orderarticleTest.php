@@ -72,7 +72,7 @@ class Unit_Admin_OrderArticleTest extends OxidTestCase
         $this->getConfig()->setConfigParam('blPerfNoBasketSaving', true);
 
         // adding test order
-        $oOrder = oxNew('oxbase');
+        $oOrder = oxNew('oxBase');
         $oOrder->init('oxorder');
         $oOrder->setId('_testOrder');
         $oOrder->oxorder__oxuserid = new oxField('oxdefaultadmin');
@@ -346,17 +346,11 @@ class Unit_Admin_OrderArticleTest extends OxidTestCase
         $oList = $oView->getProductList();
         $this->assertEquals(0, $oList->count());
 
-        $iCnt = 4;
-        $searchArticleNumber = "2077";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iCnt = 3;
-            $searchArticleNumber = "1661";
-        }
-        $this->setRequestParameter("sSearchArtNum", $searchArticleNumber);
+        $this->setRequestParameter("sSearchArtNum", "1661");
 
         $oView = oxNew('Order_Article');
         $oList = $oView->getProductList();
-        $this->assertEquals($iCnt, $oList->count());
+        $this->assertEquals(3, $oList->count());
     }
 
     /**

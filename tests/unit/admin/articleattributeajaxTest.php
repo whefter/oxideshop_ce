@@ -76,7 +76,7 @@ class Unit_Admin_ArticleAttributeAjaxTest extends OxidTestCase
 
     public function getAttributeViewTable()
     {
-        return 'oxv_oxattribute_1_de';
+        return $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxattribute_1_de' : 'oxv_oxattribute_de';
     }
 
     public function getObject2AttributeViewTable()
