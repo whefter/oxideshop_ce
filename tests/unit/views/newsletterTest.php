@@ -35,7 +35,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
 
         $this->setConfigParam('blEnterNetPrice', false);
 
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->setId('test');
         $oUser->save();
     }
@@ -71,7 +71,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
         $oTestNews = oxNew("NewsLetter");
         $oArticleList = $oTestNews->getTopStartArticle();
 
-        $this->assertEquals('1849', $oArticleList->getId());
+        $this->assertEquals('2275', $oArticleList->getId());
     }
 
     /**
@@ -86,8 +86,8 @@ class Unit_Views_newsletterTest extends OxidTestCase
         $oArticleList = $oTestNews->getTopStartActionArticles();
 
         $this->assertEquals(1, count($oArticleList));
-        $this->assertEquals(89.9, $oArticleList[1849]->getPrice()->getBruttoPrice());
-        $this->assertEquals("Bar Butler 6 BOTTLES", $oArticleList[1849]->oxarticles__oxtitle->value);
+        $this->assertEquals(89.9, $oArticleList[2275]->getPrice()->getBruttoPrice());
+        $this->assertEquals("Bar Butler 6 BOTTLES", $oArticleList[2275]->oxarticles__oxtitle->value);
     }
 
     /**

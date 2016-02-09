@@ -142,15 +142,10 @@ class Unit_utf8Test extends OxidTestCase
         $shopId = $config->getBaseShopId();
         $value = 'Опрос Žiniasklaidai Gästebuch!P!-5,99__Опрос Žiniasklaidai Gästebuch@@';
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $query = "insert into oxselectlist (oxid, oxmapid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSellisttest', '777', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
-            $database->execute($query);
-            $query = "insert into oxselectlist2shop (oxmapobjectid, oxshopid ) values ('777', '$shopId')";
-            $database->execute($query);
-        } else {
-            $query = "insert into oxselectlist (oxid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSellisttest', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
-            $database->execute($query);
-        }
+        $query = "insert into oxselectlist (oxid, oxmapid, oxshopid, oxtitle, oxident, oxvaldesc) values ('_testSellisttest', '777', '$shopId', 'Опрос Žiniasklaidai Gästebuch', '_testSellisttest', '$value')";
+        $database->execute($query);
+        $query = "insert into oxselectlist2shop (oxmapobjectid, oxshopid ) values ('777', '$shopId')";
+        $database->execute($query);
 
         $query = 'insert into oxobject2selectlist (oxid, oxobjectid, oxselnid, oxsort) values ("_testSellisttest", "1651", "_testSellisttest", 1) ';
         $database->execute($query);
@@ -518,8 +513,8 @@ class Unit_utf8Test extends OxidTestCase
 
     public function testOxCategorylistSortSubCats()
     {
-        $activeCategory = $this->getTestConfig()->getShopEdition() == 'EE' ? '3ee44bf933cf342e2.99739972' : '8a142c3e44ea4e714.31136811';
-        $activeRoot = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $activeCategory = '3ee44bf933cf342e2.99739972';
+        $activeRoot = '30e44ab83fdee7564.23264141';
 
         $categoryList = $this->getProxyClass("oxCategoryList");
         $categoryList->setNonPublicVar('sShopID', null);

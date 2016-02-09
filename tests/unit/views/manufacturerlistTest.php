@@ -302,7 +302,7 @@ class Unit_Views_ManufacturerlistTest extends OxidTestCase
     public function testGetArticleListAndCount()
     {
         //testing over mock
-        $sManufacturerId = $this->getTestConfig()->getShopEdition() == 'EE'? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sManufacturerId = '88a996f859f94176da943f38ee067984';
 
         $this->setRequestParameter('cnid', $sManufacturerId);
         $this->getConfig()->setConfigParam('iNrofCatArticles', 20);
@@ -337,7 +337,7 @@ class Unit_Views_ManufacturerlistTest extends OxidTestCase
      */
     public function testGetCatTitle()
     {
-        $sManufacturerId = $this->getTestConfig()->getShopEdition() == 'EE'? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sManufacturerId = '88a996f859f94176da943f38ee067984';
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sManufacturerId);
 
@@ -353,7 +353,7 @@ class Unit_Views_ManufacturerlistTest extends OxidTestCase
      */
     public function testGetActiveCategory()
     {
-        $sManufacturerId = $this->getTestConfig()->getShopEdition() == 'EE'? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sManufacturerId = '88a996f859f94176da943f38ee067984';
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sManufacturerId);
 
@@ -394,7 +394,7 @@ class Unit_Views_ManufacturerlistTest extends OxidTestCase
      */
     public function testGetTitleSuffix()
     {
-        $sManufacturerId = $this->getTestConfig()->getShopEdition() == 'EE'? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sManufacturerId = '88a996f859f94176da943f38ee067984';
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sManufacturerId);
         $oManufacturer->oxManufacturer__oxshowsuffix = new oxField(1);

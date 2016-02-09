@@ -57,8 +57,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $this->saveChild();
         $this->_sAttributeC = '8a142c3ee0edb75d4.80743302';
         $this->_sAttributeB = '8a142c3f0a792c0c3.93013584';
-        $this->_sCategory = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e60a535f16.78077188';
-        $this->_sAttributeD = $this->getTestConfig()->getShopEdition() == 'EE' ? '8a142c3f0a792c0c3.93013584' : '8a142c3e9cd961518.80299776';
+        $this->_sCategory = '30e44ab85808a1f05.26160932';
+        $this->_sAttributeD = '8a142c3f0a792c0c3.93013584';
         $db = oxDb::getDb();
         $db->Execute('insert into oxcategory2attribute (oxid, oxobjectid, oxattrid, oxsort) values ("test3","' . $this->_sCategory . '","' . $this->_sAttributeD . '", "333")');
     }
@@ -92,7 +92,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
      */
     private function saveParent()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
 
         $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('test','test','{$sShopId}','1','4','test','','','','','1','10','50')";
@@ -107,7 +107,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
      */
     private function saveChild()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
 
         $sInsert = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXSHOPID`,`OXPARENTID`,`OXLEFT`,`OXRIGHT`,`OXTITLE`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
                    "values ('test2','test','" . $sShopId . "','test','2','3','test','','','','','1','10','50')";
@@ -302,12 +302,12 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $this->assertEquals(0, $oObj->getNrOfArticles());
         $this->getConfig()->setConfigParam('bl_perfShowActionCatArticleCnt', true);
 
-        $sCat = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $sCat = '30e44ab83fdee7564.23264141';
 
         $oObj->load($sCat);
         oxRegistry::get("oxUtilsCount")->resetCatArticleCount($oObj->getId());
 
-        $expectedArticlesCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 32;
+        $expectedArticlesCount = 6;
         $this->assertEquals($expectedArticlesCount, $oObj->getNrOfArticles());
     }
 
@@ -323,7 +323,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         oxRegistry::get("oxUtilsCount")->resetCatArticleCount($this->_oCategory->getId());
 
-        $expectedArticlesCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 34 : 24;
+        $expectedArticlesCount = 34;
         $this->assertEquals($expectedArticlesCount, $this->_oCategory->getNrOfArticles());
     }
 
@@ -419,8 +419,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $this->reload();
         $this->assertNotEquals($this->_oCategory->getId(), $this->_oCategoryB->oxcategories__oxparentid->value);
         // answer is simple - no. framework had restored recursive data to its former (valid) state.
-        $sCatId1 = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab8593023055.23928895' : '8a142c3e44ea4e714.31136811';
-        $sCatId2 = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $sCatId1 = '30e44ab8593023055.23928895';
+        $sCatId2 = '30e44ab83fdee7564.23264141';
 
         $this->_oCategoryB->oxcategories__oxparentid = new oxField($sCatId1, oxField::T_RAW);
 
@@ -521,8 +521,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $oCategory = oxNew('oxcategory');
 
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
-        $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/Wohnen/Uhren/';
+        $categoryId = '30e44ab82c03c3848.49471214';
+        $expectation = 'Fuer-Sie/';
 
         $oCategory->loadInLang(0, $categoryId);
 
@@ -538,8 +538,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         $oCategory = oxNew('oxCategory');
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83159266c7.83602558' : '8a142c3e60a535f16.78077188';
-        $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Her/Sports/' : 'en/Gifts/Living/Clocks/';
+        $categoryId = '30e44ab83159266c7.83602558';
+        $expectation = 'en/For-Her/Sports/';
 
         $oCategory->loadInLang(1, $categoryId);
 
@@ -587,8 +587,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         $oCategory = oxNew('oxCategory');
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
-        $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/Wohnen/Uhren/';
+        $categoryId = '30e44ab82c03c3848.49471214';
+        $expectation = 'Fuer-Sie/';
 
         $oCategory->load($categoryId);
 
@@ -602,8 +602,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         $oCategory = oxNew('oxCategory');
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
-        $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/Wohnen/Uhren/';
+        $categoryId = '30e44ab82c03c3848.49471214';
+        $expectation = 'Fuer-Sie/';
 
         $oCategory->loadInLang(1, $categoryId);
 
@@ -617,8 +617,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
         $oCategory = oxNew('oxCategory');
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83159266c7.83602558' : '8a142c3e60a535f16.78077188';
-        $expectation = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Her/Sports/' : 'en/Gifts/Living/Clocks/';
+        $categoryId = '30e44ab83159266c7.83602558';
+        $expectation = 'en/For-Her/Sports/';
 
         $oCategory->loadInLang(0, $categoryId);
 
@@ -756,8 +756,8 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $this->getConfig()->setConfigParam('blDontShowEmptyCategories', true);
         $oCategory = $this->getProxyClass("oxcategory");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
-        $articlesCountExpected = $this->getTestConfig()->getShopEdition() == 'EE' ? 8 : 6;
+        $categoryId = '30e44ab82c03c3848.49471214';
+        $articlesCountExpected = 8;
 
         $oCategory->load($categoryId);
         oxRegistry::get("oxUtilsCount")->resetCatArticleCount($oCategory->getId());
@@ -844,7 +844,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
 
     public function testLoadingInOtherLangs()
     {
-        $sId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83b6e585c9.63147165' : '8a142c3e44ea4e714.31136811';
+        $sId = '30e44ab83b6e585c9.63147165';
 
         oxRegistry::getLang()->setBaseLanguage(0);
         $oCategory = oxNew('oxCategory');
@@ -1043,7 +1043,7 @@ class Unit_Models_oxCategoryTest extends OxidTestCase
         $oCategory = oxNew('oxCategory');
         $this->assertNull($oCategory->getDefaultSortingMode());
 
-        $oCategoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e60a535f16.78077188';
+        $oCategoryId = '30e44ab85808a1f05.26160932';
         $oCategory->load($oCategoryId);
         $this->assertEquals(0, $oCategory->getDefaultSortingMode());
 

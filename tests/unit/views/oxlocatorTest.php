@@ -203,7 +203,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle = $this->getMock('oxArticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue('1651'));
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $sActCat = '30e44ab83fdee7564.23264141';
 
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sActCat);
@@ -266,7 +266,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? 'v_d2e44d9b31fcce448.08890330' : 'v_77442e37fdf34ccd3.94620745';
+        $sActCat = 'v_d2e44d9b31fcce448.08890330';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load(str_replace('v_', '', $sActCat));
@@ -287,7 +287,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $this->assertEquals($expectedPosition, $oVendor->iProductPos);
         $this->assertEquals($expectedCount, $oVendor->iCntOfProd);
 
-        $sPgNr = $this->getTestConfig()->getShopEdition() == 'EE'? "&amp;pgNr=1" : '';
+        $sPgNr = "&amp;pgNr=1";
         $this->assertEquals($myConfig->getShopHomeUrl() . "cl=vendorlist&amp;cnid={$sActCat}{$sPgNr}", $oVendor->toListLink);
         $this->assertEquals($sNextLink, $oVendor->nextProductLink);
         $this->assertEquals($sPrevLink, $oVendor->prevProductLink);
@@ -298,12 +298,12 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction('oxUtils', 'seoIsActive', '{ return true; }');
 
-        $sArt = $this->getTestConfig()->getShopEdition() == 'EE'? '1142' : '1964';
+        $sArt = '1142';
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
         $oCurrArticle->setLinkType(1);
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? 'v_d2e44d9b31fcce448.08890330' : 'v_77442e37fdf34ccd3.94620745';
+        $sActCat = 'v_d2e44d9b31fcce448.08890330';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load(str_replace('v_', '', $sActCat));
@@ -321,8 +321,8 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $sShopUrl = $this->getConfig()->getShopUrl();
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE' ? 2 : 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 14 : 1;
+        $expectedPosition = 2;
+        $expectedCount = 14;
         $this->assertEquals($expectedPosition, $oVendor->iProductPos);
         $this->assertEquals($expectedCount, $oVendor->iCntOfProd);
 
@@ -378,12 +378,12 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oLocator = new testOxLocator();
         $oLocator->UNITsetManufacturerLocatorData($oLocatorTarget, $oCurrArticle);
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE' ? 2 : 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 14 : 1;
+        $expectedPosition = 2;
+        $expectedCount = 14;
         $this->assertEquals($expectedPosition, $oManufacturer->iProductPos);
         $this->assertEquals($expectedCount, $oManufacturer->iCntOfProd);
 
-        $sPgNr = $this->getTestConfig()->getShopEdition() == 'EE' ? "&amp;pgNr=1" : '';
+        $sPgNr = "&amp;pgNr=1";
         $this->assertEquals($myConfig->getShopHomeUrl() . "cl=manufacturerlist&amp;mnid={$sActCat}{$sPgNr}", $oManufacturer->toListLink);
         $this->assertEquals($sNextLink, $oManufacturer->nextProductLink);
         $this->assertEquals($sPrevLink, $oManufacturer->prevProductLink);
@@ -394,7 +394,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction('oxUtils', 'seoIsActive', '{ return true; }');
 
-        $sArt = $this->getTestConfig()->getShopEdition() == 'EE'? '1142' : '1964';
+        $sArt = '1142';
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
         $oCurrArticle->setLinkType(1);
@@ -418,8 +418,8 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $sShopUrl = $this->getConfig()->getShopUrl();
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE' ? 2 : 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 14 : 1;
+        $expectedPosition = 2;
+        $expectedCount = 14;
         $this->assertEquals($expectedPosition, $oManufacturer->iProductPos);
         $this->assertEquals($expectedCount, $oManufacturer->iCntOfProd);
 
@@ -472,12 +472,12 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $oSearch = $oLocatorTarget->getActSearch();
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE' ? 2 : 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 3 : 1;
+        $expectedPosition = 2;
+        $expectedCount = 3;
         $this->assertEquals($expectedPosition, $oSearch->iProductPos);
         $this->assertEquals($expectedCount, $oSearch->iCntOfProd);
 
-        $sPgNr = $this->getTestConfig()->getShopEdition() == 'EE' ? "&amp;pgNr=1" : '';
+        $sPgNr = "&amp;pgNr=1";
         $this->assertEquals($config->getShopHomeUrl() . "cl=search{$sPgNr}&amp;searchparam=Bier&amp;listtype=search", $oSearch->toListLink);
         $this->assertEquals($sNextLink, $oSearch->nextProductLink);
         $this->assertEquals($sPrevLink, $oSearch->prevProductLink);
@@ -511,7 +511,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oLocatorTarget->expects($this->once())->method('showSorting')->will($this->returnValue(true));
         $oLocatorTarget->expects($this->any())->method('getLinkType')->will($this->returnValue(OXARTICLE_LINKTYPE_CATEGORY));
 
-        $sSearchVendor = $this->getTestConfig()->getShopEdition() == 'EE'? 'd2e44d9b31fcce448.08890330' : '68342e2955d7401e6.18967838';
+        $sSearchVendor = 'd2e44d9b31fcce448.08890330';
         $this->setRequestParameter("searchparam", 'a');
         $this->setRequestParameter("searchvendor", $sSearchVendor);
         $oLocator = new testOxLocator();
@@ -522,7 +522,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oSearch = $oLocatorTarget->getActSearch();
 
         $expectedPosition = 2;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 14 : 5;
+        $expectedCount = 14;
         $this->assertEquals($expectedPosition, $oSearch->iProductPos);
         $this->assertEquals($expectedCount, $oSearch->iCntOfProd);
 
@@ -568,7 +568,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oSearch = $oLocatorTarget->getActSearch();
 
         $expectedPosition = 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 2 : 1;
+        $expectedCount = 2;
         $this->assertEquals($expectedPosition, $oSearch->iProductPos);
         $this->assertEquals($expectedCount, $oSearch->iCntOfProd);
 
@@ -602,12 +602,12 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $oTag = $oLocatorTarget->getActTag();
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE' ? 4 : 3;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 4 : 3;
+        $expectedPosition = 4;
+        $expectedCount = 4;
         $this->assertEquals($expectedPosition, $oTag->iProductPos);
         $this->assertEquals($expectedCount, $oTag->iCntOfProd);
 
-        $iPgNr = $this->getTestConfig()->getShopEdition() == 'EE' ? 3 : 2;
+        $iPgNr = 3;
         $sPrevLink = $config->getShopHomeUrl() . "cl=details&amp;anid=1771&amp;searchtag=wanduhr&amp;listtype=tag";
         $this->assertEquals($config->getShopHomeUrl() . "cl=tag&amp;searchtag=wanduhr&amp;pgNr={$iPgNr}", $oTag->toListLink);
         $this->assertEquals($sPrevLink, $oTag->prevProductLink);
@@ -711,7 +711,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->once())->method('getId')->will($this->returnValue('1651'));
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $sActCat = '30e44ab83fdee7564.23264141';
 
         $oLocator = new testOxLocator();
 
@@ -731,7 +731,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->once())->method('getId')->will($this->returnValue('xxx'));
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
+        $sActCat = '30e44ab83fdee7564.23264141';
 
         $oLocator = new testOxLocator();
 

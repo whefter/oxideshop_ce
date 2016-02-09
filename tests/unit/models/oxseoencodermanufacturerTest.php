@@ -68,8 +68,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Hersteller/Hersteller-2/' : 'Nach-Hersteller/Bush/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'Nach-Hersteller/Hersteller-2/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->load($vendorId);
@@ -83,8 +83,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction('oxManufacturer', 'resetRootManufacturer', '{ self::$_aRootManufacturer = array() ; }');
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/' : 'en/By-Manufacturer/Bush/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'en/By-Manufacturer/Manufacturer-2/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->resetRootManufacturer();
@@ -100,8 +100,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Hersteller/Hersteller-2/' : 'Nach-Hersteller/Bush/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'Nach-Hersteller/Hersteller-2/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->loadInLang(1, $vendorId);
@@ -115,8 +115,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         oxTestModules::addFunction('oxManufacturer', 'resetRootManufacturer', '{ self::$_aRootManufacturer = array() ; }');
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/' : 'en/By-Manufacturer/Bush/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'en/By-Manufacturer/Manufacturer-2/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->resetRootManufacturer();
@@ -207,8 +207,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/101/' : 'en/By-Manufacturer/Bush/101/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'en/By-Manufacturer/Manufacturer-2/101/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->loadInLang(1, $vendorId);
@@ -221,8 +221,8 @@ class Unit_Models_oxSeoEncoderManufacturerTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $vendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2536d76675ebe5cb777411914a2fc8fb' : 'ee4948794e28d488cf1c8101e716a3f4';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Manufacturer/Manufacturer-2/101/' : 'en/By-Manufacturer/Bush/101/';
+        $vendorId = '2536d76675ebe5cb777411914a2fc8fb';
+        $link = 'en/By-Manufacturer/Manufacturer-2/101/';
 
         $manufacturer = oxNew('oxManufacturer');
         $manufacturer->loadInLang(0, $vendorId);

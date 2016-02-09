@@ -68,8 +68,8 @@ class Unit_Models_oxSeoEncoderTagTest extends OxidTestCase
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
         $sUrl = $this->getConfig()->getShopUrl(oxRegistry::getLang()->getBaseLanguage());
 
-        $sTag = $this->getTestConfig()->getShopEdition() == 'EE' ? 'hingucker' : 'erste';
-        $sAltTag = $this->getTestConfig()->getShopEdition() == 'EE' ? 'grilltonne' : 'authentisches';
+        $sTag = 'hingucker';
+        $sAltTag = 'grilltonne';
 
         $oSeoEncoderTag = oxNew('oxSeoEncoderTag');
         $this->assertEquals($sUrl . "tag/{$sTag}/16/", $oSeoEncoderTag->getTagPageUrl($sTag, 15));
@@ -99,7 +99,7 @@ class Unit_Models_oxSeoEncoderTagTest extends OxidTestCase
 
     public function testGetDynamicTagUriCreatingNew()
     {
-        $sTag = $this->getTestConfig()->getShopEdition() == 'EE' ? 'schon' : 'zauber';
+        $sTag = 'schon';
 
         $sOxid = "1126";
 

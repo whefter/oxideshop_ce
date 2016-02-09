@@ -1064,13 +1064,9 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->load('2363-02');
-            $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischfussball-BIG-KICK-ohne-Muenzeinwurf.html';
-        } else {
-            $oArticle->load('8a142c410f55ed579.98106125');
-            $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischlampe-SPHERE-rot.html';
-        }
+        $oArticle->load('2363-02');
+        $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischfussball-BIG-KICK-ohne-Muenzeinwurf.html';
+
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_loadFromDb', "_getCategory"));
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));
@@ -1091,13 +1087,8 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(1, '2363-02');
-            $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
-        } else {
-            $oArticle->loadInLang(1, '8a142c410f55ed579.98106125');
-            $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Table+Lamp+SPHERE+red.html";
-        }
+        $oArticle->loadInLang(1, '2363-02');
+        $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
 
         $oEncoder = $this->getMock('modSeoEncoderArticle', array('_loadFromDb', "_getCategory"));
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));
@@ -1118,13 +1109,8 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(1, '2363-02');
-            $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischfussball-BIG-KICK-ohne-Muenzeinwurf.html';
-        } else {
-            $oArticle->loadInLang(1, '8a142c410f55ed579.98106125');
-            $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischlampe-SPHERE-rot.html';
-        }
+        $oArticle->loadInLang(1, '2363-02');
+        $sUrl = oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . '/Tischfussball-BIG-KICK-ohne-Muenzeinwurf.html';
 
         $oEncoder = $this->getMock('oxSeoEncoderArticle', array('_loadFromDb', "_getCategory"));
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));
@@ -1142,13 +1128,8 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
 
         $oArticle = $this->getMock("oxarticle", array("inCategory"));
         $oArticle->expects($this->once())->method('inCategory')->will($this->returnValue(true));
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $oArticle->loadInLang(0, '2363-02');
-            $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
-        } else {
-            $oArticle->loadInLang(0, '8a142c410f55ed579.98106125');
-            $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Table+Lamp+SPHERE+red.html";
-        }
+        $oArticle->loadInLang(0, '2363-02');
+        $sUrl = "en/" . oxRegistry::get("oxSeoEncoder")->UNITprepareTitle($oCategory->oxcategories__oxtitle->value) . "/Soccer+Table+BIG+KICK+without+coin+slot.html";
 
         $oEncoder = $this->getMock('modSeoEncoderArticle', array('_loadFromDb', "_getCategory"));
         $oEncoder->expects($this->once())->method('_getCategory')->will($this->returnValue($oCategory));

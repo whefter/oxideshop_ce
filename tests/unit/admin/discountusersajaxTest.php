@@ -32,7 +32,7 @@ class Unit_Admin_DiscountUsersAjaxTest extends OxidTestCase
     {
         parent::setUp();
 
-        $shopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $shopId = '1';
         oxDb::getDb()->execute("insert into oxuser set oxid='_testUser1', oxusername='_testUserName1', oxshopid='$shopId'");
         oxDb::getDb()->execute("insert into oxuser set oxid='_testUser2', oxusername='_testUserName2', oxshopid='$shopId'");
         oxDb::getDb()->execute("insert into oxuser set oxid='_testUser3', oxusername='_testUserName3', oxshopid='$shopId'");

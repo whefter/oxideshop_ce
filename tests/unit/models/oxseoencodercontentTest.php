@@ -141,8 +141,8 @@ class Unit_Models_oxSeoEncoderContentTest extends OxidTestCase
         $content->setTitle('content title');
         $content->setType(2);
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e49b5a80c1.23676990';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Wohnen/content-title/' : 'Geschenke/content-title/';
+        $categoryId = '30e44ab85808a1f05.26160932';
+        $link = 'Wohnen/content-title/';
 
         $content->setCategoryId($categoryId);
 

@@ -45,7 +45,7 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
 
     public function testGetContentLoadByIdent()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
 
         $aParams['ident'] = 'oxsecurityinfo';
         $oSmarty = $this->getMock("Smarty", array("fetch"));
@@ -60,7 +60,7 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
 
     public function testGetContentLoadByIdentLangChange()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
 
         $aParams['ident'] = 'oxsecurityinfo';
         $oSmarty = $this->getMock("smarty", array("fetch"));
@@ -77,7 +77,7 @@ class Unit_Maintenance_pluginSmartyOxContentTest extends OxidTestCase
 
     public function testGetContentLoadByOxId()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
         $aParams['oxid'] = 'f41427a099a603773.44301043';
         $aParams['assign'] = true;
 

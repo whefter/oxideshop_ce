@@ -445,6 +445,6 @@ class  Integration_Seo_oxseoTest extends OxidTestCase
      */
     protected function _getShopId()
     {
-        return $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        return '1';
     }
 }

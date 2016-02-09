@@ -67,8 +67,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Lieferant/Hersteller-2/' : 'Nach-Lieferant/Bush/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'Nach-Lieferant/Hersteller-2/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load($sVndId);
@@ -84,8 +84,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $oVendor = oxNew('oxVendor');
         $oVendor->resetRootVendor();
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/' : 'en/By-Distributor/Bush/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'en/By-Distributor/Manufacturer-2/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->loadInLang(1, $sVndId);
@@ -98,8 +98,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Nach-Lieferant/Hersteller-2/' : 'Nach-Lieferant/Bush/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'Nach-Lieferant/Hersteller-2/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->loadInLang(1, $sVndId);
@@ -115,8 +115,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
         $oVendor = oxNew('oxVendor');
         $oVendor->resetRootVendor();
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/' : 'en/By-Distributor/Bush/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'en/By-Distributor/Manufacturer-2/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->loadInLang(0, $sVndId);
@@ -196,8 +196,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/101/' : 'en/By-Distributor/Bush/101/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'en/By-Distributor/Manufacturer-2/101/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->loadInLang(1, $sVndId);
@@ -210,8 +210,8 @@ class Unit_Models_oxSeoEncoderVendorTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $sVndId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b32fd2c224.65443178' : '77442e37fdf34ccd3.94620745';
-        $sUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/By-Distributor/Manufacturer-2/101/' : 'en/By-Distributor/Bush/101/';
+        $sVndId = 'd2e44d9b32fd2c224.65443178';
+        $sUrl = 'en/By-Distributor/Manufacturer-2/101/';
 
         $oVendor = oxNew('oxVendor');
         $oVendor->loadInLang(0, $sVndId);

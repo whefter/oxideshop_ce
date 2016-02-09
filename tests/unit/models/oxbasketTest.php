@@ -64,7 +64,7 @@ class Unit_Models_oxbasketTest extends OxidTestCase
 
         $this->getConfig()->setConfigParam('blPerfNoBasketSaving', true);
 
-        $sId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2275' : '2077';
+        $sId = '2275';
 
         $sNewId = oxUtilsObject::getInstance()->generateUId();
 

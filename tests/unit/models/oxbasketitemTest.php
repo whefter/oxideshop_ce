@@ -124,7 +124,7 @@ class Unit_Models_oxbasketitemTest extends OxidTestCase
      */
     public function testInitProductIsNotBuyable()
     {
-        $sProdId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2275' : '2077';
+        $sProdId = '2275';
 
         $oBasketItem = oxNew('oxBasketItem');
         try {
@@ -870,7 +870,7 @@ class Unit_Models_oxbasketitemTest extends OxidTestCase
         $this->assertEquals($article->oxarticles__oxtitle->value . ", xxx", $oBasketItem->sTitle);
         $this->assertEquals('xxx', $oBasketItem->sVarSelect);
 
-        $expectedImageName = $this->getTestConfig()->getShopEdition() == 'EE' ? '2275-01_ico.jpg' : '2077_p1_ico.jpg';
+        $expectedImageName = '2275-01_ico.jpg';
         $this->assertEquals($expectedImageName, $oBasketItem->sIcon);
 
         $this->assertEquals($article->getLink(), $oBasketItem->sLink);
@@ -1172,7 +1172,7 @@ class Unit_Models_oxbasketitemTest extends OxidTestCase
      */
     protected function createArticle()
     {
-        $articleId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2275-01' : '8a142c4100e0b2f57.59530204';
+        $articleId = '2275-01';
 
         $newArticleId = oxRegistry::get('oxUtilsObject')->generateUId();
 

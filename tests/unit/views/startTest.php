@@ -78,7 +78,7 @@ class Unit_Views_startTest extends OxidTestCase
         $this->assertTrue($aList instanceof oxarticlelist);
         $this->assertEquals(1, $aList->count());
 
-        $expectedId = $this->getTestConfig()->getShopEdition() == 'EE'? "2275" : "1849";
+        $expectedId = "2275";
         $this->assertEquals($expectedId, $aList->current()->getId());
     }
 
@@ -97,7 +97,7 @@ class Unit_Views_startTest extends OxidTestCase
 
         $oArt = $oStart->getCatOfferArticle();
 
-        $expectedId = $this->getTestConfig()->getShopEdition() == 'EE'? "1351" : "1126";
+        $expectedId = "1351";
         $this->assertEquals($expectedId, $oArt->getId());
     }
 

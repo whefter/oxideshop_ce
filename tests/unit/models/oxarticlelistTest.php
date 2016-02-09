@@ -65,7 +65,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     protected function _getO2CTable()
     {
-        $sO2CTable = $this->getTestConfig()->getShopEdition() == 'EE' ? 'oxv_oxobject2category_1' : 'oxobject2category';
+        $sO2CTable = 'oxv_oxobject2category_1';
 
         return $sO2CTable;
     }
@@ -295,7 +295,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
     {
         $oTest = $this->getProxyClass('oxArticleList');
         $oTest->loadArticleCrossSell("1849");
-        $iCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 3 : 2;
+        $iCount = 3;
 
         $this->assertEquals($iCount, $oTest->count());
     }
@@ -466,7 +466,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testGetCategorySelectSessionFilter()
     {
-        $sCatId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e60a535f16.78077188';
+        $sCatId = '30e44ab85808a1f05.26160932';
 
         $oTest = $this->getProxyClass('oxArticleList');
 
@@ -522,7 +522,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testGetFilterSql()
     {
-        $sCatId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e60a535f16.78077188';
+        $sCatId = '30e44ab85808a1f05.26160932';
 
         $oTest = $this->getProxyClass('oxArticleList');
         $sRes = '';
@@ -1128,7 +1128,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
         $sQCount = "select count(*) from oxarticles where oxid in (select if(oxparentid='',oxid,oxparentid) as id from oxarticles where oxprice>0 and oxprice <= $iPrice2 group by id having min(oxprice)>=$iPrice1)";
         $sCount = $this->getDb()->getOne($sQCount);
 
-        $sCatId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab82c03c3848.49471214' : '8a142c3e4143562a5.46426637';
+        $sCatId = '30e44ab82c03c3848.49471214';
 
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sCatId);
@@ -1501,7 +1501,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLoadVendorArticles()
     {
-        $sVendorId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'd2e44d9b31fcce448.08890330' : '68342e2955d7401e6.18967838';
+        $sVendorId = 'd2e44d9b31fcce448.08890330';
 
         $oTest = $this->getMock('oxArticleList', array("selectString", "_getVendorSelect"));
         $oTest->expects($this->once())->method("_getVendorSelect")
@@ -1524,7 +1524,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLoadManufacturerArticles()
     {
-        $sManId = $this->getTestConfig()->getShopEdition() == 'EE' ? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sManId = '88a996f859f94176da943f38ee067984';
 
         $oTest = $this->getMock('oxArticleList', array("selectString", "_getManufacturerSelect"));
         $oTest->expects($this->once())->method("_getManufacturerSelect")
@@ -1725,7 +1725,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLazyLoadFields1()
     {
-        $sDate = $this->getTestConfig()->getShopEdition() == 'EE' ? '2006-07-05' : '2005-07-28';
+        $sDate = '2006-07-05';
 
         $oTest = $this->getProxyClass("oxArticleList");
         $oTest->selectString("select oxid from oxarticles where oxid = '2000'");
@@ -1742,7 +1742,7 @@ class Unit_Models_oxarticlelistTest extends OxidTestCase
      */
     public function testLazyLoadAllObjects1()
     {
-        $sDate = $this->getTestConfig()->getShopEdition() == 'EE' ? '2006-07-05' : '2005-07-28';
+        $sDate = '2006-07-05';
 
         $oTest = $this->getProxyClass("oxArticleList");
         $oTest->selectString("select oxid from oxarticles where oxid = '2000' or oxid = '1354'");

@@ -308,7 +308,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oDb = oxDb::getDb();
         $oDb->execute("delete from oxseohistory");
 
-        $sOxid = $this->getTestConfig()->getShopEdition() == 'EE' ? "30e44ab82c03c3848.49471214" : "8a142c3e4143562a5.46426637";
+        $sOxid = "30e44ab82c03c3848.49471214";
 
         $iShopId = $this->getConfig()->getShopId();
         $iLang = 0;
@@ -437,7 +437,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oCategory->load($sCategoryId);
 
         $oView = $this->getMock("oxUBase", array("getTag", "getActiveCategory"));
-        $tag = $this->getTestConfig()->getShopEdition() == 'EE' ? "cmmaterial" : "seiner";
+        $tag = "cmmaterial";
         $oView->expects($this->once())->method('getTag')->will($this->returnValue($tag));
         $oView->expects($this->at(0))->method('getActiveCategory')->will($this->returnValue($oCategory));
         $oView->expects($this->at(1))->method('getActiveCategory')->will($this->returnValue($oPriceCategory));
@@ -475,8 +475,8 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $this->assertEquals($sManufacturerSeoUrl, $oManufacturer->getLink(0));
 
         $oTagEncoder = oxNew('oxSeoEncoderTag');
-        $sTag = $this->getTestConfig()->getShopEdition() == 'EE' ? "messerblock" : "flaschen";
-        $sTagUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? "tag/messerblock/" : "tag/flaschen/";
+        $sTag = "messerblock";
+        $sTagUrl = "tag/messerblock/";
 
         $this->assertEquals($sShopUrl . "tag/bar-equipment/", $oTagEncoder->getTagUrl("bar equipment", 0));
         $this->assertEquals($sShopUrl . $sTagUrl, $oTagEncoder->getTagUrl($sTag, 0));
@@ -708,7 +708,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
 
         $oEncoder = oxNew('oxSeoEncoder');
 
-        $categoryUrl = $this->getTestConfig()->getShopEdition() == 'EE' ? "Party/Bar-Equipment" : "Geschenke/Bar-Equipment";
+        $categoryUrl = "Party/Bar-Equipment";
         $this->assertEquals("$categoryUrl/Bar-Set-ABSINTH.html", $oEncoder->fetchSeoUrl($sStdUrl));
     }
 
@@ -857,7 +857,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         $oEncoder->expects($this->once())->method('_loadFromDb')->with($this->equalTo('static'), $this->equalTo(md5('1xxx')), $this->equalTo(1));
         $oEncoder->getStaticUrl('xxx', 1, 1);
         // default params:
-        $shop = $this->getTestConfig()->getShopEdition() == 'EE' ? "1" : "oxbaseshop";
+        $shop = "1";
         $oEncoder = $this->getMock('oxSeoEncoder', array('_getStaticUri', '_getFullUrl'));
         $oEncoder->expects($this->once())->method('_getStaticUri')->with($this->equalTo('xxx'), $this->equalTo($shop), $this->equalTo(oxRegistry::getLang()->getEditLanguage()))->will($this->returnValue('seourl'));
         $oEncoder->expects($this->once())->method('_getFullUrl')->with($this->equalTo('seourl'))->will($this->returnValue('fullseourl'));
@@ -1031,7 +1031,7 @@ class Unit_Models_oxSeoEncoderTest extends OxidTestCase
         oxDb::getDb()->execute('delete from oxseo where oxtype != "static"');
 
         $oArticle = oxNew('oxArticle');
-        $articleId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1889' : '1126';
+        $articleId = '1889';
         $oArticle->load($articleId);
         $oArticle->getLink();
 

@@ -40,8 +40,8 @@ class Unit_Components_Widgets_oxwActionsTest extends OxidTestCase
      */
     public function testGetAction()
     {
-        $topProductCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 4;
-        $topProductId = $this->getTestConfig()->getShopEdition() == 'EE' ? '2028' : '2080';
+        $topProductCount = 6;
+        $topProductId = '2028';
 
         $this->getConfig()->setConfigParam('bl_perfLoadAktion', 1);
 

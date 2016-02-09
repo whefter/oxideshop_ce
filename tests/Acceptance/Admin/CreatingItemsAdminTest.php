@@ -1524,7 +1524,7 @@ class CreatingItemsAdminTest extends AdminTestCase
     {
         $this->executeSql("DELETE FROM `oxconfig` WHERE `OXVARNAME`='blUseMultidimensionVariants'");
 
-        $shopId = $this->getTestConfig()->getShopEdition() == 'EE' ? 1 : 'oxbaseshop';
+        $shopId = 1;
         $shopId = $this->getTestConfig()->isSubShop() ? 2 : $shopId;
         $id = $this->getTestConfig()->isSubShop() ? 'ee3uioiop3795dea7855be2d1e' : '9d1ef0f8237werea96756e2d1e';
         $this->executeSql("INSERT INTO `oxconfig` (`OXID`, `OXSHOPID`, `OXVARNAME`, `OXVARTYPE`, `OXVARVALUE`) VALUES ('$id', '$shopId', 'blUseMultidimensionVariants', 'bool', 0x07);");

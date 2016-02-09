@@ -496,7 +496,7 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
      */
     public function testInvoicepdfOxOrder_getActShop()
     {
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        $sShopId = '1';
 
         $invoicePdfOxOrder = $this->getProxyClass("InvoicepdfOxOrder");
         $oShop = $invoicePdfOxOrder->UNITgetActShop();

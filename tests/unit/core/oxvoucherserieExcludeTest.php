@@ -38,7 +38,7 @@ class Unit_Core_oxvoucherserieExcludeTest extends OxidTestCase
     protected function _insertData()
     {
         $sShopIdFields = "`OXSHOPID`";
-        $sShopIdValues = $this->getTestConfig()->getShopEdition() == 'EE' ? "1" : "'oxbaseshop'";
+        $sShopIdValues = "1";
 
         $sInsertSeries = "
         INSERT INTO `oxvoucherseries`

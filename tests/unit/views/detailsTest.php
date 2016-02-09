@@ -379,7 +379,7 @@ class Unit_Views_detailsTest extends OxidTestCase
         $this->assertTrue(isset($aTags['coolen']));
 
         // Demo data is different in EE and CE
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 5;
+        $expectedCount = 6;
         $this->assertEquals($expectedCount, count($aTags));
     }
 
@@ -789,7 +789,7 @@ class Unit_Views_detailsTest extends OxidTestCase
         $oList = $oDetails->getSimilarProducts();
         $this->assertTrue($oList instanceof oxarticlelist);
         // Demo data is different in EE and CE
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 4 : 5;
+        $expectedCount = 4;
         $this->assertEquals($expectedCount, count($oList));
     }
 
@@ -808,7 +808,7 @@ class Unit_Views_detailsTest extends OxidTestCase
         $this->assertTrue($oList instanceof oxarticlelist);
 
         // Demo data is different in EE and CE
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 3 : 2;
+        $expectedCount = 3;
         $this->assertEquals($expectedCount, $oList->count());
     }
 

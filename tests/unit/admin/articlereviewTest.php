@@ -160,7 +160,7 @@ class Unit_Admin_ArticleReviewTest extends OxidTestCase
      */
     protected function getTestArticleId()
     {
-        return $this->getTestConfig()->getShopEdition() == 'EE' ? '2363' : '2077';
+        return '2363';
     }
 
     /**
@@ -168,6 +168,6 @@ class Unit_Admin_ArticleReviewTest extends OxidTestCase
      */
     protected function getTestArticleVariantId()
     {
-        return $this->getTestConfig()->getShopEdition() == 'EE' ? '2363-01' : '8a142c4100e0b2f57.59530204';
+        return '2363-01';
     }
 }

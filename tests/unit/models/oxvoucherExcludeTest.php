@@ -155,7 +155,7 @@ class Unit_Models_oxVoucherExcludeTest extends OxidTestCase
 
         */
         $sShopFields = "`OXSHOPID`";
-        $sShopId = $this->getTestConfig()->getShopEdition() == 'EE' ? '1': "'oxbaseshop'";
+        $sShopId = '1';
         $sShopValues = $sShopId;
 
         $sInsertSeriesPart = "

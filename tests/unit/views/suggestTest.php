@@ -56,7 +56,7 @@ class Unit_Views_suggestTest extends OxidTestCase
         $oSuggest->setNonPublicVar("_oProduct", $oArticle);
         $oList = $oSuggest->getCrossSelling();
         $this->assertTrue($oList instanceof oxList);
-        $iCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 3 : 2;
+        $iCount = 3;
         $this->assertEquals($iCount, $oList->count());
     }
 
@@ -68,7 +68,7 @@ class Unit_Views_suggestTest extends OxidTestCase
         $oSuggest->setNonPublicVar("_oProduct", $oArticle);
         $oList = $oSuggest->getSimilarProducts();
         $this->assertTrue($oList instanceof oxList);
-        $iCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 4 : 5;
+        $iCount = 4;
         $this->assertEquals($iCount, count($oList));
     }
 
@@ -126,7 +126,7 @@ class Unit_Views_suggestTest extends OxidTestCase
         $oV->expects($this->any())->method('_getRequestParams')->will($this->returnValue('cl=suggest'));
         $oV->expects($this->any())->method('_getSeoRequestParams')->will($this->returnValue('cl=suggest'));
 
-        $sCnid = $this->getTestConfig()->getShopEdition() == 'EE'? '30e44ab82c03c3848.49471214' : '8a142c3e60a535f16.78077188';
+        $sCnid = '30e44ab82c03c3848.49471214';
         $this->setRequestParameter('anid', '2000');
         $this->setRequestParameter('cnid', $sCnid);
         $this->assertEquals($oCfg->getShopURL() . 'empfehlen/?cnid=' . $sCnid . '&amp;anid=2000', $oV->getLink());

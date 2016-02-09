@@ -250,6 +250,6 @@ class Unit_Admin_DeliverysetUsersAjaxTest extends OxidTestCase
      */
     protected function getShopIdTest()
     {
-        return $this->getTestConfig()->getShopEdition() == 'EE' ? '1' : 'oxbaseshop';
+        return '1';
     }
 }

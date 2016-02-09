@@ -115,10 +115,10 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83b6e585c9.63147165' : '8a142c3e4143562a5.46426637';
-        $subCategoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e60a535f16.78077188';
-        $categoryLink = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Wohnen/' : 'Geschenke/';
-        $subCategoryLink = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Wohnen/Uhren/' : 'Geschenke/Wohnen/Uhren/';
+        $categoryId = '30e44ab83b6e585c9.63147165';
+        $subCategoryId = '30e44ab85808a1f05.26160932';
+        $categoryLink = 'Wohnen/';
+        $subCategoryLink = 'Wohnen/Uhren/';
 
         $shopUrl = $this->getConfig()->getShopUrl();
         $subCategory = oxNew('oxCategory');
@@ -144,7 +144,7 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
         $categoryTree->buildTree(null);
         $categoryTree->rewind();
         $categoryTree->next();
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Sie/' : 'Geschenke/';
+        $link = 'Fuer-Sie/';
         $this->assertEquals($this->getConfig()->getShopUrl() . $link, $categoryTree->current()->getLink());
     }
 
@@ -189,8 +189,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab838094a7d2.59137554' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Ihn/Buecher/' : 'Geschenke/Fantasy/';
+        $categoryId = '30e44ab838094a7d2.59137554';
+        $link = 'Fuer-Ihn/Buecher/';
 
         $category = oxNew('oxCategory');
         $category->load($categoryId);
@@ -203,8 +203,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab838094a7d2.59137554' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Him/Books/' : 'en/Gifts/Fantasy/';
+        $categoryId = '30e44ab838094a7d2.59137554';
+        $link = 'en/For-Him/Books/';
 
         $category = oxNew('oxCategory');
         $category->loadInLang(1, $categoryId);
@@ -220,8 +220,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab838094a7d2.59137554' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'Fuer-Ihn/Buecher/' : 'Geschenke/Fantasy/';
+        $categoryId = '30e44ab838094a7d2.59137554';
+        $link = 'Fuer-Ihn/Buecher/';
 
         $category = oxNew('oxCategory');
         $category->loadInLang(1, $categoryId);
@@ -234,8 +234,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab838094a7d2.59137554' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/For-Him/Books/' : 'en/Gifts/Fantasy/';
+        $categoryId = '30e44ab838094a7d2.59137554';
+        $link = 'en/For-Him/Books/';
 
         $category = oxNew('oxCategory');
         $category->loadInLang(0, $categoryId);
@@ -266,8 +266,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/Living/Clocks/23/' : 'en/Gifts/Fantasy/23/';
+        $categoryId = '30e44ab85808a1f05.26160932';
+        $link = 'en/Living/Clocks/23/';
 
         $oCategory = oxNew('oxCategory');
         $oCategory->loadInLang(1, $categoryId);
@@ -280,8 +280,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxUtilsServer", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab85808a1f05.26160932' : '8a142c3e4d3253c95.46563530';
-        $link = $this->getTestConfig()->getShopEdition() == 'EE' ? 'en/Living/Clocks/23/' : 'en/Gifts/Fantasy/23/';
+        $categoryId = '30e44ab85808a1f05.26160932';
+        $link = 'en/Living/Clocks/23/';
 
         $category = oxNew('oxCategory');
         $category->loadInLang(0, $categoryId);
@@ -295,8 +295,8 @@ class Unit_Models_oxSeoEncoderCategoryTest extends OxidTestCase
      */
     public function testMarkRelatedAsExpired()
     {
-        $categoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
-        $subCategoryId = $this->getTestConfig()->getShopEdition() == 'EE' ? '30e44ab841af13e46.42570689' : '8a142c3e44ea4e714.31136811';
+        $categoryId = '30e44ab83fdee7564.23264141';
+        $subCategoryId = '30e44ab841af13e46.42570689';
         $articleId = 'testArt';
 
         $object2Category = oxNew('oxObject2Category');

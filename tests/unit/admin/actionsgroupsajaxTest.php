@@ -124,7 +124,7 @@ class Unit_Admin_ActionsGroupsAjaxTest extends OxidTestCase
         $this->assertEquals(0, oxDb::getDb()->getOne("select count(oxid) from oxobject2action where oxactionid='_testActionAdd'"));
         $oView->addPromotionGroup();
 
-        $count = $this->getTestConfig()->getShopEdition() == 'EE' ? 18 : 17;
+        $count = 18;
         $this->assertEquals($count, oxDb::getDb()->getOne("select count(oxid) from oxobject2action where oxactionid='_testActionAdd'"));
     }
 

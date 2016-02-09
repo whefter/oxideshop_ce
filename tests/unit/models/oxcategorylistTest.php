@@ -177,9 +177,9 @@ class Unit_Models_oxCategoryListTest extends OxidTestCase
         $this->_oList = oxNew($this->classForMock);
         $this->_sNoCat = '_no_such_cat_';
 
-        $this->_sActCat = $this->getTestConfig()->getShopEdition() === 'EE' ? '3ee44bf933cf342e2.99739972' : '8a142c3e44ea4e714.31136811';
-        $this->_sActRoot = $this->getTestConfig()->getShopEdition() === 'EE' ? '30e44ab83fdee7564.23264141' : '8a142c3e4143562a5.46426637';
-        $this->_aActPath = $this->getTestConfig()->getShopEdition() === 'EE' ? array($this->_sActRoot, '30e44ab8593023055.23928895', $this->_sActCat) : array($this->_sActRoot, $this->_sActCat);
+        $this->_sActCat = '3ee44bf933cf342e2.99739972';
+        $this->_sActRoot = '30e44ab83fdee7564.23264141';
+        $this->_aActPath = array($this->_sActRoot, '30e44ab8593023055.23928895', $this->_sActCat);
 
         $this->testAdmin = false;
         $this->cleanUpTable('oxcategories');

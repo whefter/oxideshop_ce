@@ -162,7 +162,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
     public function testGetActTagSeo()
     {
-        $sTag = $this->getTestConfig()->getShopEdition() == 'EE' ? 'ideale' : 'liebliche';
+        $sTag = 'ideale';
 
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
@@ -215,7 +215,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
     public function testGetActManufacturer()
     {
-        $sId = $this->getTestConfig()->getShopEdition() == 'EE' ? '88a996f859f94176da943f38ee067984' : 'fe07958b49de225bd1dbc7594fb9a6b0';
+        $sId = '88a996f859f94176da943f38ee067984';
         $this->setRequestParameter('mnid', $sId);
 
         $oUBase = oxNew('oxUBase');
@@ -236,7 +236,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
     public function testGetActVendor__()
     {
-        $sId = $this->getTestConfig()->getShopEdition() == 'EE' ? 'v_d2e44d9b31fcce448.08890330' : 'v_68342e2955d7401e6.18967838';
+        $sId = 'v_d2e44d9b31fcce448.08890330';
         $this->setRequestParameter('cnid', $sId);
 
         $oUBase = oxNew('oxUBase');
@@ -1570,7 +1570,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oUBase->setNonPublicVar("_blTop5Action", true);
         $aList = $oUBase->getTop5ArticleList();
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 4;
+        $expectedCount = 6;
         $this->assertEquals($expectedCount, $aList->count());
     }
 
@@ -1589,7 +1589,7 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
         $oUBase->setNonPublicVar("_blBargainAction", true);
         $aList = $oUBase->getBargainArticleList();
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 4;
+        $expectedCount = 6;
         $this->assertEquals($expectedCount, $aList->count());
     }
 
