@@ -31,7 +31,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
     protected function setUp()
     {
         parent::setUp();
-        $oPriceCat = oxNew('oxcategory');
+        $oPriceCat = oxNew('oxCategory');
         $oPriceCat->oxcategories__oxactive = new oxField(1, oxField::T_RAW);
         $oPriceCat->oxcategories__oxparentid = new oxField("oxrootid", oxField::T_RAW);
         $oPriceCat->oxcategories__oxshopid = new oxField($this->getConfig()->getBaseShopId(), oxField::T_RAW);
@@ -42,7 +42,7 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
         $this->categories[$oPriceCat->getId()] = $oPriceCat;
 
-        $oPriceCat = oxNew('oxcategory');
+        $oPriceCat = oxNew('oxCategory');
         $oPriceCat->oxcategories__oxactive = new oxField(1, oxField::T_RAW);
         $oPriceCat->oxcategories__oxparentid = new oxField("oxrootid", oxField::T_RAW);
         $oPriceCat->oxcategories__oxshopid = new oxField($this->getConfig()->getBaseShopId(), oxField::T_RAW);
@@ -84,10 +84,6 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testSetPriceCatArticleCountWhenPriceFrom0To1AndDbContainsProductWhichPriceIs0()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $article = oxNew('oxArticle');
         $article->setId("_testArticle");
         $article->oxarticles__oxshopid = new oxField($this->getConfig()->getBaseShopId());
@@ -97,21 +93,20 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
         $oUtilsCount = oxNew('oxUtilsCount');
 
-        $this->assertEquals(5, $oUtilsCount->setPriceCatArticleCount(array(), 'xxx', 'xxx', 0, 1));
+        $this->assertEquals(1, $oUtilsCount->setPriceCatArticleCount(array(), 'xxx', 'xxx', 0, 1));
     }
 
     public function testGetCatArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $this->assertEquals('0', oxRegistry::get("oxUtilsCount")->GetCatArticleCount('', true));
+        $this->assertEquals('1', oxRegistry::get("oxUtilsCount")->GetCatArticleCount('30e44ab8338d7bf06.79655612', true));
 
         oxRegistry::getUtils()->oxResetFileCache();
         $this->assertEquals('0', oxRegistry::get("oxUtilsCount")->GetCatArticleCount('', true));
+        $this->assertEquals('1', oxRegistry::get("oxUtilsCount")->GetCatArticleCount('30e44ab8338d7bf06.79655612', true));
 
-        $sCatID = '8a142c3e60a535f16.78077188';
+
+        $sCatID = '30e44ab8338d7bf06.79655612';
         $sResult = oxDb::getDb()->getOne("SELECT count(*) FROM `oxobject2category` WHERE OXCATNID = '$sCatID'");
         $this->assertEquals($sResult, oxRegistry::get("oxUtilsCount")->GetCatArticleCount($sCatID, true));
     }
@@ -121,8 +116,8 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         $myUtilsTest = oxNew('oxUtilsCount');
 
         $aCache = $myUtilsTest->UNITgetCatCache();
-        $sRet = oxRegistry::get("oxUtilsCount")->setPriceCatArticleCount($aCache, '30e44ab8338d7bf06.79655612', $myUtilsTest->UNITgetUserViewId(), 1, 100, true);
-        $sCount = oxRegistry::get("oxUtilsCount")->getPriceCatArticleCount('30e44ab8338d7bf06.79655612', 1, 100, true);
+        $sRet = oxRegistry::get("oxUtilsCount")->setPriceCatArticleCount($aCache, 'd2e44d9b32fd2c224.65443178', $myUtilsTest->UNITgetUserViewId(), 1, 100, true);
+        $sCount = oxRegistry::get("oxUtilsCount")->getPriceCatArticleCount('d2e44d9b32fd2c224.65443178', 1, 100, true);
         $this->assertEquals($sRet, $sCount);
         //to make sure there is no null == null test
         $this->assertTrue($sRet > 0);
@@ -145,16 +140,12 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testGetVendorArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
 
         $aCache = $myUtilsTest->UNITgetVendorCache();
 
-        $sRet = oxRegistry::get("oxUtilsCount")->setVendorArticleCount($aCache, '77442e37fdf34ccd3.94620745', $myUtilsTest->UNITgetUserViewId(), true);
-        $sCount = oxRegistry::get("oxUtilsCount")->getVendorArticleCount('77442e37fdf34ccd3.94620745', true, true);
+        $sRet = oxRegistry::get("oxUtilsCount")->setVendorArticleCount($aCache, 'd2e44d9b32fd2c224.65443178', $myUtilsTest->UNITgetUserViewId(), true);
+        $sCount = oxRegistry::get("oxUtilsCount")->getVendorArticleCount('d2e44d9b32fd2c224.65443178', true, true);
 
         $this->assertEquals($sRet, $sCount);
         $this->assertTrue($sRet > 0);
@@ -177,16 +168,12 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testGetManufacturerArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
 
         $aCache = $myUtilsTest->UNITgetManufacturerCache();
 
-        $sRet = oxRegistry::get("oxUtilsCount")->setManufacturerArticleCount($aCache, 'ee4948794e28d488cf1c8101e716a3f4', $myUtilsTest->UNITgetUserViewId(), true);
-        $sCount = oxRegistry::get("oxUtilsCount")->getManufacturerArticleCount('ee4948794e28d488cf1c8101e716a3f4', true, true);
+        $sRet = oxRegistry::get("oxUtilsCount")->setManufacturerArticleCount($aCache, '2536d76675ebe5cb777411914a2fc8fb', $myUtilsTest->UNITgetUserViewId(), true);
+        $sCount = oxRegistry::get("oxUtilsCount")->getManufacturerArticleCount('2536d76675ebe5cb777411914a2fc8fb', true, true);
 
         $this->assertEquals($sRet, $sCount);
         $this->assertTrue($sRet > 0);
@@ -209,38 +196,26 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testSetCatArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
-        $sRetSet = oxRegistry::get("oxUtilsCount")->setCatArticleCount(array(), '8a142c3e44ea4e714.31136811', $myUtilsTest->UNITgetUserViewId(), true);
-        $sRetGet = oxRegistry::get("oxUtilsCount")->getCatArticleCount('8a142c3e44ea4e714.31136811', true);
+        $sRetSet = oxRegistry::get("oxUtilsCount")->setCatArticleCount(array(), '30e44ab8338d7bf06.79655612', $myUtilsTest->UNITgetUserViewId(), true);
+        $sRetGet = oxRegistry::get("oxUtilsCount")->getCatArticleCount('30e44ab8338d7bf06.79655612', true);
 
         $this->assertEquals($sRetSet, $sRetGet);
-        $this->assertEquals($sRetSet, 4);
+        $this->assertEquals($sRetSet, 1);
     }
 
     public function testSetPriceCatArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
 
         $sRetSet = oxRegistry::get("oxUtilsCount")->setPriceCatArticleCount(array(), '30e44ab8338d7bf06.79655612', $myUtilsTest->UNITgetUserViewId(), 10, 100);
         $sRetGet = oxRegistry::get("oxUtilsCount")->getPriceCatArticleCount('30e44ab8338d7bf06.79655612', 10, 100, true);
         $this->assertEquals($sRetSet, $sRetGet);
-        $this->assertEquals(35, $sRetSet);
+        $this->assertEquals(48, $sRetSet);
     }
 
     public function testSetVendorArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
         $aCache = null;
         $sCatId = 'root';
@@ -251,10 +226,10 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         oxRegistry::getUtils()->oxResetFileCache();
 
         $aCache = $myUtilsTest->UNITgetVendorCache();
-        $sVendorID = '77442e37fdf34ccd3.94620745'; //Hersteller 2 from Demodata
+        $sVendorID = 'd2e44d9b31fcce448.08890330';
         $sCatId = $sVendorID;
         $sActIdent = $myUtilsTest->UNITgetUserViewId();
-        $this->assertEquals(oxRegistry::get("oxUtilsCount")->setVendorArticleCount($aCache, $sCatId, $sActIdent, true), 1);
+        $this->assertEquals(oxRegistry::get("oxUtilsCount")->setVendorArticleCount($aCache, $sCatId, $sActIdent, true), 14);
     }
 
     /**
@@ -352,10 +327,6 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testSetManufacturerArticleCount()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = oxNew('oxUtilsCount');
         $aCache = null;
         $sCatId = 'root';
@@ -366,10 +337,10 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
         oxRegistry::getUtils()->oxResetFileCache();
 
         $aCache = $myUtilsTest->UNITgetManufacturerCache();
-        $sManufacturerID = 'ee4948794e28d488cf1c8101e716a3f4'; //Hersteller 2 from Demodata
+        $sManufacturerID = '88a996f859f94176da943f38ee067984';
         $sCatId = $sManufacturerID;
         $sActIdent = $myUtilsTest->UNITgetUserViewId();
-        $this->assertEquals(oxRegistry::get("oxUtilsCount")->setManufacturerArticleCount($aCache, $sCatId, $sActIdent, true), 1);
+        $this->assertEquals(oxRegistry::get("oxUtilsCount")->setManufacturerArticleCount($aCache, $sCatId, $sActIdent, true), 14);
     }
 
     /**
@@ -581,18 +552,14 @@ class Unit_Core_oxUtilsCountTest extends OxidTestCase
 
     public function testZeroArtManufaturerCache()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community/Professional edition only.');
-        }
-
         $myUtilsTest = $this->getMock('oxUtilsCount', array('_setManufacturerCache'));
         $myUtilsTest->expects($this->once())->method('_setManufacturerCache')->with(
             $this->equalTo(
                 array(
-                     '_testManufacturerId' =>
-                         array(
-                             '973fb5f4ea0bcdf38b56557db40cb509' => 0,
-                         ),
+                    '_testManufacturerId' =>
+                        array(
+                            '2fb5911b89dddda329c256f56d1f60c5' => '0',
+                        ),
                 )
             )
         );
