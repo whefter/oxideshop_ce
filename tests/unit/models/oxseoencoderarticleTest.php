@@ -1173,11 +1173,7 @@ class Unit_Models_oxSeoEncoderArticleTest extends OxidTestCase
      */
     public function testActicleIsSavedSeoUrlShouldStayTheSame()
     {
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sArtId = '2363';
-        } else {
-            $sArtId = '1131';
-        }
+        $sArtId = '2363';
 
         $oArticle = oxNew('oxArticle');
         $oArticle->load($sArtId);

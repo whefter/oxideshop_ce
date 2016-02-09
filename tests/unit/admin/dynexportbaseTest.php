@@ -301,10 +301,7 @@ class Unit_Admin_DynExportBaseTest extends OxidTestCase
     public function testGetCategoryString()
     {
         $sOxid = '1126';
-        $sCatString = 'Geschenke/Bar-Equipment';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sCatString = 'Party/Bar-Equipment';
-        }
+        $sCatString = 'Party/Bar-Equipment';
 
         // defining parameters
         $oArticle = oxNew('oxArticle');

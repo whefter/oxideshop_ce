@@ -76,12 +76,7 @@ class Unit_Admin_OrderMainTest extends OxidTestCase
      */
     public function testSaveRecalculate()
     {
-        //
-        if ($this->getConfig()->getEdition() === 'EE') {
-            oxTestModules::addFunction('oxorder', 'load', '{}');
-        } else {
-            oxTestModules::addFunction('oxorder', 'load', '{$this->oxorder__oxshopid = new oxField("oxbaseshop");}');
-        }
+        oxTestModules::addFunction('oxorder', 'load', '{}');
         oxTestModules::addFunction('oxorder', 'save', '{}');
         oxTestModules::addFunction('oxorder', 'assign', '{}');
         oxTestModules::addFunction('oxorder', 'reloadDelivery', '{}');

@@ -635,10 +635,8 @@ class Unit_Models_oxrssfeedTest extends OxidTestCase
 
     public function testGetCategoryArticlesTitle()
     {
-        $sCatId = '8a142c3e44ea4e714.31136811';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sCatId = '30e44ab83159266c7.83602558';
-        }
+        $sCatId = '30e44ab83159266c7.83602558';
+
         oxTestModules::addFunction('oxLang', 'getBaseLanguage', '{return 1;}');
         oxTestModules::addFunction('oxLang', 'translateString', '{return $aA[0];}');
         $oRss = oxNew('oxRssFeed');

@@ -44,10 +44,7 @@ class Unit_Admin_ShopSeoTest extends OxidTestCase
      */
     public function testRender()
     {
-        $shopId = 'oxbaseshop';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $shopId = 1;
-        }
+        $shopId = 1;
         $oView = $this->getProxyClass("Shop_Seo");
         $oView->setNonPublicVar("_sEditObjectId", $shopId);
         $this->assertEquals('shop_seo.tpl', $oView->render());

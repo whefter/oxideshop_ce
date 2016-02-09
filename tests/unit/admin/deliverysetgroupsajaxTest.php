@@ -26,7 +26,7 @@
 class Unit_Admin_DeliverysetGroupsAjaxTest extends OxidTestCase
 {
 
-    protected $_sShopId = 'oxbaseshop';
+    protected $_sShopId = 1;
     protected $_sGroupsView = 'oxv_oxgroups_de';
 
     /**
@@ -46,10 +46,6 @@ class Unit_Admin_DeliverysetGroupsAjaxTest extends OxidTestCase
 
         oxDb::getDb()->execute("insert into oxgroups set oxid='_testGroup1', oxtitle='_testGroup1'");
         oxDb::getDb()->execute("insert into oxgroups set oxid='_testgroup2', oxtitle='_testGroup2'");
-
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->setShopIdTest('1');
-        }
     }
 
     /**

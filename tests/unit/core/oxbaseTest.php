@@ -1123,11 +1123,7 @@ class Unit_Core_oxbaseTest extends OxidTestCase
         $oObj->init("oxarticles");
         $oObj->modifyCacheKey(null, true);
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $expectedTranslation = 'Champagne Pliers &amp; Bottle Opener PROFI';
-        } else {
-            $expectedTranslation = 'Champagne Pliers &amp; Bottle Opener';
-        }
+        $expectedTranslation = 'Champagne Pliers &amp; Bottle Opener PROFI';
 
         $oObj->load(2080);
         $this->assertEquals(2080, $oObj->getId());

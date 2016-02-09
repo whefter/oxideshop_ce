@@ -26,7 +26,7 @@
 class Unit_Admin_DeliveryUsersAjaxTest extends OxidTestCase
 {
 
-    protected $_sShopId = 'oxbaseshop';
+    protected $_sShopId = '1';
 
     /**
      * Initialize the fixture.
@@ -45,10 +45,6 @@ class Unit_Admin_DeliveryUsersAjaxTest extends OxidTestCase
 
         oxDb::getDb()->execute("insert into oxuser set oxid='_testUser1', oxusername='_testUser1'");
         oxDb::getDb()->execute("insert into oxuser set oxid='_testUser2', oxusername='_testUser2'");
-
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->setShopIdTest('1');
-        }
     }
 
     /**

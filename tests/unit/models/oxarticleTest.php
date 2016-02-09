@@ -314,11 +314,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutils", "seoIsActive", "{return true;}");
         $sUrl = $this->getConfig()->getShopUrl();
-
-        $sMainLink = $sUrl . "Geschenke/Bar-Equipment/Bar-Set-ABSINTH.html";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sMainLink = $sUrl . "Party/Bar-Equipment/Bar-Set-ABSINTH.html";
-        }
+        $sMainLink = $sUrl . "Party/Bar-Equipment/Bar-Set-ABSINTH.html";
 
         $oArticle = oxNew('oxArticle');
         $oArticle->load("1126");
@@ -1843,13 +1839,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle = oxNew("oxArticle");
         $oArticle->load("1849");
         $oList = $oArticle->getCrossSelling();
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iCount = 3;
-        } else {
-            $iCount = 2;
-        }
         $this->assertTrue($oList instanceof oxList);
-        $this->assertEquals($iCount, $oList->count());
+        $this->assertEquals(3, $oList->count());
     }
 
     /**
@@ -2237,11 +2228,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         $oSubj = $this->getProxyClass('oxarticle');
         $oSubj->setInList();
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sArtId = "2229";
-        } else {
-            $sArtId = "2077";
-        }
+        $sArtId = "2229";
 
         $oSubj->load($sArtId);
         $oVariants = $oSubj->getVariants();
@@ -2505,11 +2492,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     {
         $oArticle = $this->_createArticle('_testArt');
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sVendId = 'd2e44d9b31fcce448.08890330';
-        } else {
-            $sVendId = '68342e2955d7401e6.18967838';
-        }
+        $sVendId = 'd2e44d9b31fcce448.08890330';
 
         $oArticle->oxarticles__oxvendorid = new oxField($sVendId, oxField::T_RAW);
         $this->assertEquals($sVendId, $oArticle->getVendorId(true));
@@ -2578,10 +2561,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testGetVendorAndId()
     {
-        $sVendId = '68342e2955d7401e6.18967838';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sVendId = 'd2e44d9b31fcce448.08890330';
-        }
+        $sVendId = 'd2e44d9b31fcce448.08890330';
 
         $oArticle = $this->_createArticle('_testArt');
         $oArticle->oxarticles__oxvendorid = new oxField($sVendId);
@@ -2623,10 +2603,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testGetVendorReadonly()
     {
-        $sVendId = '68342e2955d7401e6.18967838';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sVendId = 'd2e44d9b31fcce448.08890330';
-        }
+        $sVendId = 'd2e44d9b31fcce448.08890330';
 
         $oArticle = $this->getMock('oxarticle', array('getVendorId'));
         $oArticle->expects($this->any())->method('getVendorId')->will($this->returnValue(false));
@@ -2673,10 +2650,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testGetManufacturer()
     {
-        $sManId = 'fe07958b49de225bd1dbc7594fb9a6b0';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sManId = '88a996f859f94176da943f38ee067984';
-        }
+        $sManId = '88a996f859f94176da943f38ee067984';
 
         $oArticle = $this->getMock('oxarticle', array('getManufacturerId'));
         $oArticle->expects($this->any())->method('getManufacturerId')->will($this->returnValue(false));
@@ -2792,11 +2766,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle->load('1126');
         $oCategory = $oArticle->getCategory();
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sCatId = "30e44ab8593023055.23928895";
-        } else {
-            $sCatId = "8a142c3e49b5a80c1.23676990";
-        }
+        $sCatId = "30e44ab8593023055.23928895";
 
         $this->assertNotNull($oCategory);
         $this->assertEquals($sCatId, $oCategory->getId());
@@ -3001,10 +2971,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle = $this->_createArticle('_testArt', '_testVar');
         $oArticle->oxarticles__oxprice = new oxField(0, oxField::T_RAW);
         $oArticle->save();
-        $sCat = "8a142c3e4143562a5.46426637";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sCat = "30e44ab82c03c3848.49471214";
-        }
+        $sCat = "30e44ab82c03c3848.49471214";
         $this->assertFalse($oArticle->isAssignedToCategory($sCat));
     }
 
@@ -3545,9 +3512,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         oxDb::getDB()->execute("update oxartextends set oxlongdesc = 'test' where oxid = '_testArt'");
         oxDb::getDB()->execute("insert into oxactions2article (oxartid, oxactionid) values ('_testArt', 'test' )");
         oxDb::getDB()->execute("insert into oxobject2list (oxobjectid, oxlistid) values ('_testArt', 'test' )");
-        if ($this->getConfig()->getEdition() === 'EE') {
-            oxDb::getDB()->execute("insert into oxfield2shop (oxartid, oxprice) values ('_testArt', 25 )");
-        }
+        oxDb::getDB()->execute("insert into oxfield2shop (oxartid, oxprice) values ('_testArt', 25 )");
+
         $oArticle->UNITdeleteRecords('_testArt');
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2article where oxarticlenid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2attribute where oxobjectid = '_testArt'"));
@@ -3561,9 +3527,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxartextends where oxid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxactions2article where oxartid = '_testArt'"));
         $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxobject2list where oxobjectid = '_testArt'"));
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxfield2shop where oxartid = '_testArt'"));
-        }
+        $this->assertFalse(oxDb::getDB()->getOne("select oxid from oxfield2shop where oxartid = '_testArt'"));
     }
 
     /**
@@ -4426,10 +4390,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
     public function testGetAttributesWithSort()
     {
         $oArticle = $this->_createArticle('_testArt', '_testVar');
-        $sShopId = "oxbaseshop";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sShopId = "1";
-        }
+        $sShopId = "1";
 
         $sSql = "insert into oxattribute (oxid, oxshopid, oxtitle, oxpos ) values ('test3', '{$sShopId}', 'test3', '3')";
         $this->addToDatabase($sSql, 'oxattribute');
@@ -4794,10 +4755,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
      */
     public function testIsBuyableWithVariants1()
     {
-        $sParentArticleId = 2077;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sParentArticleId = 2363;
-        }
+        $sParentArticleId = 2363;
 
         $this->getConfig()->setConfigParam('blVariantParentBuyable', false);
         $oArticle = oxNew('oxArticleHelper');
@@ -4921,10 +4879,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle = oxNew('oxArticle');
         $oArticle->loadInLang(1, '1951');
 
-        $sExp = "en/Gifts/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sExp = "en/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
-        }
+        $sExp = "en/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
 
         $this->assertEquals($this->getConfig()->getShopUrl() . $sExp, $oArticle->getLink());
     }
@@ -6022,11 +5977,8 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle = oxNew("oxArticle");
         $oArticle->load("2000");
         $oList = $oArticle->getSimilarProducts();
-        $iCount = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iCount = 4;
-        }
-        $this->assertEquals($iCount, count($oList));
+
+        $this->assertEquals(4, count($oList));
     }
 
     /**
@@ -6049,11 +6001,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle->load('2000_varant');
         $oList = $oArticle->getSimilarProducts();
 
-        $iCount = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iCount = 4;
-        }
-        $this->assertEquals($iCount, count($oList));
+        $this->assertEquals(4, count($oList));
         $oArticle->delete();
     }
 

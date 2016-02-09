@@ -33,7 +33,7 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
     public function setUp()
     {
         parent::setUp();
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->setId('user1');
         $oUser->oxuser__oxactive = new oxField(1, oxField::T_RAW);
         $oUser->oxuser__oxshopid = new oxField($this->getConfig()->getBaseShopId(), oxField::T_RAW);
@@ -41,7 +41,7 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
         $oUser->save();
 
 
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->setId('user2');
         $oUser->oxuser__oxactive = new oxField(1, oxField::T_RAW);
         $oUser->oxuser__oxshopid = new oxField(2, oxField::T_RAW);
@@ -84,7 +84,7 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
      */
     public function tearDown()
     {
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->delete('user1');
         $oUser->delete('user2');
         $oUserBasket = oxNew('oxUserBasket');
@@ -99,22 +99,17 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
 
     public function testUserListLoadingDisabledShopcheck()
     {
-        $iUserCount = '3';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iUserCount = '8';
-        }
-
-        $oUser = oxNew('oxuser');
-        $oUserList = oxNew('oxuserlist');
+        $oUser = oxNew('oxUser');
+        $oUserList = oxNew('oxUserList');
         $oUserList->selectString($oUser->buildSelectString());
 
-        $this->assertEquals($iUserCount, $oUserList->count());
+        $this->assertEquals('8', $oUserList->count());
     }
 
     public function testLoadWishlistUsersExactUser()
     {
         // selecting count from DB
-        $oUserList = oxNew('oxuserlist');
+        $oUserList = oxNew('oxUserList');
         $oUserList->loadWishlistUsers('user2');
         $this->assertEquals(1, $oUserList->count());
     }
@@ -122,7 +117,7 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
     public function testLoadWishlistUsers()
     {
         // selecting count from DB
-        $oUserList = oxNew('oxuserlist');
+        $oUserList = oxNew('oxUserList');
         $oUserList->loadWishlistUsers('user');
         $this->assertEquals(2, $oUserList->count());
     }
@@ -130,7 +125,7 @@ class Unit_Models_oxuserlistTest extends OxidTestCase
     public function testLoadWishlistUsersEmptySearch()
     {
         // selecting count from DB
-        $oUserList = oxNew('oxuserlist');
+        $oUserList = oxNew('oxUserList');
         $oUserList->loadWishlistUsers(null);
         $this->assertEquals(0, $oUserList->count());
     }

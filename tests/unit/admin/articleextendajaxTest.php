@@ -275,11 +275,7 @@ class Unit_Admin_ArticleExtendAjaxTest extends OxidTestCase
         $this->setRequestParameter("synchoxid", $sSynchoxid);
         $this->setRequestParameter("all", true);
 
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iCount = oxDb::getDb()->getOne("select count(oxv_oxcategories_1_de.oxid)  from oxv_oxcategories_1_de where oxv_oxcategories_1_de.oxid not in (  select oxv_oxcategories_1_de.oxid from oxv_oxobject2category_1 left join oxv_oxcategories_1_de on oxv_oxcategories_1_de.oxid=oxv_oxobject2category_1.oxcatnid  where oxv_oxobject2category_1.oxobjectid = '$sSynchoxid' and oxv_oxcategories_1_de.oxid is not null ) and oxv_oxcategories_1_de.oxpriceto = '0'");
-        } else {
-            $iCount = oxDb::getDb()->getOne("select count(oxv_oxcategories_de.oxid)  from oxv_oxcategories_de where oxv_oxcategories_de.oxid not in (  select oxv_oxcategories_de.oxid from oxobject2category left join oxv_oxcategories_de on oxv_oxcategories_de.oxid=oxobject2category.oxcatnid  where oxobject2category.oxobjectid = '$sSynchoxid' and oxv_oxcategories_de.oxid is not null ) and oxv_oxcategories_de.oxpriceto = '0'");
-        }
+        $iCount = oxDb::getDb()->getOne("select count(oxv_oxcategories_1_de.oxid)  from oxv_oxcategories_1_de where oxv_oxcategories_1_de.oxid not in (  select oxv_oxcategories_1_de.oxid from oxv_oxobject2category_1 left join oxv_oxcategories_1_de on oxv_oxcategories_1_de.oxid=oxv_oxobject2category_1.oxcatnid  where oxv_oxobject2category_1.oxobjectid = '$sSynchoxid' and oxv_oxcategories_1_de.oxid is not null ) and oxv_oxcategories_1_de.oxpriceto = '0'");
 
         $oView = oxNew('article_extend_ajax');
         $this->assertGreaterThan(0, $iCount);

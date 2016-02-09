@@ -60,13 +60,7 @@ class Unit_Models_oxarticletaglistTest extends OxidTestCase
         $oArticleTagList->setLanguage(1);
         $oArticleTagList->load('2000');
         $oTagSet = $oArticleTagList->get();
-
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $iExpt = 0;
-        } else {
-            $iExpt = 1;
-        }
-        $this->assertEquals($iExpt, count($oTagSet->get()));
+        $this->assertEquals(0, count($oTagSet->get()));
     }
 
     /**

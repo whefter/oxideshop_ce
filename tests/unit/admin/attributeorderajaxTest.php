@@ -130,11 +130,6 @@ class Unit_Admin_AttributeOrderAjaxTest extends OxidTestCase
      */
     private function getVieTableName()
     {
-        $sViewTable = "oxv_oxattribute_de";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sViewTable = "oxv_oxattribute_1_de";
-        }
-
-        return $sViewTable;
+        return "oxv_oxattribute_1_de";
     }
 }

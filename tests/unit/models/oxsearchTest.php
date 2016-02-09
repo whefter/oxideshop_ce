@@ -69,10 +69,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testEmptySearchWithCorrectCategory()
     {
-        $sID = '8a142c3e49b5a80c1.23676990';
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = '30e44ab8593023055.23928895';
-        }
+        $sID = '30e44ab8593023055.23928895';
 
         $oSearch = oxNew('oxSearch');
 
@@ -122,11 +119,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll("select oxid from oxarticles where oxvendorid='$sID'");
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 10;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(10, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -144,10 +137,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testEmptySearchWithCorrectManufacturer()
     {
-        $sID = "fe07958b49de225bd1dbc7594fb9a6b0";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = "88a996f859f94176da943f38ee067984";
-        }
+        $sID = "88a996f859f94176da943f38ee067984";
 
         $oSearchList = $this->_oSearchHandler->getSearchArticles('', false, false, $sID);
         $iAllArtCnt = $this->_oSearchHandler->getSearchArticleCount('', false, false, $sID);
@@ -198,10 +188,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         // disabling oxavtive check
         oxTestModules::addFunction('oxvendor', 'getSqlActiveSnippet', '{ return "1"; }');
 
-        $sID = "68342e2955d7401e6.18967838";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = "d2e44d9b31fcce448.08890330";
-        }
+        $sID = "d2e44d9b31fcce448.08890330";
         $sSortBy = "oxprice asc";
 
         $oSearch = oxNew('oxSearch');
@@ -211,11 +198,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll("select oxid from oxarticles where oxvendorid='$sID' order by $sSortBy ");
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 10;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(10, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -233,10 +216,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testEmptySearchWithCorrectManufacturerAndWithSort()
     {
-        $sID = "fe07958b49de225bd1dbc7594fb9a6b0";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = "88a996f859f94176da943f38ee067984";
-        }
+        $sID = "88a996f859f94176da943f38ee067984";
         $sSortBy = "oxprice asc";
 
         $oSearch = oxNew('oxSearch');
@@ -246,11 +226,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll("select oxid from oxarticles where oxmanufacturerid='$sID' order by $sSortBy ");
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 10;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(10, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -282,11 +258,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll($sQ);
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 8;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 5;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(5, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -353,10 +325,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testSearchWithParamCorrectVendor()
     {
-        $sID = "68342e2955d7401e6.18967838";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = "d2e44d9b31fcce448.08890330";
-        }
+        $sID = "d2e44d9b31fcce448.08890330";
 
         $oSearch = oxNew('oxSearch');
 
@@ -397,10 +366,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testSearchWithParamCorrectManufacturer()
     {
-        $sID = "fe07958b49de225bd1dbc7594fb9a6b0";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sID = "88a996f859f94176da943f38ee067984";
-        }
+        $sID = "88a996f859f94176da943f38ee067984";
 
         $oSearch = oxNew('oxSearch');
 
@@ -466,11 +432,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll($sQ);
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 8;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(8, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -488,10 +450,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testSearchWithParamWrongVendorCorrectCat()
     {
-        $sIDCat = "8a142c3e4d3253c95.46563530";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sIDCat = "30e44ab8593023055.23928895";
-        }
+        $sIDCat = "30e44ab8593023055.23928895";
 
         $oSearch = oxNew('oxSearch');
         $oSearchList = $oSearch->getSearchArticles("bar", $sIDCat, "sdfsdf");
@@ -518,10 +477,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testSearchWithParamCorrectVendorWrongCat()
     {
-        $sIDVend = "68342e2955d7401e6.18967838";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sIDVend = "d2e44d9b31fcce448.08890330";
-        }
+        $sIDVend = "d2e44d9b31fcce448.08890330";
 
         $oSearch = oxNew('oxSearch');
         $oSearchList = $oSearch->getSearchArticles("bar", "xxx", $sIDVend);
@@ -573,11 +529,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
         $aAll = oxDB::getDb()->getAll($sQ);
 
         // testing if article count in list is <= 'iNrofCatArticles' = 10;
-        $count = 5;
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $count = 8;
-        }
-        $this->assertEquals($count, $oSearchList->count());
+        $this->assertEquals(8, $oSearchList->count());
         $this->assertEquals(count($aAll), $iAllArtCnt);
 
         // now looking if all found articles are correct
@@ -636,10 +588,7 @@ class Unit_Models_oxsearchTest extends OxidTestCase
 
     public function testGetSearchSelectIllegalVendor()
     {
-        $sIDCat = "8a142c3e4d3253c95.46563530";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sIDCat = "30e44ab8593023055.23928895";
-        }
+        $sIDCat = "30e44ab8593023055.23928895";
 
         $oSearch = oxNew('oxSearch');
         $this->assertNull($oSearch->UNITgetSearchSelect('x', $sIDCat, 'yyy'));
