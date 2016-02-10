@@ -38,7 +38,7 @@ class Integration_Timestamp_TimestampTest extends OxidTestCase
         }
 
         // OXID is not string in oxshops table !!!
-        oxDb::getDb()->execute("DELETE FROM `oxshops` WHERE `oxid` = '0'");
+        oxDb::getDb()->execute("DELETE FROM `oxshops` WHERE `oxid` = 0");
 
         parent::tearDown();
     }

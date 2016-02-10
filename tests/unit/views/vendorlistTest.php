@@ -305,13 +305,8 @@ class Unit_Views_VendorListTest extends OxidTestCase
     {
         oxTestModules::addFunction("oxutilsserver", "getServerVar", "{ \$aArgs = func_get_args(); if ( \$aArgs[0] === 'HTTP_HOST' ) { return '" . $this->getConfig()->getShopUrl() . "'; } elseif ( \$aArgs[0] === 'SCRIPT_NAME' ) { return ''; } else { return \$_SERVER[\$aArgs[0]]; } }");
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sVendorId = 'd2e44d9b31fcce448.08890330';
-            $sRez = $this->getConfig()->getShopURL() . "Nach-Lieferant/Hersteller-1/3/";
-        } else {
-            $sVendorId = '68342e2955d7401e6.18967838';
-            $sRez = $this->getConfig()->getShopURL() . "Nach-Lieferant/Haller-Stahlwaren/3/";
-        }
+        $sVendorId = 'd2e44d9b31fcce448.08890330';
+        $sRez = $this->getConfig()->getShopURL() . "Nach-Lieferant/Hersteller-1/3/";
 
         $oVendor = oxNew('oxVendor');
         $oVendor->load($sVendorId);

@@ -503,7 +503,7 @@ class Unit_Views_reviewTest extends OxidTestCase
         $oReview->setNonPublicVar("_oProduct", $oArticle);
         $oList = $oReview->getCrossSelling();
         $this->assertTrue($oList instanceof oxList);
-        $iCount = $this->getTestConfig()->getShopEdition() == 'EE'? 3 : 2;
+        $iCount = 3;
         $this->assertEquals($iCount, $oList->count());
     }
 
@@ -514,7 +514,7 @@ class Unit_Views_reviewTest extends OxidTestCase
         $oArticle->load("2000");
         $oReview->setNonPublicVar("_oProduct", $oArticle);
         $oList = $oReview->getSimilarProducts();
-        $iCount = $this->getTestConfig()->getShopEdition() == 'EE'? 4 : 5;
+        $iCount = 4;
         $this->assertEquals($iCount, count($oList));
     }
 

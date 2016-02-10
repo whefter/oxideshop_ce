@@ -899,29 +899,26 @@ class Unit_Views_detailsTest extends OxidTestCase
      */
     public function testMetaKeywords()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
         $oProduct = oxNew("oxArticle");
         $oProduct->load("1849");
         $oProduct->oxarticles__oxsearchkeys->value = 'testValue1 testValue2   testValue3 <br> ';
 
         //building category tree for category "Bar-eqipment"
-        $sCatId = '8a142c3e49b5a80c1.23676990';
+        $sCatId = '30e44ab8593023055.23928895';
 
         $oCategoryTree = oxNew('oxCategoryList');
         $oCategoryTree->buildTree($sCatId, false, false, false);
 
-        $oDetails = $this->getMock('details', array('getProduct', 'getCategoryTree'));
+        $oDetails = $this->getMock('Details', array('getProduct', 'getCategoryTree'));
         $oDetails->expects($this->any())->method('getProduct')->will($this->returnValue($oProduct));
         $oDetails->expects($this->any())->method('getCategoryTree')->will($this->returnValue($oCategoryTree));
 
         $sKeywords = $oProduct->oxarticles__oxtitle->value;
 
         //adding breadcrumb
-        $sKeywords .= ", Geschenke, Bar-Equipment";
+        $sKeywords .= ", Party, Bar-Equipment";
 
-        $oView = oxNew('oxUBase');
+        $oView = oxNew("oxUBase");
         $sTestKeywords = $oView->UNITprepareMetaKeyword($sKeywords, true) . ", testvalue1, testvalue2, testvalue3";
 
         $this->assertEquals($sTestKeywords, $oDetails->UNITprepareMetaKeyword(null));

@@ -5276,11 +5276,7 @@ class Unit_Models_oxArticleTest extends OxidTestCase
         $oArticle = oxNew('oxArticle');
         $oArticle->loadInLang(0, '1951');
 
-        $sExp = "en/Gifts/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
-        if ($this->getConfig()->getEdition() === 'EE') {
-            $sExp = "en/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
-        }
-
+        $sExp = "en/Living/Clocks/Wall-Clock-BIKINI-GIRL.html";
         $this->assertEquals($this->getConfig()->getShopUrl() . $sExp, $oArticle->getLink(1));
 
     }

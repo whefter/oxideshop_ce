@@ -112,11 +112,7 @@ class SetupTest extends OxidTestCase
      */
     public function testGetShopId()
     {
-        $sBaseShopId = 'oxbaseshop';
-
-        if ($this->getTestConfig()->getShopEdition() === 'EE') {
-            $sBaseShopId = '1';
-        }
+        $sBaseShopId = 1;
 
         $core = new Core();
         /** @var Setup $oSetup */

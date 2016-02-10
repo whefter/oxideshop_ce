@@ -148,7 +148,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
     {
         // seo off
         $this->getConfig()->setConfigParam('blSeoMode', false);
-        $numberOfCategoryArticles = $this->getTestConfig()->getShopEdition() == 'EE'? 0 : 10;
+        $numberOfCategoryArticles = 0;
         $this->getConfig()->setConfigParam('iNrofCatArticles', $numberOfCategoryArticles);
 
         oxRegistry::getUtils()->seoIsActive(true);
@@ -158,15 +158,9 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue('1651'));
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sActCat = '30e44ab83fdee7564.23264141';
-            $sPrevId = '1351';
-            $sNextId = '1661';
-        } else {
-            $sActCat = '8a142c3e4143562a5.46426637';
-            $sPrevId = '1477';
-            $sNextId = '1672';
-        }
+        $sActCat = '30e44ab83fdee7564.23264141';
+        $sPrevId = '1351';
+        $sNextId = '1661';
 
         $oCategory = oxNew('oxcategory');
         $oCategory->load($sActCat);
@@ -184,12 +178,12 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $oLocator->UNITsetListLocatorData($oLocatorTarget, $oCurrArticle);
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE'? 3 : 9;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 6 : 32;
+        $expectedPosition = 3;
+        $expectedCount = 6;
         $this->assertEquals($expectedPosition, $oCategory->iProductPos);
         $this->assertEquals($expectedCount, $oCategory->iCntOfProd);
 
-        $iPgNr = $this->getTestConfig()->getShopEdition() == 'EE'? 2 : 0;
+        $iPgNr = 2;
         $this->assertEquals($config->getShopHomeUrl() . "cl=alist&amp;cnid={$sActCat}" . (($iPgNr) ? "&amp;pgNr={$iPgNr}" : ""), $oCategory->toListLink);
         $this->assertEquals($config->getShopHomeUrl() . "cl=details&amp;anid=" . $sNextId, $oCategory->nextProductLink);
         $this->assertEquals($config->getShopHomeUrl() . "cl=details&amp;anid=" . $sPrevId, $oCategory->prevProductLink);
@@ -228,17 +222,11 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $sShopUrl = $this->getConfig()->getShopUrl();
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sToListLink = $sShopUrl . 'Party/3/';
-            $sPrevProdLink = $sShopUrl . 'Party/Bar-Equipment/Kuehlwuerfel-NORDIC-ROCKS-Eiswuerfel-Ersatz.html';
-            $sNextProdLink = $sShopUrl . 'Party/Schuerze-BAVARIA.html';
-        } else {
-            $sToListLink = $sShopUrl . 'Geschenke/9/';
-            $sNextProdLink = $sShopUrl . 'Geschenke/Wohnen/Uhren/Wanduhr-PHOTOFRAME.html';
-            $sPrevProdLink = $sShopUrl . 'Geschenke/Bar-Equipment/Champagnerverschluss-GOLF.html';
-        }
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE'? 3 : 9;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 6 : 32;
+        $sToListLink = $sShopUrl . 'Party/3/';
+        $sPrevProdLink = $sShopUrl . 'Party/Bar-Equipment/Kuehlwuerfel-NORDIC-ROCKS-Eiswuerfel-Ersatz.html';
+        $sNextProdLink = $sShopUrl . 'Party/Schuerze-BAVARIA.html';
+        $expectedPosition = 3;
+        $expectedCount = 6;
         $this->assertEquals($expectedPosition, $oCategory->iProductPos);
         $this->assertEquals($expectedCount, $oCategory->iCntOfProd);
 
@@ -255,14 +243,9 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $myConfig = $this->getConfig();
 
-        $sArt = '1964';
-        $sPrevLink = '';
-        $sNextLink = '';
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sArt = '1142';
-            $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1477&amp;listtype=vendor&amp;cnid=v_d2e44d9b31fcce448.08890330";
-            $sPrevLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1131&amp;listtype=vendor&amp;cnid=v_d2e44d9b31fcce448.08890330";
-        }
+        $sArt = '1142';
+        $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1477&amp;listtype=vendor&amp;cnid=v_d2e44d9b31fcce448.08890330";
+        $sPrevLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1131&amp;listtype=vendor&amp;cnid=v_d2e44d9b31fcce448.08890330";
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
 
@@ -282,8 +265,8 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oLocator = new testOxLocator();
         $oLocator->UNITsetVendorLocatorData($oLocatorTarget, $oCurrArticle);
 
-        $expectedPosition = $this->getTestConfig()->getShopEdition() == 'EE'? 2 : 1;
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 14 : 1;
+        $expectedPosition = 2;
+        $expectedCount = 14;
         $this->assertEquals($expectedPosition, $oVendor->iProductPos);
         $this->assertEquals($expectedCount, $oVendor->iCntOfProd);
 
@@ -326,15 +309,9 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $this->assertEquals($expectedPosition, $oVendor->iProductPos);
         $this->assertEquals($expectedCount, $oVendor->iCntOfProd);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sToListLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/2/';
-            $sPrevProdLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/Flaschenverschluss-EGO.html';
-            $sNextProdLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/Champagnerverschluss-GOLF.html';
-        } else {
-            $sToListLink = $sShopUrl . 'Nach-Lieferant/Bush/';
-            $sPrevProdLink = null;
-            $sNextProdLink = null;
-        }
+        $sToListLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/2/';
+        $sPrevProdLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/Flaschenverschluss-EGO.html';
+        $sNextProdLink = $sShopUrl . 'Nach-Lieferant/Hersteller-1/Champagnerverschluss-GOLF.html';
 
         $this->assertEquals($sToListLink, $oVendor->toListLink);
         $this->assertEquals($sNextProdLink, $oVendor->nextProductLink);
@@ -349,19 +326,14 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $myConfig = $this->getConfig();
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sArt = '1142';
-            $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1477&amp;listtype=manufacturer&amp;mnid=" . md5("d2e44d9b31fcce448.08890330");
-            $sPrevLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1131&amp;listtype=manufacturer&amp;mnid=" . md5("d2e44d9b31fcce448.08890330");
-        } else {
-            $sArt = '1964';
-            $sPrevLink = '';
-            $sNextLink = '';
-        }
+        $sArt = '1142';
+        $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1477&amp;listtype=manufacturer&amp;mnid=" . md5("d2e44d9b31fcce448.08890330");
+        $sPrevLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=1131&amp;listtype=manufacturer&amp;mnid=" . md5("d2e44d9b31fcce448.08890330");
+
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? md5('d2e44d9b31fcce448.08890330') : md5('77442e37fdf34ccd3.94620745');
+        $sActCat = md5('d2e44d9b31fcce448.08890330');
 
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sActCat);
@@ -399,7 +371,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
         $oCurrArticle->setLinkType(1);
 
-        $sActCat = $this->getTestConfig()->getShopEdition() == 'EE'? md5('d2e44d9b31fcce448.08890330') : md5('77442e37fdf34ccd3.94620745');
+        $sActCat = md5('d2e44d9b31fcce448.08890330');
 
         $oManufacturer = oxNew('oxManufacturer');
         $oManufacturer->load($sActCat);
@@ -423,15 +395,9 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $this->assertEquals($expectedPosition, $oManufacturer->iProductPos);
         $this->assertEquals($expectedCount, $oManufacturer->iCntOfProd);
 
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sToListLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/2/';
-            $sPrevProdLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/Flaschenverschluss-EGO.html';
-            $sNextProdLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/Champagnerverschluss-GOLF.html';
-        } else {
-            $sToListLink = $sShopUrl . 'Nach-Hersteller/Bush/';
-            $sPrevProdLink = null;
-            $sNextProdLink = null;
-        }
+        $sToListLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/2/';
+        $sPrevProdLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/Flaschenverschluss-EGO.html';
+        $sNextProdLink = $sShopUrl . 'Nach-Hersteller/Hersteller-1/Champagnerverschluss-GOLF.html';
 
         $this->assertEquals($sToListLink, $oManufacturer->toListLink);
         $this->assertEquals($sNextProdLink, $oManufacturer->nextProductLink);
@@ -445,19 +411,14 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $config = $this->getConfig();
 
-        $sArtId = '1651';
-        $sPrevLink = '';
-        $sNextLink = '';
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sPrevLink = $config->getShopHomeUrl() . "cl=details&amp;anid=1651&amp;searchparam=Bier&amp;listtype=search";
-            $sNextLink = $config->getShopHomeUrl() . "cl=details&amp;anid=2357&amp;searchparam=Bier&amp;listtype=search";
-            $sArtId = '1889';
-        }
+        $sPrevLink = $config->getShopHomeUrl() . "cl=details&amp;anid=1651&amp;searchparam=Bier&amp;listtype=search";
+        $sNextLink = $config->getShopHomeUrl() . "cl=details&amp;anid=2357&amp;searchparam=Bier&amp;listtype=search";
+        $sArtId = '1889';
 
-        $oCurrArticle = $this->getMock('oxarticle', array('getId'));
+        $oCurrArticle = $this->getMock('oxArticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArtId));
 
-        $oLocatorTarget = $this->getMock('oxubase', array('getLinkType', 'getSortingSql', 'addTplParam', 'setSearchTitle', 'getSearchTitle', 'showSorting'));
+        $oLocatorTarget = $this->getMock('oxUBase', array('getLinkType', 'getSortingSql', 'addTplParam', 'setSearchTitle', 'getSearchTitle', 'showSorting'));
         $oLocatorTarget->expects($this->once())->method('getSortingSql')->with($this->equalTo('alist'))->will($this->returnValue('oxid'));
         $oLocatorTarget->expects($this->any())->method('addTplParam');
         $oLocatorTarget->expects($this->any())->method('setSearchTitle');
@@ -491,14 +452,9 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
 
         $config = $this->getConfig();
 
-        $sArt = '5065';
-        $sPrevId = '5064';
-        $sNextId = '5067';
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sArt = '1142';
-            $sPrevId = '1131';
-            $sNextId = '1477';
-        }
+        $sArt = '1142';
+        $sPrevId = '1131';
+        $sNextId = '1477';
 
         $oCurrArticle = $this->getMock('oxarticle', array('getId'));
         $oCurrArticle->expects($this->any())->method('getId')->will($this->returnValue($sArt));
@@ -550,13 +506,8 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oLocatorTarget->expects($this->once())->method('showSorting')->will($this->returnValue(true));
         $oLocatorTarget->expects($this->any())->method('getLinkType')->will($this->returnValue(OXARTICLE_LINKTYPE_CATEGORY));
 
-
-        $sSearchCat = '8a142c3e4143562a5.46426637';
-        $sNextLink = '';
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $sSearchCat = '30e44ab841af13e46.42570689';
-            $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=2357&amp;searchparam=Bier&amp;listtype=search&amp;searchcnid=$sSearchCat";
-        }
+        $sSearchCat = '30e44ab841af13e46.42570689';
+        $sNextLink = $myConfig->getShopHomeUrl() . "cl=details&amp;anid=2357&amp;searchparam=Bier&amp;listtype=search&amp;searchcnid=$sSearchCat";
 
         $this->setRequestParameter("searchparam", 'Bier');
         $this->setRequestParameter("searchcnid", $sSearchCat);
@@ -722,7 +673,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oIdList = $oLocator->UNITloadIdsInList($oCategory, $oCurrArticle, 'oxid');
         $this->assertEquals('1651', $oIdList['1651']);
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 6 : 32;
+        $expectedCount = 6;
         $this->assertEquals($expectedCount, $oIdList->count());
     }
 
@@ -742,22 +693,14 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oIdList = $oLocator->UNITloadIdsInList($oCategory, $oCurrArticle, 'oxid');
         $this->assertEquals('1651', $oIdList['1651']);
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 6 : 32;
+        $expectedCount = 6;
         $this->assertEquals($expectedCount, $oIdList->count());
     }
 
     public function testLoadIdsInListForPriceCat()
     {
-
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`,`OXACTIVE`,`OXPRICEFROM`," .
-                "`OXPRICETO`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`)
-                       values ('test','test','test','1','10','50','','','','')";
-        } else {
-            $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
-                "values ('test','test','test','1','10','50')";
-        }
-
+        $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+            "values ('test','test','test','1','10','50')";
         oxDb::getDb()->execute($query);
 
         $oLocator = new testOxLocator();
@@ -771,21 +714,14 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oIdList = $oLocator->UNITloadIdsInList($oCategory, oxNew('oxArticle'), 'oxid');
         $this->assertEquals('1651', $oIdList['1651']);
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 34 : 24;
+        $expectedCount = 34;
         $this->assertEquals($expectedCount, count($oIdList));
     }
 
     public function testLoadIdsInListForPriceCatNonExistingArticle()
     {
-
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`,`OXACTIVE`,`OXPRICEFROM`," .
-                "`OXPRICETO`,`OXLONGDESC`,`OXLONGDESC_1`,`OXLONGDESC_2`,`OXLONGDESC_3`)
-                       values ('test','test','test','1','10','50','','','','')";
-        } else {
-            $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
-                "values ('test','test','test','1','10','50')";
-        }
+        $query = "Insert into oxcategories (`OXID`,`OXROOTID`,`OXTITLE`, `OXACTIVE`, `OXPRICEFROM`, `OXPRICETO`) " .
+            "values ('test','test','test','1','10','50')";
 
         oxDb::getDb()->execute($query);
 
@@ -800,7 +736,7 @@ class Unit_Views_oxlocatorTest extends OxidTestCase
         $oIdList = $oLocator->UNITloadIdsInList($oCategory, oxNew('oxArticle'), 'oxid');
         $this->assertEquals('1651', $oIdList['1651']);
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 34 : 24;
+        $expectedCount = 34;
         $this->assertEquals($expectedCount,  count($oIdList));
     }
 

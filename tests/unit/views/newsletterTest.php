@@ -63,11 +63,8 @@ class Unit_Views_newsletterTest extends OxidTestCase
     /**
      * Test get top start article.
      */
-    public function testGetTopStartArticlePE()
+    public function testGetTopStartArticle()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
         $oTestNews = oxNew("NewsLetter");
         $oArticleList = $oTestNews->getTopStartArticle();
 
@@ -77,17 +74,14 @@ class Unit_Views_newsletterTest extends OxidTestCase
     /**
      * Test get top start action articles.
      */
-    public function testGetTopStartActionArticlesPE()
+    public function testGetTopStartActionArticles()
     {
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $this->markTestSkipped('This test is for Community or Professional edition only.');
-        }
         $oTestNews = oxNew("NewsLetter");
         $oArticleList = $oTestNews->getTopStartActionArticles();
 
         $this->assertEquals(1, count($oArticleList));
-        $this->assertEquals(89.9, $oArticleList[2275]->getPrice()->getBruttoPrice());
-        $this->assertEquals("Bar Butler 6 BOTTLES", $oArticleList[2275]->oxarticles__oxtitle->value);
+        $this->assertEquals(27.85, $oArticleList[2275]->getPrice()->getBruttoPrice());
+        $this->assertEquals("BBQ Grill TONNE", $oArticleList[2275]->oxarticles__oxtitle->value);
     }
 
     /**
@@ -117,7 +111,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
 
     public function testRemovemeGroupsRemoved()
     {
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->setId('testAddMe');
         $oUser->oxuser__oxusername = new oxField('test@addme.com', oxField::T_RAW);
         $oUser->oxuser__oxpasssalt = new oxField('salt', oxField::T_RAW);
@@ -132,7 +126,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
         $this->assertTrue(isset($oUserGroups['oxidnewsletter']), 'user should be subscribed for newsletter group.');
 
         $oTestNews->removeme();
-        $oUser2 = oxNew('oxuser');
+        $oUser2 = oxNew('oxUser');
         $oUser2->load('testAddMe');
         $oUserGroups = $oUser2->getUserGroups();
         $this->assertFalse(isset($oUserGroups['oxidnewsletter']), 'user should be unsubscribed from newsletter group.');
@@ -140,7 +134,7 @@ class Unit_Views_newsletterTest extends OxidTestCase
 
     public function testGetNewsletterStatusAfterAddme()
     {
-        $oUser = oxNew('oxuser');
+        $oUser = oxNew('oxUser');
         $oUser->setId('testAddMe');
         $oUser->oxuser__oxusername = new oxField('test@addme.com', oxField::T_RAW);
         $oUser->oxuser__oxpasssalt = new oxField('salt', oxField::T_RAW);

@@ -1088,14 +1088,9 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
         $oV = $this->getMock('oxubase', array('_getRequestParams', '_getSubject'));
 
-        $articleId = '1126';
-        $sExp = "Geschenke/Bar-Equipment/Bar-Set-ABSINTH.html";
-        $sExpEng = "en/Gifts/Bar-Equipment/Bar-Set-ABSINTH.html";
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $articleId = '1889';
-            $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
-            $sExpEng = "en/Games/Boardgames/Beergame-OANS-ZWOA-GSUFFA.html";
-        }
+        $articleId = '1889';
+        $sExp = "Spiele/Brettspiele/Bierspiel-OANS-ZWOA-GSUFFA.html";
+        $sExpEng = "en/Games/Boardgames/Beergame-OANS-ZWOA-GSUFFA.html";
         $oArt = oxNew('oxArticle');
         $oArt->loadInLang(1, $articleId);
 
@@ -1113,14 +1108,9 @@ class Unit_Views_oxUBaseTest extends OxidTestCase
 
         $oV = $this->getMock('oxUBase', array('_getRequestParams', '_getSubject'));
 
-        $articleId = '1964';
-        $sVndExp = "Nach-Hersteller/Bush/Original-BUSH-Beach-Radio.html";
-        $sVndExpEng = "en/By-Manufacturer/Bush/Original-BUSH-Beach-Radio.html";
-        if ($this->getTestConfig()->getShopEdition() == 'EE') {
-            $articleId = '1889';
-            $sVndExp = "Nach-Hersteller/Hersteller-2/Bierspiel-OANS-ZWOA-GSUFFA.html";
-            $sVndExpEng = "en/By-Manufacturer/Manufacturer-2/Beergame-OANS-ZWOA-GSUFFA.html";
-        }
+        $articleId = '1889';
+        $sVndExp = "Nach-Hersteller/Hersteller-2/Bierspiel-OANS-ZWOA-GSUFFA.html";
+        $sVndExpEng = "en/By-Manufacturer/Manufacturer-2/Beergame-OANS-ZWOA-GSUFFA.html";
 
         $oArt = oxNew('oxArticle');
         $oArt->setLinkType(OXARTICLE_LINKTYPE_MANUFACTURER);

@@ -163,7 +163,7 @@ class Integration_OnlineInfo_OnlineLicenseCheckRequestFormationTest extends Oxid
         $sVersion = $oConfig->getVersion();
         $sShopUrl = $oConfig->getShopUrl();
         $sRevision = $oConfig->getRevision();
-        $iAdminUsers = $this->getTestConfig()->getShopEdition() == 'EE' ? 6 : 1;
+        $iAdminUsers = 6;
 
         $sXml = '<?xml version="1.0" encoding="utf-8"?>'."\n";
         $sXml .= '<olcRequest>';

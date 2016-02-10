@@ -233,7 +233,7 @@ class Unit_Views_tagTest extends OxidTestCase
         $oTag->setNonPublicVar("_sTag", $sTag);
         $oArtList = $oTag->getArticleList();
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 4 : 3;
+        $expectedCount = 4;
         $this->assertEquals($expectedCount, $oArtList->count());
     }
 

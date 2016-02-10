@@ -44,7 +44,6 @@ class Unit_Views_searchTest extends OxidTestCase
         $this->assertTrue($oSearch->isEmptySearch());
     }
 
-
     /**
      * search::_processListArticles() when seo is off
      *
@@ -104,7 +103,7 @@ class Unit_Views_searchTest extends OxidTestCase
         $oSearch = oxNew('Search');
         $oSearch->init();
 
-        $expectedCount = $this->getTestConfig()->getShopEdition() == 'EE'? 5 : 8;
+        $expectedCount = 5;
         $this->assertEquals($expectedCount, $oSearch->getArticleList()->count());
     }
 
