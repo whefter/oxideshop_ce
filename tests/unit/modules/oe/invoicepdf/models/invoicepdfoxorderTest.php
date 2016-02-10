@@ -287,15 +287,8 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
         $this->callProtectedMethod($oPdfArtSum, '_setDeliveryInfo', array(&$iStartPos));
         $aCache = $this->getProtectedProperty($oPdfArtSum, '_aCache');
 
-
-        //checking values
-        /*$this->assertEquals('ORDER_OVERVIEW_PDF_SHIPCOST', $aCache[0]->aParams[2]);
-        $this->assertEquals('21,00 EUR', trim($aCache[1]->aParams[2]));
-        $this->assertEquals('ORDER_OVERVIEW_PDF_ZZGLVAT19ORDER_OVERVIEW_PDF_PERCENTSUM', $aCache[2]->aParams[2]);
-        $this->assertEquals('3,35 EUR', trim($aCache[3]->aParams[2]));*/
-
-        $this->assertEquals('ORDER_OVERVIEW_PDF_SHIPCOST', trim($aCache[0]->aParams[2]));
-        $this->assertEquals('21,00 EUR', trim($aCache[1]->aParams[2]));
+        $this->assertEquals('ORDER_OVERVIEW_PDF_SHIPCOST ORDER_OVERVIEW_PDF_NETTO', trim($aCache[0]->aParams[2]));
+        $this->assertEquals('17,65 EUR', trim($aCache[1]->aParams[2]));
     }
 
     /**
@@ -359,12 +352,8 @@ class Unit_Modules_Oe_Invoicepdf_Models_InvoicePdfOxOrderTest extends OxidTestCa
         $aCache = $this->getProtectedProperty($oPdfArtSum, '_aCache');
 
         //checking values
-        $this->assertEquals('ORDER_OVERVIEW_PDF_PAYMENTIMPACT', $aCache[0]->aParams[2]);
-        $this->assertEquals('6,00 EUR', trim($aCache[1]->aParams[2]));
-       /* $this->assertEquals('ORDER_OVERVIEW_PDF_ZZGLVAT19ORDER_OVERVIEW_PDF_PERCENTSUM', $aCache[2]->aParams[2]);
-        $this->assertEquals('0,96 EUR', trim($aCache[3]->aParams[2]));
-        $this->assertEquals('ORDER_OVERVIEW_PDF_PAYMENTIMPACT', trim($aCache[4]->aParams[2]));
-        $this->assertEquals('6,00 EUR', trim($aCache[5]->aParams[2]));*/
+        $this->assertEquals('ORDER_OVERVIEW_PDF_PAYMENTIMPACT ORDER_OVERVIEW_PDF_NETTO', $aCache[0]->aParams[2]);
+        $this->assertEquals('5,04 EUR', trim($aCache[1]->aParams[2]));
     }
 
     /**

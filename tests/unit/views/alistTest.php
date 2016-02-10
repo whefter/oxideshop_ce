@@ -97,8 +97,7 @@ class Unit_Views_alistTest extends OxidTestCase
         $sCatId = "6b6b64bdcf7c25e92191b1120974af4e";
 
         // Demo data is different in EE and CE
-        $shopVersion = 5;
-        $sPrefix = "Woman - Jackets. OXID eShop $shopVersion";
+        $sPrefix = "Woman - Jackets. OXID eShop 6";
 
         $oCategory = oxNew('oxCategory');
         $oCategory->load($sCatId);
@@ -835,8 +834,7 @@ class Unit_Views_alistTest extends OxidTestCase
         $oListView = $this->getMock("alist", array('getActiveCategory'));
         $oListView->expects($this->any())->method('getActiveCategory')->will($this->returnValue($oCategory));
 
-        $shopVersion = 5;
-        $sExpect = "parent category - category. OXID eShop $shopVersion";
+        $sExpect = "parent category - category. OXID eShop 6";
         //expected string changed due to #2776
         $this->assertEquals(
             $sExpect,
