@@ -44,7 +44,10 @@ abstract class OnlineCaller
     const ALLOWED_HTTP_FAILED_CALLS_COUNT = 4;
 
     /** Amount of seconds for curl execution timeout. */
-    const CURL_EXECUTION_TIMEOUT = 5;
+    const CURL_EXECUTION_TIMEOUT = 1;
+
+    /** Amount of seconds for curl connect timeout. */
+    const CURL_CONNECT_TIMEOUT = 1;
 
     /**
      * @var oxCurl
@@ -210,6 +213,10 @@ abstract class OnlineCaller
         $oCurl->setOption(
             oxCurl::EXECUTION_TIMEOUT_OPTION,
             static::CURL_EXECUTION_TIMEOUT
+        );
+        $oCurl->setOption(
+            oxCurl::CONNECT_TIMEOUT_OPTION ,
+            static::CURL_CONNECT_TIMEOUT
         );
 
         return $oCurl->execute();
