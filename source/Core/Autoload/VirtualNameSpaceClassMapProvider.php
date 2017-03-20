@@ -119,9 +119,14 @@ class VirtualNameSpaceClassMapProvider
      */
     private function getEditionByConfig()
     {
-        /** The properties defined in the config file will dynamically loaded into this class */
-        include OX_BASE_PATH . DIRECTORY_SEPARATOR . 'config.inc.php';
-        $editionByConfig = strtoupper($this->edition);
+        $editionByConfig = '';
+        $configPath = OX_BASE_PATH . DIRECTORY_SEPARATOR . 'config.inc.php';
+
+        if (is_file($configPath)) {
+            /** The properties defined in the config file will dynamically loaded into this class */
+            include $configPath;
+            $editionByConfig = strtoupper($this->edition);
+        }
 
         return $editionByConfig;
     }
