@@ -308,7 +308,7 @@ class ModuleTest extends ModuleBaseTest
         $this->frame("edit");
         $this->clickAndWait("//form[@id='myedit']//input[@value='Activate']");
         $this->assertElementPresent("//form[@id='myedit']//input[@value='Deactivate']");
-        $this->selectMenu("Extensions", "Modules");
+        $this->navigateInMenu("Extensions", "Modules");
         $this->frame("edit");
         $this->assertTextPresent("oxid/test6/view/myinfo6");
     }
@@ -330,7 +330,7 @@ class ModuleTest extends ModuleBaseTest
         $this->frame("edit");
         $this->clickAndWait("//form[@id='myedit']//input[@value='Activate']");
         $this->assertElementPresent("//form[@id='myedit']//input[@value='Deactivate']");
-        $this->selectMenu("Extensions", "Modules");
+        $this->navigateInMenu("Extensions", "Modules");
         $this->clickAndWait("link=Test module #6 (in vendor dir)");
         $this->clickAndWait("link=Test module #6 (in vendor dir)");
         $this->waitForElement("link=Test tab EN");
@@ -383,7 +383,7 @@ class ModuleTest extends ModuleBaseTest
         $this->frame("edit");
         $this->clickAndWait("//form[@id='myedit']//input[@value='Activate']");
         $this->assertElementPresent("//form[@id='myedit']//input[@value='Deactivate']");
-        $this->selectMenu("Extensions", "Modules");
+        $this->navigateInMenu("Extensions", "Modules");
         $this->frame("edit");
         $this->assertTextPresent("oxid/test6/view/myinfo6");
     }
@@ -406,5 +406,15 @@ class ModuleTest extends ModuleBaseTest
         }
         Registry::getConfig()->saveShopConfVar("aarr", "aModules", $activeModules);
         $this->clearCache();
+    }
+
+    /**
+     * @param string $menuLink1
+     * @param string $menuLink2
+     */
+    private function navigateInMenu($menuLink1, $menuLink2)
+    {
+        $this->waitForFrameToLoad('navigation');
+        $this->selectMenu($menuLink1, $menuLink2);
     }
 }
