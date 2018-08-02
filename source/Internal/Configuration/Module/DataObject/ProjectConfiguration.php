@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 /**
  * Copyright © OXID eSales AG. All rights reserved.
  * See LICENSE file for license details.
@@ -11,17 +13,15 @@ namespace OxidEsales\EshopCommunity\Internal\Configuration\Module\DataObject;
  */
 class ProjectConfiguration
 {
+    /** @var array */
+    private $environmentConfigurations = [];
+
     /**
      * @return array
      */
-    public function getEnvironmentNames(): array
+    public function getNamesOfEnvironmentConfigurations(): array
     {
-        return [
-            'dev',
-            'testing',
-            'staging',
-            'production'
-        ];
+        return array_keys($this->environmentConfigurations);
     }
 
     /**
@@ -31,6 +31,23 @@ class ProjectConfiguration
      */
     public function getEnvironmentConfiguration(string $name): EnvironmentConfiguration
     {
-        return new EnvironmentConfiguration();
+        return $this->environmentConfigurations[$name];
+    }
+
+    /**
+     * @param string                   $name
+     * @param EnvironmentConfiguration $environmentConfiguration
+     */
+    public function setEnvironmentConfiguration(string $name, EnvironmentConfiguration $environmentConfiguration)
+    {
+        $this->environmentConfigurations[$name] = $environmentConfiguration;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function deleteEnvironmentConfiguration(string $name)
+    {
+        unset($this->environmentConfigurations[$name]);
     }
 }
